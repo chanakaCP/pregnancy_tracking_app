@@ -7,6 +7,9 @@ class App extends StatelessWidget {
     return MaterialApp(
       title: "Mama na Mwana",
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+      ),
       home: WelcomePage(),
       initialRoute: '/welcomePage',
       routes: {
