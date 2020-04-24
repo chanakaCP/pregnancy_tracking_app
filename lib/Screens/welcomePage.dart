@@ -8,29 +8,30 @@ class WelcomePage extends StatefulWidget {
 class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
-    Size widgetSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: Container(
-          height: widgetSize.height,
+          height: MediaQuery.of(context).size.height,
           width: double.infinity,
           child: Stack(
             alignment: Alignment.center,
             children: <Widget>[
               Positioned(
-                top: -90.0,
-                left: -90.0,
-                child: CircleAvatar(
-                  radius: 100.0,
-                  backgroundColor: Colors.green[300],
+                height: 130.0,
+                top: 0.0,
+                left: 0.0,
+                child: Image.asset(
+                  'images/top1.png',
+                  color: Color.fromRGBO(174, 213, 129, 0.6),
                 ),
               ),
               Positioned(
-                bottom: -100.0,
-                left: -70.0,
-                child: CircleAvatar(
-                  radius: 80.0,
-                  backgroundColor: Colors.green[200],
+                height: 90.0,
+                bottom: 0.0,
+                left: 0.0,
+                child: Image.asset(
+                  'images/bottom1.png',
+                  color: Color.fromRGBO(197, 225, 165, 0.6),
                 ),
               ),
               Positioned(
@@ -38,12 +39,12 @@ class _WelcomePageState extends State<WelcomePage> {
                 right: -80.0,
                 child: CircleAvatar(
                   radius: 60.0,
-                  backgroundColor: Colors.green[100],
+                  backgroundColor: Color.fromRGBO(220, 237, 200, 1),
                 ),
               ),
               Positioned(
                 top: 50.0,
-                left: 175,
+                right: 50.0,
                 child: Center(
                   child: Text(
                     "Welcome",
@@ -71,21 +72,26 @@ class _WelcomePageState extends State<WelcomePage> {
                     Container(
                       height: 45.0,
                       width: double.infinity,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          side: BorderSide(color: Colors.green[400]),
-                        ),
-                        onPressed: () {},
-                        color: Colors.green[400],
-                        textColor: Colors.white,
-                        splashColor: Colors.green[200],
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w400,
+                      child: Opacity(
+                        opacity: 0.7,
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50.0),
+                            side: BorderSide(color: Colors.green[400]),
                           ),
+                          color: Colors.green[400],
+                          textColor: Colors.white,
+                          splashColor: Colors.green[200],
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/signIn');
+                          },
                         ),
                       ),
                     ),
@@ -98,7 +104,6 @@ class _WelcomePageState extends State<WelcomePage> {
                           borderRadius: BorderRadius.circular(50.0),
                           side: BorderSide(color: Colors.green[50]),
                         ),
-                        onPressed: () {},
                         color: Colors.green[50],
                         textColor: Colors.black87,
                         splashColor: Colors.green[200],
@@ -109,8 +114,11 @@ class _WelcomePageState extends State<WelcomePage> {
                             fontWeight: FontWeight.w400,
                           ),
                         ),
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/signUp');
+                        },
                       ),
-                    )
+                    ),
                   ],
                 ),
               ),
