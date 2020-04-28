@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "771220702662",
+    "firebase_url": "https://pregnancytrackingapp-737af.firebaseio.com",
+    "project_id": "pregnancytrackingapp-737af",
+    "storage_bucket": "pregnancytrackingapp-737af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771220702662:android:40fa8133e7a843e2a21ec7",
+        "android_client_info": {
+          "package_name": "com.example.pregnancy_tracking_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771220702662-chdrlh859o3os53aa65ku02rmdqc5n6v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAsEIO5Xd4afjBPsGhWkfpp4EDkil4aOdE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771220702662-chdrlh859o3os53aa65ku02rmdqc5n6v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
