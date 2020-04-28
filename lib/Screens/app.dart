@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/Screens/mobileVerf.dart';
 import 'regitration.dart';
 import 'welcomePage.dart';
 import 'signIn.dart';
@@ -16,12 +17,13 @@ class App extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       home: WelcomePage(),
-      initialRoute: '/welvomePage',
+      initialRoute: '/welcomePage',
       routes: {
         '/welcomePage': (context) => WelcomePage(),
         '/signIn': (context) => SignIn(),
         '/signUp': (context) => SignUp(),
         '/registration': (context) => Registration(),
+        '/mobileVerify': (context) => MobileVerfy(),
         '/slider': (context) => SliderPage(),
         '/home': (context) => Home(),
       },

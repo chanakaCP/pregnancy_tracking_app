@@ -221,7 +221,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  Navigator.pushNamed(context, '/registration');
+                                  Navigator.pushNamed(context, '/mobileVerify');
                                 }
                               }),
                         ),
