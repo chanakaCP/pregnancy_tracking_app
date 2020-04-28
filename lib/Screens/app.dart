@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'regitration.dart';
 import 'welcomePage.dart';
 import 'signIn.dart';
 import 'signUp.dart';
@@ -15,11 +16,12 @@ class App extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       home: WelcomePage(),
-      initialRoute: '/welcomePage',
+      initialRoute: '/welvomePage',
       routes: {
         '/welcomePage': (context) => WelcomePage(),
         '/signIn': (context) => SignIn(),
         '/signUp': (context) => SignUp(),
+        '/registration': (context) => Registration(),
         '/slider': (context) => SliderPage(),
         '/home': (context) => Home(),
       },
