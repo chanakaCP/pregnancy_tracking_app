@@ -42,7 +42,7 @@ class _SignUpState extends State<SignUp> {
                   ),
                 ),
                 Positioned(
-                  top: 30.0,
+                  top: 40.0,
                   right: 50.0,
                   child: Center(
                     child: Text(
@@ -73,6 +73,7 @@ class _SignUpState extends State<SignUp> {
                       children: <Widget>[
                         Container(
                           child: TextFormField(
+                            keyboardType: TextInputType.number,
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(10.0),
                               enabledBorder: OutlineInputBorder(
@@ -212,7 +213,7 @@ class _SignUpState extends State<SignUp> {
                               textColor: Colors.white,
                               splashColor: Colors.green[200],
                               child: Text(
-                                "SignUp",
+                                "Next",
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   fontWeight: FontWeight.w400,
@@ -220,7 +221,7 @@ class _SignUpState extends State<SignUp> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  Navigator.pushNamed(context, '/slider');
+                                  Navigator.pushNamed(context, '/registration');
                                 }
                               }),
                         ),
