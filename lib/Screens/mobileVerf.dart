@@ -1,18 +1,74 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class MobileVerfy extends StatefulWidget {
+  MobileVerfy(this.mobileNumber);
+  String mobileNumber;
   @override
   _MobileVerfyState createState() => _MobileVerfyState();
 }
 
 class _MobileVerfyState extends State<MobileVerfy> {
-  List<String> currentPin = ["", "", "", ""];
+  @override
+  void initState() {
+    verifyPhone();
+    super.initState();
+  }
+
+  String phoneNo;
+  String smsCode;
+  String verificationId;
+
+  Future<void> verifyPhone() async {
+    this.phoneNo = "+94" + this.widget.mobileNumber;
+    print(phoneNo);
+    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
+      this.verificationId = verId;
+    };
+
+    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+      this.verificationId = verId;
+      print("*********code sent*******" + this.verificationId);
+    };
+
+    final PhoneVerificationCompleted verifiedSuccess = (usr) {
+      print('********auto verified');
+    };
+
+    final PhoneVerificationFailed veriFailed = (AuthException exception) {
+      print("****failed*****");
+      print('${exception.message}');
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: this.phoneNo,
+      codeAutoRetrievalTimeout: autoRetrieve,
+      codeSent: smsCodeSent,
+      timeout: const Duration(seconds: 5),
+      verificationCompleted: verifiedSuccess,
+      verificationFailed: veriFailed,
+    );
+  }
+
+  signIn() {
+    AuthCredential authCredential = PhoneAuthProvider.getCredential(
+        verificationId: verificationId, smsCode: smsCode);
+    print("*****" + smsCode);
+    FirebaseAuth.instance.signInWithCredential(authCredential).then((user) {
+      print("*********sign in with sms************");
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  List<String> currentPin = ["", "", "", "", "", ""];
   TextEditingController firstPinController = TextEditingController();
   TextEditingController secondPinController = TextEditingController();
   TextEditingController thirdPinController = TextEditingController();
   TextEditingController fourthPinController = TextEditingController();
+  TextEditingController fifthPinController = TextEditingController();
+  TextEditingController sixthPinController = TextEditingController();
   int pinIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -83,6 +139,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                       SizedBox(height: 25.0),
                       Container(
                         height: 70.0,
+                        width: double.infinity,
                         child: otpPinRow(),
                       ),
                       SizedBox(height: 25.0),
@@ -111,7 +168,17 @@ class _MobileVerfyState extends State<MobileVerfy> {
                               ],
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/registration');
+                              FirebaseAuth.instance.currentUser().then((user) {
+                                if (user != null) {
+                                  print("*********auto renew*******");
+                                  // Navigator.of(context).pop();
+                                  // Navigator.of(context)
+                                  //     .pushReplacementNamed('/homepage');
+                                } else {
+                                  // Navigator.of(context).pop();
+                                  signIn();
+                                }
+                              });
                             }),
                       ),
                       SizedBox(height: 15.0),
@@ -146,6 +213,8 @@ class _MobileVerfyState extends State<MobileVerfy> {
                                   ),
                                 ),
                                 onPressed: () {
+                                  print("*****button click*****");
+                                  // verifyPhone();
                                   //******** resend code function ************
                                 },
                               ),
@@ -284,7 +353,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
   numberSetup(String textNumber) {
     if (pinIndex == 0) {
       pinIndex = 1;
-    } else if (pinIndex < 4) {
+    } else if (pinIndex < 6) {
       pinIndex++;
     }
     setPin(pinIndex, textNumber);
@@ -293,8 +362,9 @@ class _MobileVerfyState extends State<MobileVerfy> {
     currentPin.forEach((element) {
       strPin += element;
     });
-    if (pinIndex == 4) {
-      print(strPin);
+    if (pinIndex == 6) {
+      this.smsCode = strPin;
+      print(this.smsCode);
     }
   }
 
@@ -312,6 +382,12 @@ class _MobileVerfyState extends State<MobileVerfy> {
       case 4:
         fourthPinController.text = text;
         break;
+      case 5:
+        fifthPinController.text = text;
+        break;
+      case 6:
+        sixthPinController.text = text;
+        break;
       default:
     }
   }
@@ -324,6 +400,8 @@ class _MobileVerfyState extends State<MobileVerfy> {
         pinNumber(textEditingController: secondPinController),
         pinNumber(textEditingController: thirdPinController),
         pinNumber(textEditingController: fourthPinController),
+        pinNumber(textEditingController: fifthPinController),
+        pinNumber(textEditingController: sixthPinController),
       ],
     );
   }
@@ -331,7 +409,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
   clearPin() {
     if (pinIndex == 0) {
       pinIndex = 0;
-    } else if (pinIndex == 4) {
+    } else if (pinIndex == 6) {
       setPin(pinIndex, "");
       currentPin[pinIndex - 1] = "";
       pinIndex--;
@@ -350,7 +428,7 @@ class pinNumber extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50.0,
+      width: 40.0,
       child: TextField(
         showCursor: false,
         style: TextStyle(
@@ -361,7 +439,7 @@ class pinNumber extends StatelessWidget {
         controller: textEditingController,
         textAlign: TextAlign.center,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(10.0),
+          contentPadding: EdgeInsets.all(5.0),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent),
             borderRadius: BorderRadius.all(Radius.circular(10.0)),
