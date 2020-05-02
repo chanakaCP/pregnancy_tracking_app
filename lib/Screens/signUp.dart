@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'mobileVerf.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class _SignUpState extends State<SignUp> {
   bool _isPassObs = true;
   bool _isReEnterPassObs = true;
   String _firstPass;
+  String phoneNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +77,7 @@ class _SignUpState extends State<SignUp> {
                           child: TextFormField(
                             keyboardType: TextInputType.number,
                             decoration: InputDecoration(
+                              // prefixText: '+94',
                               contentPadding: EdgeInsets.all(10.0),
                               enabledBorder: OutlineInputBorder(
                                 borderSide:
@@ -102,6 +105,10 @@ class _SignUpState extends State<SignUp> {
                               } else {
                                 return null;
                               }
+                            },
+                            onChanged: (value) {
+                              this.phoneNumber = value;
+                              // print(phoneNumber);
                             },
                           ),
                         ),
@@ -221,7 +228,14 @@ class _SignUpState extends State<SignUp> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  Navigator.pushNamed(context, '/mobileVerify');
+                                  // Navigator.pushNamed(context, '/mobileVerify');
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          MobileVerfy(this.phoneNumber),
+                                    ),
+                                  );
                                 }
                               }),
                         ),
