@@ -228,7 +228,6 @@ class _SignUpState extends State<SignUp> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
-                                  // Navigator.pushNamed(context, '/mobileVerify');
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(

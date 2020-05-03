@@ -5,7 +5,7 @@ import 'welcomePage.dart';
 import 'signIn.dart';
 import 'signUp.dart';
 import 'slider.dart';
-import 'home.dart';
+// import 'home.dart';
 
 class App extends StatelessWidget {
   @override
@@ -24,7 +24,7 @@ class App extends StatelessWidget {
         '/signUp': (context) => SignUp(),
         '/registration': (context) => Registration(),
         '/slider': (context) => SliderPage(),
-        '/home': (context) => Home(),
+        // '/home': (context) => Home(),
       },
     );
   }

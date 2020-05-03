@@ -1,6 +1,8 @@
+import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import '../Screens/home.dart';
 
 String phoneNo;
 String verificationId;
@@ -13,13 +15,22 @@ Future<void> verifyPhone(String mobileNumber, BuildContext context) async {
   };
 
   final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
+    print("code send");
     verificationId = verId;
   };
 
-  final PhoneVerificationCompleted verifiedSuccess = (AuthCredential auth) {
-    status = 'Auto retrieving verification code';
+  final PhoneVerificationCompleted verifiedSuccess =
+      (AuthCredential credential) async {
+    AuthResult result =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+    FirebaseUser user = result.user;
     Navigator.pop(context);
-    Navigator.pushNamed(context, '/home');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Home(user.uid),
+      ),
+    );
   };
 
   final PhoneVerificationFailed veriFailed = (AuthException exception) {
@@ -51,7 +62,13 @@ signIn(String smsCode, BuildContext context) async {
     FirebaseUser currentUser = await auth.currentUser();
     assert(user.uid == currentUser.uid);
     Navigator.pop(context);
-    Navigator.pushNamed(context, '/home');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Home(user.uid),
+      ),
+    );
+    // Navigator.pushNamed(context, '/home');
   } catch (e) {
     handleError(e, context);
   }
