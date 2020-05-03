@@ -23,7 +23,6 @@ class App extends StatelessWidget {
         '/signIn': (context) => SignIn(),
         '/signUp': (context) => SignUp(),
         '/registration': (context) => Registration(),
-        // '/mobileVerify': (context) => MobileVerfy(),
         '/slider': (context) => SliderPage(),
         '/home': (context) => Home(),
       },

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../auth/mobileAuth.dart';
 
 class MobileVerfy extends StatefulWidget {
   MobileVerfy(this.mobileNumber);
@@ -11,56 +12,12 @@ class MobileVerfy extends StatefulWidget {
 class _MobileVerfyState extends State<MobileVerfy> {
   @override
   void initState() {
-    verifyPhone();
+    verifyPhone(this.widget.mobileNumber, context);
     super.initState();
   }
 
-  String phoneNo;
   String smsCode;
-  String verificationId;
-
-  Future<void> verifyPhone() async {
-    this.phoneNo = "+94" + this.widget.mobileNumber;
-    print(phoneNo);
-    final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
-      this.verificationId = verId;
-    };
-
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeResend]) {
-      this.verificationId = verId;
-      print("*********code sent*******" + this.verificationId);
-    };
-
-    final PhoneVerificationCompleted verifiedSuccess = (usr) {
-      print('********auto verified');
-    };
-
-    final PhoneVerificationFailed veriFailed = (AuthException exception) {
-      print("****failed*****");
-      print('${exception.message}');
-    };
-
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: this.phoneNo,
-      codeAutoRetrievalTimeout: autoRetrieve,
-      codeSent: smsCodeSent,
-      timeout: const Duration(seconds: 5),
-      verificationCompleted: verifiedSuccess,
-      verificationFailed: veriFailed,
-    );
-  }
-
-  signIn() {
-    AuthCredential authCredential = PhoneAuthProvider.getCredential(
-        verificationId: verificationId, smsCode: smsCode);
-    print("*****" + smsCode);
-    FirebaseAuth.instance.signInWithCredential(authCredential).then((user) {
-      print("*********sign in with sms************");
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
+  int pinIndex = 0;
   List<String> currentPin = ["", "", "", "", "", ""];
   TextEditingController firstPinController = TextEditingController();
   TextEditingController secondPinController = TextEditingController();
@@ -68,7 +25,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
   TextEditingController fourthPinController = TextEditingController();
   TextEditingController fifthPinController = TextEditingController();
   TextEditingController sixthPinController = TextEditingController();
-  int pinIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -124,7 +81,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                             text: "Please type the verification code send to ",
                             children: <TextSpan>[
                               TextSpan(
-                                text: "0779232611",
+                                text: this.widget.mobileNumber,
                                 style: TextStyle(fontWeight: FontWeight.w700),
                               ),
                             ],
@@ -168,17 +125,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                               ],
                             ),
                             onPressed: () {
-                              FirebaseAuth.instance.currentUser().then((user) {
-                                if (user != null) {
-                                  print("*********auto renew*******");
-                                  // Navigator.of(context).pop();
-                                  // Navigator.of(context)
-                                  //     .pushReplacementNamed('/homepage');
-                                } else {
-                                  // Navigator.of(context).pop();
-                                  signIn();
-                                }
-                              });
+                              signIn(this.smsCode, context);
                             }),
                       ),
                       SizedBox(height: 15.0),
@@ -213,8 +160,6 @@ class _MobileVerfyState extends State<MobileVerfy> {
                                   ),
                                 ),
                                 onPressed: () {
-                                  print("*****button click*****");
-                                  // verifyPhone();
                                   //******** resend code function ************
                                 },
                               ),
