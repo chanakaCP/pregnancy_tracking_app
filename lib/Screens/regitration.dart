@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Registration extends StatefulWidget {
+  String userId;
+  Registration(this.userId);
   @override
   _RegistrationState createState() => _RegistrationState();
 }

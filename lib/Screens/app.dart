@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:pregnancy_tracking_app/Screens/mobileVerf.dart';
-import 'regitration.dart';
+// import 'regitration.dart';
 import 'welcomePage.dart';
 import 'signIn.dart';
 import 'signUp.dart';
@@ -22,7 +22,7 @@ class App extends StatelessWidget {
         '/welcomePage': (context) => WelcomePage(),
         '/signIn': (context) => SignIn(),
         '/signUp': (context) => SignUp(),
-        '/registration': (context) => Registration(),
+        // '/registration': (context) => Registration(),
         '/slider': (context) => SliderPage(),
         // '/home': (context) => Home(),
       },
