@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'sliderControl.dart';
+import '../models/user.dart';
+import 'home.dart';
 
 class SliderPage extends StatefulWidget {
+  User loginUser;
+  SliderPage(this.loginUser);
   @override
   _SliderPageState createState() => _SliderPageState();
 }
@@ -68,7 +72,12 @@ class _SliderPageState extends State<SliderPage> {
                   ),
                   onPressed: () {
                     Navigator.pop(context);
-                    Navigator.pushNamed(context, '/home');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Home(this.widget.loginUser),
+                      ),
+                    );
                   },
                 ),
               ),
@@ -133,17 +142,6 @@ class _SliderPageState extends State<SliderPage> {
                     Padding(
                       padding: EdgeInsets.only(right: 15.0),
                       child: InkWell(
-                        onTap: () {
-                          if (_currentPage == _slidePages.length - 1) {
-                            Navigator.pop(context);
-                            Navigator.pushNamed(context, '/home');
-                          } else {
-                            _controller.nextPage(
-                              duration: Duration(milliseconds: 800),
-                              curve: Curves.easeInOutQuint,
-                            );
-                          }
-                        },
                         child: AnimatedContainer(
                           duration: Duration(milliseconds: 300),
                           height: 40.0,
@@ -169,6 +167,23 @@ class _SliderPageState extends State<SliderPage> {
                                   color: Colors.teal[500],
                                 ),
                         ),
+                        onTap: () {
+                          if (_currentPage == _slidePages.length - 1) {
+                            Navigator.pop(context);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    Home(this.widget.loginUser),
+                              ),
+                            );
+                          } else {
+                            _controller.nextPage(
+                              duration: Duration(milliseconds: 800),
+                              curve: Curves.easeInOutQuint,
+                            );
+                          }
+                        },
                       ),
                     ),
                   ],

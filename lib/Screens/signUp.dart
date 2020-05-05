@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
 import 'mobileVerf.dart';
 
 class SignUp extends StatefulWidget {
@@ -8,10 +9,12 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
+  User loginUser = User();
   bool _isPassObs = true;
   bool _isReEnterPassObs = true;
   String _firstPass;
   String phoneNumber;
+  String password;
 
   @override
   Widget build(BuildContext context) {
@@ -101,14 +104,13 @@ class _SignUpState extends State<SignUp> {
                               if (value.isEmpty) {
                                 return 'Phone Number is required';
                                 // } else if () {
-
+// mobile lenght validate
                               } else {
                                 return null;
                               }
                             },
                             onChanged: (value) {
                               this.phoneNumber = value;
-                              // print(phoneNumber);
                             },
                           ),
                         ),
@@ -157,6 +159,9 @@ class _SignUpState extends State<SignUp> {
                                 _firstPass = value;
                                 return null;
                               }
+                            },
+                            onChanged: (value) {
+                              this.password = value;
                             },
                           ),
                         ),
@@ -228,11 +233,15 @@ class _SignUpState extends State<SignUp> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
+                                  this.phoneNumber = "+94" + this.phoneNumber;
+                                  this.loginUser.mobileNumber =
+                                      this.phoneNumber;
+                                  this.loginUser.password = this.password;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          MobileVerfy(this.phoneNumber),
+                                      builder: (context) => MobileVerfy(
+                                          this.phoneNumber, this.loginUser),
                                     ),
                                   );
                                 }

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/services/authService.dart';
+import '../models/user.dart';
+import 'slider.dart';
 
 class Registration extends StatefulWidget {
   String userId;
-  Registration(this.userId);
+  User loginUser;
+  Registration(this.userId, this.loginUser);
   @override
   _RegistrationState createState() => _RegistrationState();
 }
 
 class _RegistrationState extends State<Registration> {
   final _formKey = GlobalKey<FormState>();
-  DateTime _pickedDate;
+  final AuthService _authService = AuthService();
+  String userName = "";
+  int age;
+  DateTime pickedDate;
   bool _isDateSelect = false;
   String _errorText = '';
 
@@ -95,6 +102,11 @@ class _RegistrationState extends State<Registration> {
                               fillColor: Colors.green[50],
                               border: InputBorder.none,
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                userName = value;
+                              });
+                            },
                           ),
                         ),
                         SizedBox(height: 10.0),
@@ -121,6 +133,11 @@ class _RegistrationState extends State<Registration> {
                               fillColor: Colors.green[50],
                               border: InputBorder.none,
                             ),
+                            onChanged: (value) {
+                              setState(() {
+                                age = int.parse(value);
+                              });
+                            },
                           ),
                         ),
                         SizedBox(height: 10.0),
@@ -157,11 +174,11 @@ class _RegistrationState extends State<Registration> {
                                           if (!_isDateSelect) {
                                             return 'Last period start date';
                                           } else {
-                                            return _pickedDate.year.toString() +
+                                            return pickedDate.year.toString() +
                                                 " - " +
-                                                _pickedDate.month.toString() +
+                                                pickedDate.month.toString() +
                                                 " - " +
-                                                _pickedDate.day.toString();
+                                                pickedDate.day.toString();
                                           }
                                         }(),
                                         style: TextStyle(
@@ -207,7 +224,18 @@ class _RegistrationState extends State<Registration> {
                                         'Please enter last period date';
                                   });
                                 } else {
-                                  Navigator.pushNamed(context, '/slider');
+                                  this.widget.loginUser.name = this.userName;
+                                  this.widget.loginUser.age = this.age;
+                                  this.widget.loginUser.lastPeriodDate =
+                                      this.pickedDate;
+                                  Navigator.pop(context);
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          SliderPage(this.widget.loginUser),
+                                    ),
+                                  );
                                 }
                               }),
                         ),
@@ -261,7 +289,7 @@ class _RegistrationState extends State<Registration> {
       setState(() {
         _isDateSelect = true;
         _errorText = '';
-        _pickedDate = _date;
+        pickedDate = _date;
       });
     }
   }

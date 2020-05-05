@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import '../services/authService.dart';
+import '../models/user.dart';
 
 class MobileVerfy extends StatefulWidget {
-  MobileVerfy(this.mobileNumber);
+  MobileVerfy(this.mobileNumber, this.loginUser);
   String mobileNumber;
+  User loginUser;
 
   @override
   _MobileVerfyState createState() => _MobileVerfyState();
@@ -13,7 +15,8 @@ class _MobileVerfyState extends State<MobileVerfy> {
   final AuthService _authService = AuthService();
   @override
   void initState() {
-    _authService.verifyPhone(this.widget.mobileNumber, context);
+    _authService.verifyPhone(
+        this.widget.mobileNumber, this.widget.loginUser, context);
     super.initState();
   }
 

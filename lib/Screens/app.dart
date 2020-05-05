@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:pregnancy_tracking_app/Screens/mobileVerf.dart';
-// import 'regitration.dart';
+
 import 'welcomePage.dart';
 import 'signIn.dart';
 import 'signUp.dart';
-import 'slider.dart';
-// import 'home.dart';
 
 class App extends StatelessWidget {
   @override
@@ -23,7 +20,7 @@ class App extends StatelessWidget {
         '/signIn': (context) => SignIn(),
         '/signUp': (context) => SignUp(),
         // '/registration': (context) => Registration(),
-        '/slider': (context) => SliderPage(),
+        // '/slider': (context) => SliderPage(),
         // '/home': (context) => Home(),
       },
     );

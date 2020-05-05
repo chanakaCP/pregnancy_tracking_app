@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import '../models/user.dart';
 
 class Home extends StatefulWidget {
-  String userId;
-  Home(this.userId);
+  User loginUser;
+  Home(this.loginUser);
   @override
   _HomeState createState() => _HomeState();
 }
@@ -14,7 +15,16 @@ class _HomeState extends State<Home> {
       appBar: AppBar(
         title: Text("Home"),
       ),
-      body: Text(this.widget.userId),
+      body: Column(
+        children: <Widget>[
+          Text(this.widget.loginUser.name),
+          Text(this.widget.loginUser.age.toString()),
+          Text(this.widget.loginUser.mobileNumber),
+          Text(this.widget.loginUser.password),
+          Text(this.widget.loginUser.lastPeriodDate.toString()),
+          Text(this.widget.loginUser.uId),
+        ],
+      ),
     );
   }
 }

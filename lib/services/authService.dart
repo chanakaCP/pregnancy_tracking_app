@@ -3,14 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../Screens/regitration.dart';
+import '../models/user.dart';
 
 class AuthService {
   String phoneNo;
   String verificationId;
   String status;
+  User loginUser;
 
-  Future<void> verifyPhone(String mobileNumber, BuildContext context) async {
-    phoneNo = "+94" + mobileNumber;
+  Future<void> verifyPhone(
+      String mobileNumber, User loginUser, BuildContext context) async {
+    phoneNo = mobileNumber;
+    this.loginUser = loginUser;
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
       verificationId = verId;
     };
@@ -25,11 +29,12 @@ class AuthService {
       AuthResult result =
           await FirebaseAuth.instance.signInWithCredential(credential);
       FirebaseUser user = result.user;
+      this.loginUser.uId = user.uid;
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Registration(user.uid),
+          builder: (context) => Registration(user.uid, this.loginUser),
         ),
       );
     };
@@ -63,11 +68,12 @@ class AuthService {
       FirebaseUser user = result.user;
       FirebaseUser currentUser = await auth.currentUser();
       assert(user.uid == currentUser.uid);
+      this.loginUser.uId = user.uid;
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Registration(user.uid),
+          builder: (context) => Registration(user.uid, this.loginUser),
         ),
       );
     } catch (e) {
