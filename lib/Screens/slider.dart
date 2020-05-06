@@ -75,7 +75,8 @@ class _SliderPageState extends State<SliderPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Home(this.widget.loginUser),
+                        builder: (context) =>
+                            Home(this.widget.loginUser.mobileNumber),
                       ),
                     );
                   },
@@ -174,7 +175,7 @@ class _SliderPageState extends State<SliderPage> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) =>
-                                    Home(this.widget.loginUser),
+                                    Home(this.widget.loginUser.mobileNumber),
                               ),
                             );
                           } else {
