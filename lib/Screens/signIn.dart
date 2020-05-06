@@ -6,6 +6,8 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  String _mobileNumber;
+  String _password;
   final _formKey = GlobalKey<FormState>();
   bool _isPasswordShow = true;
 
@@ -93,10 +95,15 @@ class _SignInState extends State<SignIn> {
                             ),
                             validator: (value) {
                               if (value.isEmpty) {
-                                return 'Please enter username';
+                                return 'Please enter mobile number ';
                               } else {
                                 return null;
                               }
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                this._mobileNumber = value;
+                              });
                             },
                           ),
                         ),
@@ -142,6 +149,11 @@ class _SignInState extends State<SignIn> {
                               } else {
                                 return null;
                               }
+                            },
+                            onChanged: (value) {
+                              setState(() {
+                                this._password = value;
+                              });
                             },
                           ),
                         ),

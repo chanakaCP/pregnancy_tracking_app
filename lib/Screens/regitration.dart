@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pregnancy_tracking_app/services/authService.dart';
 import '../models/user.dart';
 import 'slider.dart';
+import '../services/databaseService.dart';
 
 class Registration extends StatefulWidget {
   String userId;
@@ -13,7 +13,8 @@ class Registration extends StatefulWidget {
 
 class _RegistrationState extends State<Registration> {
   final _formKey = GlobalKey<FormState>();
-  final AuthService _authService = AuthService();
+  final DatabaseService _databaseService = DatabaseService();
+
   String userName = "";
   int age;
   DateTime pickedDate;
@@ -236,6 +237,9 @@ class _RegistrationState extends State<Registration> {
                                           SliderPage(this.widget.loginUser),
                                     ),
                                   );
+                                  this
+                                      ._databaseService
+                                      .createUser(this.widget.loginUser);
                                 }
                               }),
                         ),
