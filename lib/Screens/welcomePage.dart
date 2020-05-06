@@ -21,7 +21,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 top: 0.0,
                 left: 0.0,
                 child: Image.asset(
-                  'images/top1.png',
+                  'images/pageDeco/top1.png',
                   color: Color.fromRGBO(174, 213, 129, 0.6),
                 ),
               ),
@@ -30,7 +30,7 @@ class _WelcomePageState extends State<WelcomePage> {
                 bottom: 0.0,
                 left: 0.0,
                 child: Image.asset(
-                  'images/bottom1.png',
+                  'images/pageDeco/bottom1.png',
                   color: Color.fromRGBO(197, 225, 165, 0.6),
                 ),
               ),
@@ -57,11 +57,11 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
               ),
               Positioned(
-                top: 140.0,
+                top: 130.0,
                 child: Center(
                   child: Container(
-                    height: 180.0,
-                    child: Image.asset("images/welcome2.jpeg"),
+                    height: 230.0,
+                    child: Image.asset("images/logo/logoIconDef.png"),
                   ),
                 ),
               ),

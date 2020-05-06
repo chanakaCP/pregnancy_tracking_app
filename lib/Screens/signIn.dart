@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/services/authService.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -6,6 +7,7 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  AuthService _authService = AuthService();
   String _mobileNumber;
   String _password;
   final _formKey = GlobalKey<FormState>();
@@ -27,7 +29,7 @@ class _SignInState extends State<SignIn> {
                   top: 0.0,
                   right: 0.0,
                   child: Image.asset(
-                    'images/top2.png',
+                    'images/pageDeco/top2.png',
                     color: Color.fromRGBO(174, 213, 129, 0.6),
                   ),
                 ),
@@ -36,7 +38,7 @@ class _SignInState extends State<SignIn> {
                   bottom: 0.0,
                   left: 0.0,
                   child: Image.asset(
-                    'images/bottom2.png',
+                    'images/pageDeco/bottom2.png',
                     color: Color.fromRGBO(197, 225, 165, 0.6),
                   ),
                 ),
@@ -178,6 +180,8 @@ class _SignInState extends State<SignIn> {
                               ),
                               onPressed: () {
                                 if (_formKey.currentState.validate()) {
+                                  _authService.signIn(this._mobileNumber,
+                                      this._password, context);
 // go to homepage
                                 }
                               }),

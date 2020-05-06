@@ -4,9 +4,9 @@ import 'slider.dart';
 import '../services/databaseService.dart';
 
 class Registration extends StatefulWidget {
-  String userId;
+  String phoneNumber;
   User loginUser;
-  Registration(this.userId, this.loginUser);
+  Registration(this.phoneNumber, this.loginUser);
   @override
   _RegistrationState createState() => _RegistrationState();
 }
@@ -38,7 +38,7 @@ class _RegistrationState extends State<Registration> {
                   top: 0.0,
                   right: 0.0,
                   child: Image.asset(
-                    'images/top2.png',
+                    'images/pageDeco/top2.png',
                     color: Color.fromRGBO(174, 213, 129, 0.6),
                   ),
                 ),
@@ -47,7 +47,7 @@ class _RegistrationState extends State<Registration> {
                   bottom: 0.0,
                   left: 0.0,
                   child: Image.asset(
-                    'images/bottom2.png',
+                    'images/pageDeco/bottom2.png',
                     color: Color.fromRGBO(197, 225, 165, 0.6),
                   ),
                 ),

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../Screens/regitration.dart';
+import '../Screens/home.dart';
 import '../models/user.dart';
+import '../shared/shared.dart';
 
 class AuthService {
   String phoneNo;
   String verificationId;
   String status;
   User loginUser;
+  Shared shared = Shared();
+  final firestoreInstance = Firestore.instance;
 
   Future<void> verifyPhone(
       String mobileNumber, User loginUser, BuildContext context) async {
@@ -29,12 +34,11 @@ class AuthService {
       AuthResult result =
           await FirebaseAuth.instance.signInWithCredential(credential);
       FirebaseUser user = result.user;
-      this.loginUser.uId = user.uid;
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Registration(user.uid, this.loginUser),
+          builder: (context) => Registration(user.phoneNumber, this.loginUser),
         ),
       );
     };
@@ -58,7 +62,7 @@ class AuthService {
     );
   }
 
-  signIn(String smsCode, BuildContext context) async {
+  signUp(String smsCode, BuildContext context) async {
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
 
@@ -68,12 +72,11 @@ class AuthService {
       FirebaseUser user = result.user;
       FirebaseUser currentUser = await auth.currentUser();
       assert(user.uid == currentUser.uid);
-      this.loginUser.uId = user.uid;
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Registration(user.uid, this.loginUser),
+          builder: (context) => Registration(user.phoneNumber, this.loginUser),
         ),
       );
     } catch (e) {
@@ -92,5 +95,47 @@ class AuthService {
         status = error.message;
         break;
     }
+  }
+
+  signIn(String phoneNumber, String password, BuildContext context) async {
+    phoneNumber = shared.setMobileNumber(phoneNumber);
+    print(phoneNumber);
+    print(phoneNumber);
+    print(password);
+    await firestoreInstance
+        .collection('users')
+        .document(phoneNumber)
+        .get()
+        .then(
+      (doc) {
+        if (doc.exists) {
+          print('doc exist');
+          firestoreInstance
+              .collection('users')
+              .document(phoneNumber)
+              .get()
+              .then(
+            (doc) {
+              if (doc.data['password'] == password) {
+                print('correct user');
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home(phoneNumber),
+                  ),
+                );
+              } else {
+                print("invalid password");
+              }
+            },
+          );
+        } else {
+          print("invalid username");
+          // invalid username
+          return null;
+        }
+      },
+    );
   }
 }

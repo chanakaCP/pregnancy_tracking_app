@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'mobileVerf.dart';
+import 'package:pregnancy_tracking_app/shared/shared.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   User loginUser = User();
+  Shared shared = Shared();
   bool _isPassObs = true;
   bool _isReEnterPassObs = true;
   String _firstPass;
@@ -33,7 +35,7 @@ class _SignUpState extends State<SignUp> {
                   top: 0.0,
                   left: 0.0,
                   child: Image.asset(
-                    'images/top3.png',
+                    'images/pageDeco/top3.png',
                     color: Color.fromRGBO(174, 213, 129, 0.6),
                   ),
                 ),
@@ -42,7 +44,7 @@ class _SignUpState extends State<SignUp> {
                   bottom: 0.0,
                   right: 0.0,
                   child: Image.asset(
-                    'images/bottom3.png',
+                    'images/pageDeco/bottom3.png',
                     color: Color.fromRGBO(197, 225, 165, 0.6),
                   ),
                 ),
@@ -217,35 +219,38 @@ class _SignUpState extends State<SignUp> {
                           height: 45.0,
                           width: double.infinity,
                           child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                                side: BorderSide(color: Colors.green[400]),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                              side: BorderSide(color: Colors.green[400]),
+                            ),
+                            color: Colors.green[400],
+                            textColor: Colors.white,
+                            splashColor: Colors.green[200],
+                            child: Text(
+                              "Next",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w400,
                               ),
-                              color: Colors.green[400],
-                              textColor: Colors.white,
-                              splashColor: Colors.green[200],
-                              child: Text(
-                                "Next",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState.validate()) {
-                                  this.phoneNumber = "+94" + this.phoneNumber;
-                                  this.loginUser.mobileNumber =
-                                      this.phoneNumber;
-                                  this.loginUser.password = this.password;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => MobileVerfy(
-                                          this.phoneNumber, this.loginUser),
+                            ),
+                            onPressed: () {
+                              if (_formKey.currentState.validate()) {
+                                this.loginUser.mobileNumber =
+                                    shared.setMobileNumber(phoneNumber);
+                                print(this.loginUser.mobileNumber);
+                                this.loginUser.password = this.password;
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => MobileVerfy(
+                                      this.loginUser.mobileNumber,
+                                      this.loginUser,
                                     ),
-                                  );
-                                }
-                              }),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
                         ),
                         SizedBox(height: 13.0),
                         Row(

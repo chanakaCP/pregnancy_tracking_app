@@ -15,6 +15,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
   final AuthService _authService = AuthService();
   @override
   void initState() {
+    print(this.widget.mobileNumber);
     _authService.verifyPhone(
         this.widget.mobileNumber, this.widget.loginUser, context);
     super.initState();
@@ -49,7 +50,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                       top: 0.0,
                       right: 0.0,
                       child: Image.asset(
-                        'images/top2.png',
+                        'images/pageDeco/top2.png',
                         color: Color.fromRGBO(174, 213, 129, 0.6),
                       ),
                     ),
@@ -58,7 +59,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                       bottom: 0.0,
                       left: 0.0,
                       child: Image.asset(
-                        'images/bottom2.png',
+                        'images/pageDeco/bottom2.png',
                         color: Color.fromRGBO(197, 225, 165, 0.6),
                       ),
                     ),
@@ -135,7 +136,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                                   ],
                                 ),
                                 onPressed: () {
-                                  _authService.signIn(this.smsCode, context);
+                                  _authService.signUp(this.smsCode, context);
                                 }),
                           ),
                           SizedBox(height: 15.0),
