@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../services/authService.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -6,6 +7,23 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  AuthService _authService = AuthService();
+  bool isSignIn = true;
+  @override
+  void initState() {
+    super.initState();
+    _authService.checkSignIn().then((user) {
+      setState(() {
+        if (user == null) {
+          isSignIn = false;
+        } else {
+          isSignIn = true;
+          _authService.signIn(context, user);
+        }
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,60 +84,9 @@ class _WelcomePageState extends State<WelcomePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: 400.0, left: 55.0, right: 55.0),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      height: 45.0,
-                      width: double.infinity,
-                      child: Opacity(
-                        opacity: 0.7,
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50.0),
-                            side: BorderSide(color: Colors.green[400]),
-                          ),
-                          color: Colors.green[400],
-                          textColor: Colors.white,
-                          splashColor: Colors.green[200],
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/signIn');
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Container(
-                      height: 45.0,
-                      width: double.infinity,
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50.0),
-                          side: BorderSide(color: Colors.green[50]),
-                        ),
-                        color: Colors.green[50],
-                        textColor: Colors.black87,
-                        splashColor: Colors.green[200],
-                        child: Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/signUp');
-                        },
-                      ),
-                    ),
-                  ],
+                padding: EdgeInsets.only(top: 300.0, left: 55.0, right: 55.0),
+                child: Container(
+                  child: isSignIn ? buildTagLine() : buildSignUpButton(),
                 ),
               ),
             ],
@@ -127,5 +94,49 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
       ),
     );
+  }
+
+  Widget buildSignUpButton() {
+    return Container(
+      height: 45.0,
+      width: double.infinity,
+      child: FlatButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50.0),
+          side: BorderSide(color: Colors.green[50]),
+        ),
+        color: Colors.green[50],
+        textColor: Colors.black87,
+        splashColor: Colors.green[200],
+        child: Text(
+          "Sign Up",
+          style: TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        onPressed: () {
+          Navigator.pushNamed(context, '/signUp');
+        },
+      ),
+    );
+  }
+
+  buildTagLine() {
+    return Container(
+        height: 60.0,
+        width: double.infinity,
+        child: Column(
+          children: <Widget>[
+            Text(
+              "Kuwa mama bora,",
+              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
+            ),
+            Text(
+              "Toka siku ya kwanza.",
+              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
+            ),
+          ],
+        ));
   }
 }

@@ -178,13 +178,7 @@ class _SignInState extends State<SignIn> {
                                   fontWeight: FontWeight.w400,
                                 ),
                               ),
-                              onPressed: () {
-//                                 if (_formKey.currentState.validate()) {
-//                                   _authService.signIn(this._mobileNumber,
-//                                       this._password, context);
-// // go to homepage
-//                                 }
-                              }),
+                              onPressed: () {}),
                         ),
                         SizedBox(height: 15.0),
                         GestureDetector(

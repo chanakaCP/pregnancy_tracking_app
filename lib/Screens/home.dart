@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/user.dart';
 import '../services/databaseService.dart';
+import '../services/authService.dart';
 
 class Home extends StatefulWidget {
   String userId;
@@ -11,6 +12,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  AuthService _authService = AuthService();
   DatabaseService _databaseService = DatabaseService();
 
   @override
@@ -27,6 +29,12 @@ class _HomeState extends State<Home> {
                 Text(snapshot.data['age'].toString()),
                 Text(snapshot.data['name']),
                 Text(snapshot.data['userId']),
+                RaisedButton(
+                  onPressed: () {
+                    _authService.signOut(context);
+                  },
+                  child: Text("sign out"),
+                ),
               ],
             ),
           );

@@ -35,7 +35,6 @@ class AuthService {
           await FirebaseAuth.instance.signInWithCredential(credential);
       FirebaseUser user = result.user;
       loginUser.userId = user.uid;
-      print("uid when created" + loginUser.userId);
       Navigator.pop(context);
       Navigator.push(
         context,
@@ -73,7 +72,6 @@ class AuthService {
       AuthResult result = await auth.signInWithCredential(authCredential);
       FirebaseUser user = result.user;
       loginUser.userId = user.uid;
-      print("uid when created " + loginUser.userId);
       FirebaseUser currentUser = await auth.currentUser();
       assert(user.uid == currentUser.uid);
       Navigator.pop(context);
@@ -93,7 +91,6 @@ class AuthService {
       case 'ERROR_INVALID_VERIFICATION_CODE':
         FocusScope.of(context).requestFocus(new FocusNode());
         status = 'Invalid Code';
-        print(status);
         break;
       default:
         status = error.message;
@@ -101,45 +98,24 @@ class AuthService {
     }
   }
 
-  // signIn(String phoneNumber, String password, BuildContext context) async {
-  //   phoneNumber = shared.setMobileNumber(phoneNumber);
-  //   print(phoneNumber);
-  //   print(phoneNumber);
-  //   print(password);
-  //   await firestoreInstance
-  //       .collection('users')
-  //       .document(phoneNumber)
-  //       .get()
-  //       .then(
-  //     (doc) {
-  //       if (doc.exists) {
-  //         print('doc exist');
-  //         firestoreInstance
-  //             .collection('users')
-  //             .document(phoneNumber)
-  //             .get()
-  //             .then(
-  //           (doc) {
-  //             if (doc.data['password'] == password) {
-  //               print('correct user');
-  //               Navigator.pop(context);
-  //               Navigator.push(
-  //                 context,
-  //                 MaterialPageRoute(
-  //                   builder: (context) => Home(phoneNumber),
-  //                 ),
-  //               );
-  //             } else {
-  //               print("invalid password");
-  //             }
-  //           },
-  //         );
-  //       } else {
-  //         print("invalid username");
-  //         // invalid username
-  //         return null;
-  //       }
-  //     },
-  //   );
-  // }
+  signOut(BuildContext context) async {
+    await FirebaseAuth.instance.signOut();
+    Navigator.pop(context);
+    Navigator.pushNamed(context, '/welcomePage');
+  }
+
+  Future<FirebaseUser> checkSignIn() async {
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    return user;
+  }
+
+  signIn(BuildContext context, FirebaseUser user) {
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Home(user.uid),
+      ),
+    );
+  }
 }
