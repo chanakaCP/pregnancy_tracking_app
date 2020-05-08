@@ -12,11 +12,8 @@ class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   User loginUser = User();
   Shared shared = Shared();
-  bool _isPassObs = true;
-  bool _isReEnterPassObs = true;
-  String _firstPass;
+
   String phoneNumber;
-  String password;
 
   @override
   Widget build(BuildContext context) {
@@ -116,104 +113,104 @@ class _SignUpState extends State<SignUp> {
                             },
                           ),
                         ),
-                        SizedBox(height: 10.0),
-                        Container(
-                          child: TextFormField(
-                            obscureText: _isPassObs,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(10.0),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
-                              ),
-                              prefixIcon: Icon(Icons.vpn_key),
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _isPassObs = !_isPassObs;
-                                  });
-                                },
-                                child: Icon(
-                                  _isPassObs
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                              ),
-                              hintText: "Password",
-                              filled: true,
-                              fillColor: Colors.green[50],
-                              border: InputBorder.none,
-                            ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Password is required';
-                              } else if (value.length < 8) {
-                                return 'Password must be at least 8 char';
-                              } else {
-                                _firstPass = value;
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              this.password = value;
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 10.0),
-                        Container(
-                          child: TextFormField(
-                            obscureText: _isReEnterPassObs,
-                            decoration: InputDecoration(
-                              contentPadding: EdgeInsets.all(10.0),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
-                              ),
-                              prefixIcon: Icon(Icons.vpn_key),
-                              suffixIcon: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _isReEnterPassObs = !_isReEnterPassObs;
-                                  });
-                                },
-                                child: Icon(
-                                  _isReEnterPassObs
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                ),
-                              ),
-                              hintText: "Re enter password",
-                              filled: true,
-                              fillColor: Colors.green[50],
-                              border: InputBorder.none,
-                            ),
-                            validator: (passValue) {
-                              if (passValue.isEmpty) {
-                                return 'Re enter your password';
-                              } else if (_firstPass != passValue) {
-                                return 'Password didn`t match';
-                              } else {
-                                return null;
-                              }
-                            },
-                          ),
-                        ),
+                        // SizedBox(height: 10.0),
+                        // Container(
+                        //   child: TextFormField(
+                        //     obscureText: _isPassObs,
+                        //     decoration: InputDecoration(
+                        //       contentPadding: EdgeInsets.all(10.0),
+                        //       enabledBorder: OutlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: Colors.transparent),
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(50.0)),
+                        //       ),
+                        //       focusedBorder: OutlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: Colors.transparent),
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(50.0)),
+                        //       ),
+                        //       prefixIcon: Icon(Icons.vpn_key),
+                        //       suffixIcon: GestureDetector(
+                        //         onTap: () {
+                        //           setState(() {
+                        //             _isPassObs = !_isPassObs;
+                        //           });
+                        //         },
+                        //         child: Icon(
+                        //           _isPassObs
+                        //               ? Icons.visibility
+                        //               : Icons.visibility_off,
+                        //         ),
+                        //       ),
+                        //       hintText: "Password",
+                        //       filled: true,
+                        //       fillColor: Colors.green[50],
+                        //       border: InputBorder.none,
+                        //     ),
+                        //     validator: (value) {
+                        //       if (value.isEmpty) {
+                        //         return 'Password is required';
+                        //       } else if (value.length < 8) {
+                        //         return 'Password must be at least 8 char';
+                        //       } else {
+                        //         _firstPass = value;
+                        //         return null;
+                        //       }
+                        //     },
+                        //     onChanged: (value) {
+                        //       this.password = value;
+                        //     },
+                        //   ),
+                        // ),
+                        // SizedBox(height: 10.0),
+                        // Container(
+                        //   child: TextFormField(
+                        //     obscureText: _isReEnterPassObs,
+                        //     decoration: InputDecoration(
+                        //       contentPadding: EdgeInsets.all(10.0),
+                        //       enabledBorder: OutlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: Colors.transparent),
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(50.0)),
+                        //       ),
+                        //       focusedBorder: OutlineInputBorder(
+                        //         borderSide:
+                        //             BorderSide(color: Colors.transparent),
+                        //         borderRadius:
+                        //             BorderRadius.all(Radius.circular(50.0)),
+                        //       ),
+                        //       prefixIcon: Icon(Icons.vpn_key),
+                        //       suffixIcon: GestureDetector(
+                        //         onTap: () {
+                        //           setState(() {
+                        //             _isReEnterPassObs = !_isReEnterPassObs;
+                        //           });
+                        //         },
+                        //         child: Icon(
+                        //           _isReEnterPassObs
+                        //               ? Icons.visibility
+                        //               : Icons.visibility_off,
+                        //         ),
+                        //       ),
+                        //       hintText: "Re enter password",
+                        //       filled: true,
+                        //       fillColor: Colors.green[50],
+                        //       border: InputBorder.none,
+                        //     ),
+                        //     validator: (passValue) {
+                        //       if (passValue.isEmpty) {
+                        //         return 'Re enter your password';
+                        //       } else if (_firstPass != passValue) {
+                        //         return 'Password didn`t match';
+                        //       } else {
+                        //         return null;
+                        //       }
+                        //     },
+                        //   ),
+                        // ),
                         SizedBox(height: 35.0),
                         Container(
                           height: 45.0,
@@ -238,12 +235,10 @@ class _SignUpState extends State<SignUp> {
                                 this.loginUser.mobileNumber =
                                     shared.setMobileNumber(phoneNumber);
                                 print(this.loginUser.mobileNumber);
-                                this.loginUser.password = this.password;
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder: (context) => MobileVerfy(
-                                      this.loginUser.mobileNumber,
                                       this.loginUser,
                                     ),
                                   ),

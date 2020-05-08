@@ -16,10 +16,10 @@ class AuthService {
   Shared shared = Shared();
   final firestoreInstance = Firestore.instance;
 
-  Future<void> verifyPhone(
-      String mobileNumber, User loginUser, BuildContext context) async {
-    phoneNo = mobileNumber;
+  Future<void> verifyPhone(User loginUser, BuildContext context) async {
     this.loginUser = loginUser;
+    phoneNo = loginUser.mobileNumber;
+
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
       verificationId = verId;
     };
@@ -34,11 +34,13 @@ class AuthService {
       AuthResult result =
           await FirebaseAuth.instance.signInWithCredential(credential);
       FirebaseUser user = result.user;
+      loginUser.userId = user.uid;
+      print("uid when created" + loginUser.userId);
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Registration(user.phoneNumber, this.loginUser),
+          builder: (context) => Registration(this.loginUser),
         ),
       );
     };
@@ -70,13 +72,15 @@ class AuthService {
           verificationId: verificationId, smsCode: smsCode);
       AuthResult result = await auth.signInWithCredential(authCredential);
       FirebaseUser user = result.user;
+      loginUser.userId = user.uid;
+      print("uid when created " + loginUser.userId);
       FirebaseUser currentUser = await auth.currentUser();
       assert(user.uid == currentUser.uid);
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => Registration(user.phoneNumber, this.loginUser),
+          builder: (context) => Registration(this.loginUser),
         ),
       );
     } catch (e) {
@@ -97,45 +101,45 @@ class AuthService {
     }
   }
 
-  signIn(String phoneNumber, String password, BuildContext context) async {
-    phoneNumber = shared.setMobileNumber(phoneNumber);
-    print(phoneNumber);
-    print(phoneNumber);
-    print(password);
-    await firestoreInstance
-        .collection('users')
-        .document(phoneNumber)
-        .get()
-        .then(
-      (doc) {
-        if (doc.exists) {
-          print('doc exist');
-          firestoreInstance
-              .collection('users')
-              .document(phoneNumber)
-              .get()
-              .then(
-            (doc) {
-              if (doc.data['password'] == password) {
-                print('correct user');
-                Navigator.pop(context);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Home(phoneNumber),
-                  ),
-                );
-              } else {
-                print("invalid password");
-              }
-            },
-          );
-        } else {
-          print("invalid username");
-          // invalid username
-          return null;
-        }
-      },
-    );
-  }
+  // signIn(String phoneNumber, String password, BuildContext context) async {
+  //   phoneNumber = shared.setMobileNumber(phoneNumber);
+  //   print(phoneNumber);
+  //   print(phoneNumber);
+  //   print(password);
+  //   await firestoreInstance
+  //       .collection('users')
+  //       .document(phoneNumber)
+  //       .get()
+  //       .then(
+  //     (doc) {
+  //       if (doc.exists) {
+  //         print('doc exist');
+  //         firestoreInstance
+  //             .collection('users')
+  //             .document(phoneNumber)
+  //             .get()
+  //             .then(
+  //           (doc) {
+  //             if (doc.data['password'] == password) {
+  //               print('correct user');
+  //               Navigator.pop(context);
+  //               Navigator.push(
+  //                 context,
+  //                 MaterialPageRoute(
+  //                   builder: (context) => Home(phoneNumber),
+  //                 ),
+  //               );
+  //             } else {
+  //               print("invalid password");
+  //             }
+  //           },
+  //         );
+  //       } else {
+  //         print("invalid username");
+  //         // invalid username
+  //         return null;
+  //       }
+  //     },
+  //   );
+  // }
 }

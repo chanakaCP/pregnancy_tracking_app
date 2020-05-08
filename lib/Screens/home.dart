@@ -25,8 +25,8 @@ class _HomeState extends State<Home> {
             body: Column(
               children: <Widget>[
                 Text(snapshot.data['age'].toString()),
-                Text(snapshot.data['name'].toString()),
-                Text(snapshot.data['password'].toString()),
+                Text(snapshot.data['name']),
+                Text(snapshot.data['userId']),
               ],
             ),
           );

@@ -1,7 +1,7 @@
 class User {
+  String userId;
   String name;
   String mobileNumber;
-  String password;
   int age;
   DateTime lastPeriodDate;
 }

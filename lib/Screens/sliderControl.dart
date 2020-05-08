@@ -19,6 +19,7 @@ class SliderControl extends StatelessWidget {
             child: Image.asset(
               imagePath,
               width: width * 0.7,
+              filterQuality: FilterQuality.low,
             ),
           ),
           SizedBox(height: 40.0),

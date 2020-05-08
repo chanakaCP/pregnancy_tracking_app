@@ -3,8 +3,8 @@ import '../services/authService.dart';
 import '../models/user.dart';
 
 class MobileVerfy extends StatefulWidget {
-  MobileVerfy(this.mobileNumber, this.loginUser);
-  String mobileNumber;
+  MobileVerfy(this.loginUser);
+  String userId;
   User loginUser;
 
   @override
@@ -15,9 +15,8 @@ class _MobileVerfyState extends State<MobileVerfy> {
   final AuthService _authService = AuthService();
   @override
   void initState() {
-    print(this.widget.mobileNumber);
-    _authService.verifyPhone(
-        this.widget.mobileNumber, this.widget.loginUser, context);
+    print(this.widget.userId);
+    _authService.verifyPhone(this.widget.loginUser, context);
     super.initState();
   }
 
@@ -90,7 +89,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                                     "Please type the verification code send to ",
                                 children: <TextSpan>[
                                   TextSpan(
-                                    text: this.widget.mobileNumber,
+                                    text: this.widget.userId,
                                     style:
                                         TextStyle(fontWeight: FontWeight.w700),
                                   ),

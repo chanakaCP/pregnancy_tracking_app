@@ -4,9 +4,8 @@ import 'slider.dart';
 import '../services/databaseService.dart';
 
 class Registration extends StatefulWidget {
-  String phoneNumber;
   User loginUser;
-  Registration(this.phoneNumber, this.loginUser);
+  Registration(this.loginUser);
   @override
   _RegistrationState createState() => _RegistrationState();
 }

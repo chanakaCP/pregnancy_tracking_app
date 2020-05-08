@@ -5,22 +5,16 @@ class DatabaseService {
   final firestoreInstance = Firestore.instance;
 
   createUser(User user) async {
-    await firestoreInstance
-        .collection('users')
-        .document(user.mobileNumber)
-        .setData({
+    await firestoreInstance.collection('users').document(user.userId).setData({
+      'userId': user.userId,
       'phoneNumber': user.mobileNumber,
-      'password': user.password,
       'name': user.name,
       'age': user.age,
       'lastPeriodDate': user.lastPeriodDate
     }, merge: true);
   }
 
-  getUser(String phoneNumber) {
-    return firestoreInstance
-        .collection('users')
-        .document(phoneNumber)
-        .snapshots();
+  getUser(String userId) {
+    return firestoreInstance.collection('users').document(userId).snapshots();
   }
 }
