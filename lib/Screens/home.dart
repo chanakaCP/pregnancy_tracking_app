@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
-import '../models/user.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
 import '../services/databaseService.dart';
 import '../services/authService.dart';
 import 'baby.dart';
@@ -10,20 +10,23 @@ import 'more.dart';
 
 class Home extends StatefulWidget {
   String userId;
-  Future<User> currentUser;
   Home(this.userId);
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  AuthService _authService = AuthService();
   DatabaseService _databaseService = DatabaseService();
   int _currentIndex;
-  List<Widget> _currentBody = [Today(), Baby(), Mother(), More()];
+  Stream userStream;
+  User currentUser = User();
+  List<Widget> currentBody = [Today(), Baby(), Mother(), More()];
+
   @override
   void initState() {
     super.initState();
+    userStream = _databaseService.getUser(this.widget.userId);
     _currentIndex = 0;
   }
 
@@ -35,65 +38,74 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<dynamic>(
-      stream: this._databaseService.getUser(this.widget.userId),
-      builder: (context, snapshot) {
+    return StreamBuilder(
+      stream: userStream,
+      builder: (context, currentUserSnap) {
+        this.currentUser.name = currentUserSnap.data["name"];
+        this.currentUser.age = currentUserSnap.data["age"];
+        this.currentUser.userId = currentUserSnap.data["userId"];
+        this.currentUser.mobileNumber = currentUserSnap.data["phoneNumber"];
+        this.currentUser.lastPeriodDate =
+            currentUserSnap.data["lastPeriodDate"].toDate();
+
         return SafeArea(
           child: Scaffold(
-            body: Column(
-              children: <Widget>[
-                Container(
-                  padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Good Mornning",
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.teal[900],
+            body: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.only(
+                        top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Good Mornning",
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontWeight: FontWeight.w200,
+                                color: Colors.teal[900],
+                              ),
                             ),
-                          ),
-                          Text(
-                            "Jiang",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.teal[900],
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: 60,
-                        width: 60,
-                        // margin: EdgeInsets.only(
-                        // top: blockHeight * 7, bottom: blockHeight * 4.5),
-                        decoration: BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 10,
-                              offset: Offset(0, 3),
+                            Text(
+                              this.currentUser.name,
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.teal[900],
+                              ),
                             ),
                           ],
-                          borderRadius: BorderRadius.all(Radius.circular(100)),
                         ),
-                        child: CircleAvatar(
-                          backgroundImage: AssetImage("images/profile.jpg"),
+                        Container(
+                          height: 60,
+                          width: 60,
+                          decoration: BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 10,
+                                offset: Offset(0, 3),
+                              ),
+                            ],
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100)),
+                          ),
+                          child: CircleAvatar(
+                            backgroundImage: AssetImage("images/profile.jpg"),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                )
-              ],
+                  currentBody[_currentIndex],
+                ],
+              ),
             ),
-            // body: _currentBody[_currentIndex],
             bottomNavigationBar: BubbleBottomBar(
               opacity: 0.4,
               backgroundColor: Colors.green[300],

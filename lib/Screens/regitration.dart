@@ -228,6 +228,9 @@ class _RegistrationState extends State<Registration> {
                                   this.widget.loginUser.age = this.age;
                                   this.widget.loginUser.lastPeriodDate =
                                       this.pickedDate;
+                                  this
+                                      ._databaseService
+                                      .createUser(this.widget.loginUser);
                                   Navigator.pop(context);
                                   Navigator.push(
                                     context,
@@ -236,9 +239,6 @@ class _RegistrationState extends State<Registration> {
                                           SliderPage(this.widget.loginUser),
                                     ),
                                   );
-                                  this
-                                      ._databaseService
-                                      .createUser(this.widget.loginUser);
                                 }
                               }),
                         ),
@@ -292,7 +292,8 @@ class _RegistrationState extends State<Registration> {
       setState(() {
         _isDateSelect = true;
         _errorText = '';
-        pickedDate = _date;
+        pickedDate = _date.toUtc();
+        print(pickedDate);
       });
     }
   }
