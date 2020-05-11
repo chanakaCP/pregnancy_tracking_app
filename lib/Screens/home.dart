@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import '../services/databaseService.dart';
-import '../services/authService.dart';
 import 'baby.dart';
 import 'mother.dart';
 import 'today.dart';
 import 'more.dart';
+import 'package:pregnancy_tracking_app/shared/custom_icons_icons.dart';
 
 class Home extends StatefulWidget {
   String userId;
@@ -21,7 +21,7 @@ class _HomeState extends State<Home> {
   int _currentIndex;
   Stream userStream;
   User currentUser = User();
-  List<Widget> currentBody = [Today(), Baby(), Mother(), More()];
+  List<Widget> _currentBody() => [Today(currentUser), Baby(), Mother(), More()];
 
   @override
   void initState() {
@@ -38,6 +38,7 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> currentBody = _currentBody();
     return StreamBuilder(
       stream: userStream,
       builder: (context, currentUserSnap) {
@@ -121,11 +122,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    Icons.today,
+                    CustomIcons.today,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    Icons.today,
+                    CustomIcons.today,
                     color: Colors.white,
                   ),
                   title: Text(
@@ -136,11 +137,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    Icons.child_care,
+                    CustomIcons.baby,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    Icons.child_care,
+                    CustomIcons.baby,
                     color: Colors.white,
                   ),
                   title: Text(
@@ -151,11 +152,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    Icons.pregnant_woman,
+                    CustomIcons.mother,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    Icons.pregnant_woman,
+                    CustomIcons.mother,
                     color: Colors.white,
                   ),
                   title: Text(
@@ -166,11 +167,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    Icons.menu,
+                    CustomIcons.more,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    Icons.menu,
+                    CustomIcons.more,
                     color: Colors.white,
                   ),
                   title: Text(

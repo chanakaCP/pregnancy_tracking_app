@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import 'package:pregnancy_tracking_app/services/databaseService.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/shared/shared.dart';
 
 class Today extends StatefulWidget {
-  // FirebaseUser user;
-  // Today(this.user);
+  User currentUser = User();
+  Today(this.currentUser);
   @override
   _TodayState createState() => _TodayState();
 }
 
 class _TodayState extends State<Today> {
-  // DatabaseService _databaseService = DatabaseService();
+  Shared shared = Shared();
+
+  int days;
+  int weeks;
+  int months;
+
   @override
   void initState() {
     super.initState();
+    days = shared.countDates(this.widget.currentUser.lastPeriodDate);
+    weeks = shared.countWeeks(this.widget.currentUser.lastPeriodDate);
+    months = shared.countMonths(this.widget.currentUser.lastPeriodDate);
   }
 
   @override
@@ -66,23 +75,31 @@ class _TodayState extends State<Today> {
               style: TextStyle(fontWeight: FontWeight.w300),
             ),
             TextSpan(
-              text: '15 ',
+              text: (days >= 7)
+                  ? (days % 7 == 0) ? weeks.toString() : (weeks - 1).toString()
+                  : '',
               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
             ),
             TextSpan(
-              text: 'weeks ',
+              text: (days >= 7)
+                  ? (days >= 7 && days <= 13) ? ' week ' : ' weeks '
+                  : '',
               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17.0),
             ),
             TextSpan(
-              text: '& ',
+              text: ((days % 7 != 0) && (days >= 7)) ? '& ' : ' ',
               style: TextStyle(fontWeight: FontWeight.w300),
             ),
             TextSpan(
-              text: '6 ',
+              text: (days % 7 != 0)
+                  ? (days % 7 == 0)
+                      ? '0'
+                      : (days - ((weeks - 1) * 7)).toString()
+                  : '',
               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
             ),
             TextSpan(
-              text: 'days ',
+              text: (days % 7 != 0) ? (days % 7 == 1) ? ' day ' : ' days ' : '',
               style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17.0),
             ),
             TextSpan(
@@ -123,7 +140,7 @@ class _TodayState extends State<Today> {
                   ),
                 ),
                 Text(
-                  "107",
+                  days.toString(),
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 30.0,
@@ -154,7 +171,7 @@ class _TodayState extends State<Today> {
                   ),
                 ),
                 Text(
-                  "15",
+                  weeks.toString(),
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 30.0,
@@ -185,7 +202,7 @@ class _TodayState extends State<Today> {
                   ),
                 ),
                 Text(
-                  "4",
+                  months.toString(),
                   style: TextStyle(
                       color: Colors.black45,
                       fontSize: 30.0,
