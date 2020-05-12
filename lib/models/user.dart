@@ -4,4 +4,5 @@ class User {
   String mobileNumber;
   int age;
   DateTime lastPeriodDate;
+  DateTime dueDate;
 }

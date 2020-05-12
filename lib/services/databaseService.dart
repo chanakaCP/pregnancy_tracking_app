@@ -13,7 +13,8 @@ class DatabaseService {
       'phoneNumber': user.mobileNumber,
       'name': user.name,
       'age': user.age,
-      'lastPeriodDate': user.lastPeriodDate
+      'lastPeriodDate': user.lastPeriodDate,
+      'dueDate': user.lastPeriodDate.add(Duration(days: 280)),
     }, merge: true);
   }
 

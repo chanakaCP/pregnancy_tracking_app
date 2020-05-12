@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/user.dart';
-import 'slider.dart';
-import '../services/databaseService.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/Screens/slider.dart';
+import 'package:pregnancy_tracking_app/services/databaseService.dart';
 
 class Registration extends StatefulWidget {
   User loginUser;
@@ -85,16 +85,12 @@ class _RegistrationState extends State<Registration> {
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(10.0),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
                               ),
                               prefixIcon: Icon(Icons.keyboard),
                               hintText: "Your name",
@@ -116,16 +112,12 @@ class _RegistrationState extends State<Registration> {
                             decoration: InputDecoration(
                               contentPadding: EdgeInsets.all(10.0),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
                               ),
                               prefixIcon: Icon(Icons.keyboard),
                               hintText: "Age",
@@ -195,8 +187,7 @@ class _RegistrationState extends State<Registration> {
                         ),
                         Text(
                           _errorText,
-                          style:
-                              TextStyle(fontSize: 11.5, color: Colors.red[700]),
+                          style: TextStyle(fontSize: 11.5, color: Colors.red[700]),
                         ),
                         SizedBox(height: 35.0),
                         Container(
@@ -220,23 +211,18 @@ class _RegistrationState extends State<Registration> {
                               onPressed: () {
                                 if (!_isDateSelect) {
                                   setState(() {
-                                    _errorText =
-                                        'Please enter last period date';
+                                    _errorText = 'Please enter last period date';
                                   });
                                 } else {
                                   this.widget.loginUser.name = this.userName;
                                   this.widget.loginUser.age = this.age;
-                                  this.widget.loginUser.lastPeriodDate =
-                                      this.pickedDate;
-                                  this
-                                      ._databaseService
-                                      .createUser(this.widget.loginUser);
+                                  this.widget.loginUser.lastPeriodDate = this.pickedDate;
+                                  this._databaseService.createUser(this.widget.loginUser);
                                   Navigator.pop(context);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          SliderPage(this.widget.loginUser),
+                                      builder: (context) => SliderPage(this.widget.loginUser),
                                     ),
                                   );
                                 }

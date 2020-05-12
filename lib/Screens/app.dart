@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'welcomePage.dart';
-import 'signIn.dart';
-import 'signUp.dart';
+import 'package:pregnancy_tracking_app/Screens/welcomePage.dart';
+import 'package:pregnancy_tracking_app/Screens/signIn.dart';
+import 'package:pregnancy_tracking_app/Screens/signUp.dart';
 
 class App extends StatelessWidget {
   @override

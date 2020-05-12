@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import '../services/databaseService.dart';
-import 'baby.dart';
-import 'mother.dart';
-import 'today.dart';
-import 'more.dart';
-import 'package:pregnancy_tracking_app/shared/custom_icons_icons.dart';
+import 'package:pregnancy_tracking_app/services/databaseService.dart';
+import 'package:pregnancy_tracking_app/Screens/baby.dart';
+import 'package:pregnancy_tracking_app/Screens/mother.dart';
+import 'package:pregnancy_tracking_app/Screens/today.dart';
+import 'package:pregnancy_tracking_app/Screens/more.dart';
 
 class Home extends StatefulWidget {
   String userId;
@@ -21,7 +20,9 @@ class _HomeState extends State<Home> {
   int _currentIndex;
   Stream userStream;
   User currentUser = User();
-  List<Widget> _currentBody() => [Today(currentUser), Baby(), Mother(), More()];
+
+  List<Widget> _currentBody() =>
+      [Today(currentUser), Baby(currentUser), Mother(currentUser), More()];
 
   @override
   void initState() {
@@ -46,8 +47,8 @@ class _HomeState extends State<Home> {
         this.currentUser.age = currentUserSnap.data["age"];
         this.currentUser.userId = currentUserSnap.data["userId"];
         this.currentUser.mobileNumber = currentUserSnap.data["phoneNumber"];
-        this.currentUser.lastPeriodDate =
-            currentUserSnap.data["lastPeriodDate"].toDate();
+        this.currentUser.lastPeriodDate = currentUserSnap.data["lastPeriodDate"].toDate();
+        this.currentUser.dueDate = currentUserSnap.data['dueDate'].toDate();
 
         return SafeArea(
           child: Scaffold(
@@ -55,8 +56,7 @@ class _HomeState extends State<Home> {
               child: Column(
                 children: <Widget>[
                   Container(
-                    padding: EdgeInsets.only(
-                        top: 10.0, left: 20.0, right: 20.0, bottom: 10.0),
+                    padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 7.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
@@ -64,37 +64,47 @@ class _HomeState extends State<Home> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              "Good Mornning",
+                              (() {
+                                if (_currentIndex == 0) {
+                                  return 'Good Mornning';
+                                } else if (_currentIndex == 1) {
+                                  return 'Baby`s';
+                                } else if (_currentIndex == 2) {
+                                  return 'Mother`s';
+                                } else {
+                                  return 'More';
+                                }
+                              }()),
                               style: TextStyle(
-                                fontSize: 24.0,
+                                fontSize: 20.0,
                                 fontWeight: FontWeight.w200,
                                 color: Colors.teal[900],
                               ),
                             ),
                             Text(
-                              this.currentUser.name,
+                              (_currentIndex == 0)
+                                  ? this.currentUser.name.split(" ")[0]
+                                  : 'Development',
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w500,
+                                fontSize: 14.0,
+                                fontWeight: FontWeight.w400,
                                 color: Colors.teal[900],
                               ),
                             ),
                           ],
                         ),
                         Container(
-                          height: 60,
-                          width: 60,
+                          height: 40,
+                          width: 40,
                           decoration: BoxDecoration(
                             boxShadow: [
                               BoxShadow(
                                 color: Colors.grey.withOpacity(0.5),
-                                spreadRadius: 5,
-                                blurRadius: 10,
-                                offset: Offset(0, 3),
+                                spreadRadius: 1,
+                                blurRadius: 5,
                               ),
                             ],
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(100)),
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
                           ),
                           child: CircleAvatar(
                             backgroundImage: AssetImage("images/profile.jpg"),
@@ -122,11 +132,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    CustomIcons.today,
+                    Icons.today,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    CustomIcons.today,
+                    Icons.today,
                     color: Colors.white,
                   ),
                   title: Text(
@@ -137,11 +147,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    CustomIcons.baby,
+                    Icons.child_care,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    CustomIcons.baby,
+                    Icons.child_care,
                     color: Colors.white,
                   ),
                   title: Text(
@@ -152,11 +162,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    CustomIcons.mother,
+                    Icons.pregnant_woman,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    CustomIcons.mother,
+                    Icons.pregnant_woman,
                     color: Colors.white,
                   ),
                   title: Text(
@@ -167,11 +177,11 @@ class _HomeState extends State<Home> {
                 BubbleBottomBarItem(
                   backgroundColor: Colors.green[100],
                   icon: Icon(
-                    CustomIcons.more,
+                    Icons.more_horiz,
                     color: Colors.green[100],
                   ),
                   activeIcon: Icon(
-                    CustomIcons.more,
+                    Icons.more_horiz,
                     color: Colors.white,
                   ),
                   title: Text(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../services/authService.dart';
-import '../models/user.dart';
+import 'package:pregnancy_tracking_app/services/authService.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
 
 class MobileVerfy extends StatefulWidget {
   MobileVerfy(this.loginUser);
@@ -77,21 +77,18 @@ class _MobileVerfyState extends State<MobileVerfy> {
                       ),
                     ),
                     Padding(
-                      padding:
-                          EdgeInsets.only(top: 95.0, left: 55.0, right: 55.0),
+                      padding: EdgeInsets.only(top: 95.0, left: 55.0, right: 55.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           Container(
                             child: RichText(
                               text: TextSpan(
-                                text:
-                                    "Please type the verification code send to ",
+                                text: "Please type the verification code send to ",
                                 children: <TextSpan>[
                                   TextSpan(
                                     text: this.widget.userId,
-                                    style:
-                                        TextStyle(fontWeight: FontWeight.w700),
+                                    style: TextStyle(fontWeight: FontWeight.w700),
                                   ),
                                 ],
                                 style: TextStyle(
@@ -121,8 +118,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                                 textColor: Colors.white,
                                 splashColor: Colors.green[200],
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
                                     Text(
                                       "Verify Now",

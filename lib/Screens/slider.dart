@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'sliderControl.dart';
-import '../models/user.dart';
-import 'home.dart';
+import 'package:pregnancy_tracking_app/Screens/sliderControl.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/Screens/home.dart';
 
 class SliderPage extends StatefulWidget {
   User loginUser;
@@ -16,15 +16,13 @@ class _SliderPageState extends State<SliderPage> {
 
   List<Widget> _slidePages = [
     SliderControl(
-        description:
-            "Every week during pregnancy, We provide you with important information",
+        description: "Every week during pregnancy, We provide you with important information",
         imagePath: "images/slider1.jpg"),
     SliderControl(
         description: "We plan a healthy diet for you during pregnancy",
         imagePath: "images/slider2.jpg"),
     SliderControl(
-        description:
-            "We monitor the progress of you and you`r baby during pregnancy",
+        description: "We monitor the progress of you and you`r baby during pregnancy",
         imagePath: "images/slider3.jpg")
   ];
 
@@ -75,8 +73,7 @@ class _SliderPageState extends State<SliderPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            Home(this.widget.loginUser.userId),
+                        builder: (context) => Home(this.widget.loginUser.userId),
                       ),
                     );
                   },
@@ -147,9 +144,7 @@ class _SliderPageState extends State<SliderPage> {
                           duration: Duration(milliseconds: 300),
                           height: 40.0,
                           alignment: Alignment.center,
-                          width: (_currentPage == _slidePages.length - 1)
-                              ? 100.0
-                              : 40.0,
+                          width: (_currentPage == _slidePages.length - 1) ? 100.0 : 40.0,
                           decoration: BoxDecoration(
                             color: Colors.green[50],
                             borderRadius: BorderRadius.circular(50),
@@ -174,8 +169,7 @@ class _SliderPageState extends State<SliderPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    Home(this.widget.loginUser.userId),
+                                builder: (context) => Home(this.widget.loginUser.userId),
                               ),
                             );
                           } else {

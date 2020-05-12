@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'mobileVerf.dart';
+import 'package:pregnancy_tracking_app/Screens/mobileVerf.dart';
 import 'package:pregnancy_tracking_app/shared/shared.dart';
 
 class SignUp extends StatefulWidget {
@@ -82,16 +82,12 @@ class _SignUpState extends State<SignUp> {
                               // prefixText: '+94',
                               contentPadding: EdgeInsets.all(10.0),
                               enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.transparent),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(50.0)),
+                                borderSide: BorderSide(color: Colors.transparent),
+                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
                               ),
                               prefixIcon: Icon(Icons.person),
                               hintText: "Phone Number",
@@ -134,8 +130,7 @@ class _SignUpState extends State<SignUp> {
                             ),
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
-                                this.loginUser.mobileNumber =
-                                    shared.setMobileNumber(phoneNumber);
+                                this.loginUser.mobileNumber = shared.setMobileNumber(phoneNumber);
                                 print(this.loginUser.mobileNumber);
                                 Navigator.push(
                                   context,

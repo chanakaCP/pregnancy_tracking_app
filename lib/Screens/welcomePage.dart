@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/authService.dart';
+import 'package:pregnancy_tracking_app/services/authService.dart';
 
 class WelcomePage extends StatefulWidget {
   @override

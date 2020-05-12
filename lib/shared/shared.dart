@@ -4,8 +4,8 @@ class Shared {
     return phoneNumber;
   }
 
-  countDates(DateTime date) {
-    return DateTime.now().difference(date).inDays;
+  countDates(DateTime dateFrom, DateTime dateTo) {
+    return dateFrom.difference(dateTo).inDays;
   }
 
   countWeeks(DateTime date) {
