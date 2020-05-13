@@ -4,6 +4,7 @@ import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/shared/shared.dart';
 import 'package:intl/intl.dart';
+import 'package:pregnancy_tracking_app/widget/tipWidget.dart';
 
 class Today extends StatefulWidget {
   User currentUser = User();
@@ -15,6 +16,7 @@ class Today extends StatefulWidget {
 class _TodayState extends State<Today> {
   Shared shared = Shared();
   Pregnancy pregnancy = Pregnancy();
+  TipWidget tipWidget = TipWidget();
   int _selectedIndex;
 
   @override
@@ -64,6 +66,7 @@ class _TodayState extends State<Today> {
           SizedBox(height: 5.0),
           buildCountRow(),
           buildDueRow(),
+          tipWidget,
         ],
       ),
     );
@@ -190,14 +193,14 @@ class _TodayState extends State<Today> {
 
   buildCountRow() {
     return Container(
-      padding: EdgeInsets.only(left: 25.0, right: 25.0),
+      padding: EdgeInsets.only(left: 15.0, right: 15.0),
       height: 90.0,
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.lightGreen[100].withOpacity(0.7),
           borderRadius: BorderRadius.all(
-            Radius.circular(25.0),
+            Radius.circular(15.0),
           ),
         ),
         child: Row(
@@ -286,14 +289,14 @@ class _TodayState extends State<Today> {
   buildDueRow() {
     return Container(
       margin: EdgeInsets.only(top: 10.0),
-      padding: EdgeInsets.only(left: 25.0, right: 25.0),
+      padding: EdgeInsets.only(left: 15.0, right: 15.0),
       height: 70.0,
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
           color: Colors.lightGreen[100],
           borderRadius: BorderRadius.all(
-            Radius.circular(25.0),
+            Radius.circular(15.0),
           ),
         ),
         child: Column(
