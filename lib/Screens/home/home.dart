@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/services/databaseService.dart';
-import 'package:pregnancy_tracking_app/Screens/baby.dart';
-import 'package:pregnancy_tracking_app/Screens/mother.dart';
-import 'package:pregnancy_tracking_app/Screens/today.dart';
+import 'package:pregnancy_tracking_app/Screens/todayScreen/todayScreen.dart';
+import 'package:pregnancy_tracking_app/Screens/babyScreen/baby.dart';
+import 'package:pregnancy_tracking_app/Screens/motherScreen/mother.dart';
+import 'package:pregnancy_tracking_app/Screens/tipsScreen/tipsScreen.dart';
 import 'package:pregnancy_tracking_app/Screens/more.dart';
 
 class Home extends StatefulWidget {
@@ -21,8 +22,13 @@ class _HomeState extends State<Home> {
   Stream userStream;
   User currentUser = User();
 
-  List<Widget> _currentBody() =>
-      [Today(currentUser), Baby(currentUser), Mother(currentUser), More()];
+  List<Widget> _currentBody() => [
+        TodayScreen(currentUser),
+        Baby(currentUser),
+        Mother(currentUser),
+        TipsScreen(currentUser),
+        More(currentUser)
+      ];
 
   @override
   void initState() {
@@ -61,31 +67,7 @@ class _HomeState extends State<Home> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text(
-                                getTitle(_currentIndex),
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.w200,
-                                  color: Colors.teal[900],
-                                ),
-                              ),
-                              Text(
-                                (currentUserSnap.hasData)
-                                    ? (_currentIndex == 0)
-                                        ? this.currentUser.name.split(" ")[0]
-                                        : 'Development'
-                                    : '',
-                                style: TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.teal[900],
-                                ),
-                              ),
-                            ],
-                          ),
+                          getTitle(_currentIndex),
                           Container(
                             height: 40,
                             width: 40,
@@ -170,6 +152,21 @@ class _HomeState extends State<Home> {
                   BubbleBottomBarItem(
                     backgroundColor: Colors.green[100],
                     icon: Icon(
+                      Icons.view_agenda,
+                      color: Colors.green[100],
+                    ),
+                    activeIcon: Icon(
+                      Icons.view_agenda,
+                      color: Colors.white,
+                    ),
+                    title: Text(
+                      "Tips",
+                      style: TextStyle(color: Colors.white, fontSize: 16.0),
+                    ),
+                  ),
+                  BubbleBottomBarItem(
+                    backgroundColor: Colors.green[100],
+                    icon: Icon(
                       Icons.more_horiz,
                       color: Colors.green[100],
                     ),
@@ -193,23 +190,53 @@ class _HomeState extends State<Home> {
     );
   }
 
-  String getTitle(currentIndex) {
-    String title;
+  Column getTitle(currentIndex) {
+    String title1;
+    String title2;
     switch (currentIndex) {
       case 0:
-        title = 'Good Mornning';
+        title1 = 'Good Mornning';
+        title2 = this.currentUser.name.split(" ")[0];
         break;
       case 1:
-        title = 'Baby`s';
+        title1 = 'Baby`s';
+        title2 = 'Development';
         break;
       case 2:
-        title = 'Mother`s';
+        title1 = 'Mother`s';
+        title2 = 'Development';
         break;
       case 3:
-        title = 'More';
+        title1 = 'Tips';
+        title2 = '';
+        break;
+      case 4:
+        title1 = 'More';
+        title2 = '';
         break;
       default:
     }
-    return title;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          title1,
+          style: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w200,
+            color: Colors.teal[900],
+          ),
+        ),
+        Text(
+          title2,
+          style: TextStyle(
+            fontSize: 14.0,
+            fontWeight: FontWeight.w400,
+            color: Colors.teal[900],
+          ),
+        ),
+      ],
+    );
   }
 }

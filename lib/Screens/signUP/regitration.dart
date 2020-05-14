@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'package:pregnancy_tracking_app/Screens/slider.dart';
+import 'package:pregnancy_tracking_app/Screens/signUP/slider.dart';
 import 'package:pregnancy_tracking_app/services/databaseService.dart';
 
 class Registration extends StatefulWidget {

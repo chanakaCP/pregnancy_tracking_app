@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'package:pregnancy_tracking_app/Screens/mobileVerf.dart';
+import 'package:pregnancy_tracking_app/Screens/signUP/mobileVerf.dart';
 import 'package:pregnancy_tracking_app/shared/shared.dart';
 
 class SignUp extends StatefulWidget {

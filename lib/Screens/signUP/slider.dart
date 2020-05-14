@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pregnancy_tracking_app/Screens/sliderControl.dart';
+import 'package:pregnancy_tracking_app/Screens/signUP/sliderControl.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'package:pregnancy_tracking_app/Screens/home.dart';
+import 'package:pregnancy_tracking_app/Screens/home/home.dart';
 
 class SliderPage extends StatefulWidget {
   User loginUser;
