@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import '../Screens/regitration.dart';
-import '../Screens/home.dart';
+import '../Screens/signUP/regitration.dart';
+import '../Screens/home/home.dart';
 import '../models/user.dart';
 import '../shared/shared.dart';
 
@@ -29,10 +29,8 @@ class AuthService {
       verificationId = verId;
     };
 
-    final PhoneVerificationCompleted verifiedSuccess =
-        (AuthCredential credential) async {
-      AuthResult result =
-          await FirebaseAuth.instance.signInWithCredential(credential);
+    final PhoneVerificationCompleted verifiedSuccess = (AuthCredential credential) async {
+      AuthResult result = await FirebaseAuth.instance.signInWithCredential(credential);
       FirebaseUser user = result.user;
       loginUser.userId = user.uid;
       Navigator.pop(context);
@@ -67,8 +65,8 @@ class AuthService {
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
 
-      AuthCredential authCredential = PhoneAuthProvider.getCredential(
-          verificationId: verificationId, smsCode: smsCode);
+      AuthCredential authCredential =
+          PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
       AuthResult result = await auth.signInWithCredential(authCredential);
       FirebaseUser user = result.user;
       loginUser.userId = user.uid;

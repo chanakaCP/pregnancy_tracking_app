@@ -124,19 +124,20 @@ class _WelcomePageState extends State<WelcomePage> {
 
   buildTagLine() {
     return Container(
-        height: 60.0,
-        width: double.infinity,
-        child: Column(
-          children: <Widget>[
-            Text(
-              "Kuwa mama bora,",
-              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
-            ),
-            Text(
-              "Toka siku ya kwanza.",
-              style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
-            ),
-          ],
-        ));
+      height: 60.0,
+      width: double.infinity,
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Kuwa mama bora,",
+            style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
+          ),
+          Text(
+            "Toka siku ya kwanza.",
+            style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w300),
+          ),
+        ],
+      ),
+    );
   }
 }
