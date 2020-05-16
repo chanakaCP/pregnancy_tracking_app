@@ -1,31 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:pregnancy_tracking_app/Screens/motherScreen/motherScreen.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/services/databaseService.dart';
 import 'package:pregnancy_tracking_app/Screens/todayScreen/todayScreen.dart';
-import 'package:pregnancy_tracking_app/Screens/babyScreen/baby.dart';
-import 'package:pregnancy_tracking_app/Screens/motherScreen/mother.dart';
+import 'package:pregnancy_tracking_app/Screens/babyScreen/babyScreen.dart';
 import 'package:pregnancy_tracking_app/Screens/tipsScreen/tipsScreen.dart';
 import 'package:pregnancy_tracking_app/Screens/more.dart';
+import 'package:pregnancy_tracking_app/shared/greetings.dart';
 
-class Home extends StatefulWidget {
+class HomeScreen extends StatefulWidget {
   String userId;
-  Home(this.userId);
+  HomeScreen(this.userId);
 
   @override
-  _HomeState createState() => _HomeState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeScreenState extends State<HomeScreen> {
   DatabaseService _databaseService = DatabaseService();
   int _currentIndex;
   Stream userStream;
   User currentUser = User();
+  Greetings greeting = Greetings();
 
   List<Widget> _currentBody() => [
         TodayScreen(currentUser),
-        Baby(currentUser),
-        Mother(currentUser),
+        BabyScreen(currentUser),
+        MotherScreen(currentUser),
         TipsScreen(currentUser),
         More(currentUser)
       ];
@@ -35,6 +37,7 @@ class _HomeState extends State<Home> {
     super.initState();
     userStream = _databaseService.getUser(this.widget.userId);
     _currentIndex = 0;
+    greeting.welcomeGreetings();
   }
 
   void changePage(int index) {
@@ -195,7 +198,7 @@ class _HomeState extends State<Home> {
     String title2;
     switch (currentIndex) {
       case 0:
-        title1 = 'Good Mornning';
+        title1 = greeting.welcomeGreetings();
         title2 = this.currentUser.name.split(" ")[0];
         break;
       case 1:
@@ -208,7 +211,7 @@ class _HomeState extends State<Home> {
         break;
       case 3:
         title1 = 'Tips';
-        title2 = '';
+        title2 = 'Get more knowledge';
         break;
       case 4:
         title1 = 'More';

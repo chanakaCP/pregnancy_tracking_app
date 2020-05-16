@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:indexed_list_view/indexed_list_view.dart';
 import 'dart:math';
 
-class Loader extends StatefulWidget {
+class LoaderScreen extends StatefulWidget {
   @override
-  _LoaderState createState() => _LoaderState();
+  _LoaderScreenState createState() => _LoaderScreenState();
 }
 
-class _LoaderState extends State<Loader> {
-  static IndexedScrollController controller =
-      IndexedScrollController(initialIndex: 75);
+class _LoaderScreenState extends State<LoaderScreen> {
+  static IndexedScrollController controller = IndexedScrollController(initialIndex: 75);
 
   @override
   Widget build(BuildContext context) {
@@ -35,20 +34,16 @@ class _LoaderState extends State<Loader> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    button(
-                        "jumpToIndex(-42)", () => controller.jumpToIndex(-42)),
-                    button("jumpToIndex(750000)",
-                        () => controller.jumpToIndex(750000)),
+                    button("jumpToIndex(-42)", () => controller.jumpToIndex(-42)),
+                    button("jumpToIndex(750000)", () => controller.jumpToIndex(750000)),
                   ],
                 ),
                 // ---
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    button("animateToIndex(-42)",
-                        () => controller.animateToIndex(-42)),
-                    button("animateToIndex(750000)",
-                        () => controller.animateToIndex(750000)),
+                    button("animateToIndex(-42)", () => controller.animateToIndex(-42)),
+                    button("animateToIndex(750000)", () => controller.animateToIndex(750000)),
                   ],
                 ),
                 // ---
@@ -72,20 +67,16 @@ class _LoaderState extends State<Loader> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    button("jumpToRelative(-250)",
-                        () => controller.jumpToRelative(-250)),
-                    button("jumpToRelative(40)",
-                        () => controller.jumpToRelative(40)),
+                    button("jumpToRelative(-250)", () => controller.jumpToRelative(-250)),
+                    button("jumpToRelative(40)", () => controller.jumpToRelative(40)),
                   ],
                 ),
                 // ---
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    button("animateToRelative(-250)",
-                        () => controller.animateToRelative(-250)),
-                    button("animateToRelative(40)",
-                        () => controller.animateToRelative(40)),
+                    button("animateToRelative(-250)", () => controller.animateToRelative(-250)),
+                    button("animateToRelative(40)", () => controller.animateToRelative(40)),
                   ],
                 ),
               ],
@@ -110,8 +101,8 @@ class _LoaderState extends State<Loader> {
 
   Function itemBuilder() {
     //
-    final List<double> heights = new List<double>.generate(
-        527, (i) => Random().nextInt(200).toDouble() + 30.0);
+    final List<double> heights =
+        new List<double>.generate(527, (i) => Random().nextInt(200).toDouble() + 30.0);
 
     return (BuildContext context, int index) {
       //

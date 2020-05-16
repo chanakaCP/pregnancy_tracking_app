@@ -4,16 +4,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../Screens/signUP/regitration.dart';
-import '../Screens/home/home.dart';
+import '../Screens/home/homeScreen.dart';
 import '../models/user.dart';
-import '../shared/shared.dart';
+import '../shared/timeCalculate.dart';
 
 class AuthService {
   String phoneNo;
   String verificationId;
   String status;
   User loginUser;
-  Shared shared = Shared();
+  TimeCalculate time = TimeCalculate();
   final firestoreInstance = Firestore.instance;
 
   Future<void> verifyPhone(User loginUser, BuildContext context) async {
@@ -112,7 +112,7 @@ class AuthService {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => Home(user.uid),
+        builder: (context) => HomeScreen(user.uid),
       ),
     );
   }

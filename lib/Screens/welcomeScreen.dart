@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/services/authService.dart';
 
-class WelcomePage extends StatefulWidget {
+class WelcomeScreen extends StatefulWidget {
   @override
-  _WelcomePageState createState() => _WelcomePageState();
+  _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   AuthService _authService = AuthService();
   bool isSignIn = true;
   @override

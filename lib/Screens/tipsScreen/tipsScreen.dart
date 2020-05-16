@@ -1,166 +1,102 @@
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/Screens/tipsScreen/topicScreen.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 
 class TipsScreen extends StatefulWidget {
   User currentUser = new User();
   TipsScreen(this.currentUser);
+
   @override
   _TipsScreenState createState() => _TipsScreenState();
 }
 
 class _TipsScreenState extends State<TipsScreen> {
-  String text1 =
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).";
-  String text2 =
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.";
+  List<String> tipsList = new List();
+  @override
+  void initState() {
+    tipsList.add("Pregnancy symptoms you should never ignore");
+    tipsList.add("how big is your baby ?");
+    tipsList.add("Pregnancy meal planners");
+    tipsList.add("Pregnancy scans");
+    tipsList.add("Find the right formula milk");
+    tipsList.add("When can your baby sleep through ?");
+    tipsList.add("Moving from a cot to a bed");
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        SizedBox(height: 10.0),
-        Divider(
-          color: Colors.black45,
-          indent: 15.0,
-          endIndent: 15.0,
-        ),
         Container(
-          margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0),
-          child: ExpandableTheme(
-            data: ExpandableThemeData(
-              useInkWell: true,
-              animationDuration: const Duration(milliseconds: 500),
-              hasIcon: false,
-              tapBodyToCollapse: true,
-              tapHeaderToExpand: true,
-              crossFadePoint: 0.5,
-              tapBodyToExpand: true,
-            ),
-            child: ExpandablePanel(
-              header: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Week 5",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10.0, top: 10.0),
-                    height: 150.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.4),
-                          spreadRadius: 3,
-                          blurRadius: 10,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      image: DecorationImage(
-                        image: AssetImage("images/women.jpg"),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                  ),
-                ],
-              ),
-              collapsed: Column(
-                children: <Widget>[
-                  Text(
-                    text1,
-                    style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300),
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                  ),
-                ],
-              ),
-              expanded: Text(
-                text1,
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300),
-                softWrap: true,
-              ),
-            ),
-          ),
-        ),
-        SizedBox(height: 10.0),
-        Divider(
-          color: Colors.black45,
-          indent: 15.0,
-          endIndent: 15.0,
-        ),
-        Container(
-          margin: EdgeInsets.only(left: 15.0, right: 15.0, top: 5.0),
-          child: ExpandableTheme(
-            data: ExpandableThemeData(
-              useInkWell: true,
-              animationDuration: const Duration(milliseconds: 500),
-              hasIcon: false,
-              tapBodyToCollapse: true,
-              tapHeaderToExpand: true,
-              crossFadePoint: 0.5,
-              tapBodyToExpand: true,
-            ),
-            child: ExpandablePanel(
-              header: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    "Week 4",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w400,
-                      fontSize: 18.0,
-                      color: Colors.black,
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 10.0, top: 10.0),
-                    height: 150.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.4),
-                          spreadRadius: 3,
-                          blurRadius: 10,
-                          offset: Offset(0, 3),
-                        ),
-                      ],
-                      image: DecorationImage(
-                        image: AssetImage("images/profile.jpg"),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: BorderRadius.all(Radius.circular(5)),
-                    ),
-                  ),
-                ],
-              ),
-              collapsed: Column(
-                children: <Widget>[
-                  Text(
-                    text2,
-                    style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300),
-                    maxLines: 5,
-                    overflow: TextOverflow.ellipsis,
-                    softWrap: true,
-                  ),
-                ],
-              ),
-              expanded: Text(
-                text2,
-                style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w300),
-                softWrap: true,
-              ),
-            ),
+          width: double.infinity,
+          height: MediaQuery.of(context).size.height - MediaQuery.of(context).size.height * 0.22,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: tipsList.length,
+            itemBuilder: (context, position) {
+              return buildListItem(tipsList[position]);
+            },
           ),
         ),
       ],
+    );
+  }
+
+  buildListItem(String title) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 6.0, horizontal: 18.0),
+      width: double.infinity,
+      child: Container(
+        padding: EdgeInsets.only(left: 20.0, right: 10.0, top: 17.0, bottom: 17.0),
+        decoration: BoxDecoration(
+          color: Colors.lightGreen[100].withOpacity(0.7),
+          borderRadius: BorderRadius.all(
+            Radius.circular(15.0),
+          ),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              width: 250.0,
+              child: Text(
+                title,
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontWeight: FontWeight.w300,
+                  fontSize: 18.0,
+                  color: Colors.black54,
+                ),
+              ),
+            ),
+            InkWell(
+              child: Container(
+                margin: EdgeInsets.only(right: 1.0),
+                padding: EdgeInsets.all(5.0),
+                decoration: BoxDecoration(
+                  color: Colors.green[200].withOpacity(0.4),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(25.0),
+                  ),
+                ),
+                child: Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.black26,
+                ),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TopicScreen(this.widget.currentUser, title),
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

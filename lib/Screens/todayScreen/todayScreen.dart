@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'package:pregnancy_tracking_app/shared/shared.dart';
 import 'package:intl/intl.dart';
 
 class TodayScreen extends StatefulWidget {
@@ -13,7 +12,6 @@ class TodayScreen extends StatefulWidget {
 }
 
 class _TodayScreenState extends State<TodayScreen> {
-  Shared shared = Shared();
   Pregnancy pregnancy = Pregnancy();
   // int _selectedIndex;
 

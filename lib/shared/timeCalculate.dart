@@ -1,4 +1,4 @@
-class Shared {
+class TimeCalculate {
   setMobileNumber(String phoneNumber) {
     phoneNumber = "+94" + phoneNumber;
     return phoneNumber;

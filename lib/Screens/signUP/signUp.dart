@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/Screens/signUP/mobileVerf.dart';
-import 'package:pregnancy_tracking_app/shared/shared.dart';
+import 'package:pregnancy_tracking_app/shared/timeCalculate.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -11,7 +11,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
   User loginUser = User();
-  Shared shared = Shared();
+  TimeCalculate shared = TimeCalculate();
 
   String phoneNumber;
 

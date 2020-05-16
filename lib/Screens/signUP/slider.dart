@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/Screens/signUP/sliderControl.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'package:pregnancy_tracking_app/Screens/home/home.dart';
+import 'package:pregnancy_tracking_app/Screens/home/homeScreen.dart';
 
 class SliderPage extends StatefulWidget {
   User loginUser;
@@ -73,7 +73,7 @@ class _SliderPageState extends State<SliderPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Home(this.widget.loginUser.userId),
+                        builder: (context) => HomeScreen(this.widget.loginUser.userId),
                       ),
                     );
                   },
@@ -169,7 +169,7 @@ class _SliderPageState extends State<SliderPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => Home(this.widget.loginUser.userId),
+                                builder: (context) => HomeScreen(this.widget.loginUser.userId),
                               ),
                             );
                           } else {
