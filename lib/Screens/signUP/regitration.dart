@@ -174,9 +174,10 @@ class _RegistrationState extends State<Registration> {
                                           }
                                         }(),
                                         style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.w400,
-                                            color: Colors.black54),
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black54,
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -194,39 +195,39 @@ class _RegistrationState extends State<Registration> {
                           height: 45.0,
                           width: double.infinity,
                           child: FlatButton(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50.0),
-                                side: BorderSide(color: Colors.green[400]),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                              side: BorderSide(color: Colors.green[400]),
+                            ),
+                            color: Colors.green[400],
+                            textColor: Colors.white,
+                            splashColor: Colors.green[200],
+                            child: Text(
+                              "SignUp",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w400,
                               ),
-                              color: Colors.green[400],
-                              textColor: Colors.white,
-                              splashColor: Colors.green[200],
-                              child: Text(
-                                "SignUp",
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                              onPressed: () {
-                                if (!_isDateSelect) {
-                                  setState(() {
-                                    _errorText = 'Please enter last period date';
-                                  });
-                                } else {
-                                  this.widget.loginUser.name = this.userName;
-                                  this.widget.loginUser.age = this.age;
-                                  this.widget.loginUser.lastPeriodDate = this.pickedDate;
-                                  this._databaseService.createUser(this.widget.loginUser);
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => SliderPage(this.widget.loginUser),
-                                    ),
-                                  );
-                                }
-                              }),
+                            ),
+                            onPressed: () {
+                              if (!_isDateSelect) {
+                                setState(() {
+                                  _errorText = 'Please enter last period date';
+                                });
+                              } else {
+                                this.widget.loginUser.name = this.userName;
+                                this.widget.loginUser.age = this.age;
+                                this.widget.loginUser.lastPeriodDate = this.pickedDate;
+                                this._databaseService.createUser(this.widget.loginUser);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SliderPage(this.widget.loginUser),
+                                  ),
+                                );
+                              }
+                            },
+                          ),
                         ),
                         SizedBox(height: 13.0),
                         Row(

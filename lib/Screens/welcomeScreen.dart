@@ -18,7 +18,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           isSignIn = false;
         } else {
           isSignIn = true;
-          _authService.signIn(context, user);
+          Future.delayed(const Duration(seconds: 5), () {
+            _authService.signIn(context, user);
+          });
         }
       });
     });

@@ -84,22 +84,10 @@ class AuthService {
     }
   }
 
-  handleError(PlatformException error, BuildContext context) {
-    switch (error.code) {
-      case 'ERROR_INVALID_VERIFICATION_CODE':
-        FocusScope.of(context).requestFocus(new FocusNode());
-        status = 'Invalid Code';
-        break;
-      default:
-        status = error.message;
-        break;
-    }
-  }
-
   signOut(BuildContext context) async {
     await FirebaseAuth.instance.signOut();
     Navigator.pop(context);
-    Navigator.pushNamed(context, '/welcomePage');
+    Navigator.pushReplacementNamed(context, '/welcomePage');
   }
 
   Future<FirebaseUser> checkSignIn() async {
@@ -116,4 +104,17 @@ class AuthService {
       ),
     );
   }
+
+  handleError(PlatformException error, BuildContext context) {
+    switch (error.code) {
+      case 'ERROR_INVALID_VERIFICATION_CODE':
+        FocusScope.of(context).requestFocus(new FocusNode());
+        status = 'Invalid Code';
+        break;
+      default:
+        status = error.message;
+        break;
+    }
+  }
+
 }
