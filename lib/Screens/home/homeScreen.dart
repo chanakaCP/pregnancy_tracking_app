@@ -6,7 +6,7 @@ import 'package:pregnancy_tracking_app/services/databaseService.dart';
 import 'package:pregnancy_tracking_app/Screens/todayScreen/todayScreen.dart';
 import 'package:pregnancy_tracking_app/Screens/babyScreen/babyScreen.dart';
 import 'package:pregnancy_tracking_app/Screens/tipsScreen/tipsScreen.dart';
-import 'package:pregnancy_tracking_app/Screens/more.dart';
+import 'package:pregnancy_tracking_app/Screens/profile/profileScreen.dart';
 import 'package:pregnancy_tracking_app/shared/greetings.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         BabyScreen(currentUser),
         MotherScreen(currentUser),
         TipsScreen(currentUser),
-        More(currentUser)
+        ProfileScreen(currentUser)
       ];
 
   @override
@@ -71,23 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           getTitle(_currentIndex),
-                          Container(
-                            height: 40,
-                            width: 40,
-                            decoration: BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1,
-                                  blurRadius: 5,
-                                ),
-                              ],
-                              borderRadius: BorderRadius.all(Radius.circular(100)),
-                            ),
-                            child: CircleAvatar(
-                              backgroundImage: AssetImage("images/profile.jpg"),
-                            ),
-                          ),
+                          getUserProfileIcon(_currentIndex),
                         ],
                       ),
                     ),
@@ -170,15 +154,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   BubbleBottomBarItem(
                     backgroundColor: Colors.green[100],
                     icon: Icon(
-                      Icons.more_horiz,
+                      Icons.person_outline,
                       color: Colors.green[100],
                     ),
                     activeIcon: Icon(
-                      Icons.more_horiz,
+                      Icons.person_outline,
                       color: Colors.white,
                     ),
                     title: Text(
-                      "More",
+                      "Profile",
                       style: TextStyle(color: Colors.white, fontSize: 16.0),
                     ),
                   ),
@@ -214,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title2 = 'Get more knowledge';
         break;
       case 4:
-        title1 = 'More';
+        title1 = 'Profile';
         title2 = '';
         break;
       default:
@@ -240,6 +224,26 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  getUserProfileIcon(int currentIndex) {
+    return Container(
+      height: 40,
+      width: 40,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 1,
+            blurRadius: 5,
+          ),
+        ],
+        borderRadius: BorderRadius.all(Radius.circular(100)),
+      ),
+      child: CircleAvatar(
+        backgroundImage: AssetImage("images/profile.jpg"),
+      ),
     );
   }
 }

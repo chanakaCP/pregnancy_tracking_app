@@ -8,8 +8,8 @@ class TimeCalculate {
     return dateFrom.difference(dateTo).inDays;
   }
 
-  countWeeks(DateTime date) {
-    int dates = DateTime.now().difference(date).inDays;
+  countWeeks(DateTime dateFrom, DateTime dateTo) {
+    int dates = dateFrom.difference(dateTo).inDays;
     int weeks;
     if (dates % 7 == 0) {
       weeks = (dates / 7).toInt();
@@ -19,8 +19,8 @@ class TimeCalculate {
     return weeks;
   }
 
-  countMonths(DateTime date) {
-    int dates = DateTime.now().difference(date).inDays;
+  countMonths(DateTime dateFrom, DateTime dateTo) {
+    int dates = dateFrom.difference(dateTo).inDays;
     int months;
     if (dates % 30 == 0) {
       months = (dates / 30).toInt();

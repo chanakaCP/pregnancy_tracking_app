@@ -11,8 +11,9 @@ class Pregnancy {
   updateValue(User currentUser) {
     TimeCalculate time = TimeCalculate();
     days = time.countDates(DateTime.now(), currentUser.lastPeriodDate);
-    weeks = time.countWeeks(currentUser.lastPeriodDate);
-    months = time.countMonths(currentUser.lastPeriodDate);
+    weeks = time.countWeeks(DateTime.now(), currentUser.lastPeriodDate);
+    months = time.countMonths(DateTime.now(), currentUser.lastPeriodDate);
     dueDays = time.countDates(currentUser.dueDate, DateTime.now().add(Duration(days: -1)));
+    dueWeeks = time.countWeeks(currentUser.dueDate, DateTime.now().add(Duration(days: -1)));
   }
 }

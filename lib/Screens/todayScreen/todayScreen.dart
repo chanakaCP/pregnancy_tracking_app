@@ -149,7 +149,7 @@ class _TodayScreenState extends State<TodayScreen> {
                 style: TextStyle(fontWeight: FontWeight.w300),
               ),
               TextSpan(
-                text: (pregnancy.days >= 7) ? (pregnancy.days / 7).round().toString() : '',
+                text: (pregnancy.days >= 7) ? (pregnancy.days / 7).toInt().toString() : '',
                 style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
               ),
               TextSpan(
@@ -326,7 +326,7 @@ class _TodayScreenState extends State<TodayScreen> {
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
                           fontSize: 20.0,
-                          color: Colors.black45,
+                          color: Colors.black54,
                         ),
                       ),
                     ],

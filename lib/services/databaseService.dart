@@ -8,17 +8,19 @@ class DatabaseService {
   Map<dynamic, dynamic> currnetUser;
 
   createUser(User user) async {
-    await firestoreInstance.collection('users').document(user.userId).setData({
-      'userId': user.userId,
-      'phoneNumber': user.mobileNumber,
-      'name': user.name,
-      'age': user.age,
-      'lastPeriodDate': user.lastPeriodDate,
-      'dueDate': user.lastPeriodDate.add(Duration(days: 280)),
-    }, merge: true);
+    await firestoreInstance.collection('users').document(user.userId).setData(
+      {
+        'userId': user.userId,
+        'phoneNumber': user.mobileNumber,
+        'name': user.name,
+        'age': user.age,
+        'lastPeriodDate': user.lastPeriodDate,
+        'dueDate': user.lastPeriodDate.add(Duration(days: 280)),
+      },
+      merge: true,
+    );
   }
 
-// date = value.data['lastPeriodDate'].toDate();
   Stream<dynamic> getUser(String userId) {
     return firestoreInstance.collection('users').document(userId).snapshots();
   }

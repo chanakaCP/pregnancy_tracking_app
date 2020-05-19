@@ -2,19 +2,17 @@ import 'package:intl/intl.dart';
 
 class Greetings {
   String welcomeGreetings() {
-    DateTime mTime = DateTime(00, 00);
-    DateTime lTime = DateTime(12, 00);
-    DateTime eTime = DateTime(18, 00);
+    int lTime = 12;
+    int eTime = 18;
     DateTime current = DateTime.now();
     String greeting;
-    if (current.isAfter(eTime)) {
+    if (current.hour > eTime) {
       greeting = "Good Evening";
-    } else if (current.isBefore(lTime)) {
+    } else if (current.hour > lTime) {
       greeting = "Good Afternoon";
     } else {
       greeting = "Good Morning";
     }
-    print(greeting);
     return greeting;
   }
 }

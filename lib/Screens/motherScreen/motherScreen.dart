@@ -33,7 +33,6 @@ class _MotherScreenState extends State<MotherScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.lightGreen[00],
       width: double.infinity,
       child: Column(
         children: <Widget>[
@@ -106,12 +105,14 @@ class _MotherScreenState extends State<MotherScreen> {
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    Text("Month",
-                                        style: TextStyle(
-                                          color: Colors.black87,
-                                          fontSize: 8.0,
-                                          fontWeight: FontWeight.w500,
-                                        )),
+                                    Text(
+                                      "Month",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontSize: 8.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
