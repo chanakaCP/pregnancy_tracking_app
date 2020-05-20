@@ -59,7 +59,7 @@ class _MotherScreenState extends State<MotherScreen> {
             ),
           ),
           SizedBox(height: 10.0),
-          TipContainer(text1),
+          TipContainer("fromMom", pregnancy, text1),
           SizedBox(height: 10.0),
         ],
       ),

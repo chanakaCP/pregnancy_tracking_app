@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/Screens/profile/update/updatePregCalculation.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
 
 class PregnancyCalculation extends StatefulWidget {
+  User currentUser = User();
+  PregnancyCalculation(this.currentUser);
   @override
   _PregnancyCalculationState createState() => _PregnancyCalculationState();
 }
@@ -46,7 +50,14 @@ class _PregnancyCalculationState extends State<PregnancyCalculation> {
                       Icons.edit,
                       size: 20.0,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return UpdatePregCalculation(this.widget.currentUser);
+                        },
+                      );
+                    },
                   ),
                 ),
               ],

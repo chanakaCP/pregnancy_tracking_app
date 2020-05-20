@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:pregnancy_tracking_app/Screens/profile/editDetails/editPersonalInfo.dart';
 import 'package:pregnancy_tracking_app/Screens/profile/paymentInfo.dart';
 import 'package:pregnancy_tracking_app/Screens/profile/pregCalculation.dart';
 import 'package:pregnancy_tracking_app/Screens/profile/pregInfo.dart';
+import 'package:pregnancy_tracking_app/Screens/profile/update/updatePersonalInfo.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/services/authService.dart';
 
@@ -23,7 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: <Widget>[
           buildPersonalInfo(),
           PregnancyInfo(this.widget.currentUser),
-          PregnancyCalculation(),
+          PregnancyCalculation(this.widget.currentUser),
           PaymentInfo(),
           buildLogoutButton(),
           SizedBox(height: 15.0),
@@ -75,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
-                          return EditPersonalInfo(this.widget.currentUser);
+                          return UpdatePersonalInfo(this.widget.currentUser);
                         },
                       );
                     },
@@ -105,27 +105,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 SizedBox(width: 15.0),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      this.widget.currentUser.name,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.black87),
-                    ),
-                    SizedBox(height: 3.0),
-                    Text(
-                      this.widget.currentUser.mobileNumber,
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.black87),
-                    ),
-                    SizedBox(height: 3.0),
-                    Text(
-                      this.widget.currentUser.age.toString() + " Years old",
-                      style: TextStyle(
-                          fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.black87),
-                    ),
-                  ],
+                Container(
+                  width: 150.0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        this.widget.currentUser.name,
+                        softWrap: true,
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.black87),
+                      ),
+                      SizedBox(height: 3.0),
+                      Text(
+                        this.widget.currentUser.mobileNumber,
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.black87),
+                      ),
+                      SizedBox(height: 3.0),
+                      Text(
+                        this.widget.currentUser.age.toString() + " Years old",
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.w300, color: Colors.black87),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

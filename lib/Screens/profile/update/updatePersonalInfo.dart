@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:pregnancy_tracking_app/Screens/signUP/mobileVerf.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 
-class EditPersonalInfo extends StatefulWidget {
+class UpdatePersonalInfo extends StatefulWidget {
   User currentUser = User();
-  EditPersonalInfo(this.currentUser);
+  UpdatePersonalInfo(this.currentUser);
   @override
-  _EditPersonalInfoState createState() => _EditPersonalInfoState();
+  _UpdatePersonalInfoState createState() => _UpdatePersonalInfoState();
 }
 
-class _EditPersonalInfoState extends State<EditPersonalInfo> {
+class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
   String userName;
   int age;
   @override

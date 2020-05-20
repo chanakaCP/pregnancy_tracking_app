@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/Screens/profile/update/updatePregInfo.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:intl/intl.dart';
-import 'package:pregnancy_tracking_app/Screens/profile/editDetails/editPersonalInfo.dart';
 
 class PregnancyInfo extends StatefulWidget {
   User currentUser = User();
@@ -60,7 +60,14 @@ class _PregnancyInfoState extends State<PregnancyInfo> {
                       Icons.edit,
                       size: 20.0,
                     ),
-                    onTap: () {},
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return UpdatePregInfo(this.widget.currentUser);
+                        },
+                      );
+                    },
                   ),
                 ),
               ],

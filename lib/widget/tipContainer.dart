@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 
 class TipContainer extends StatefulWidget {
+  String callFrom;
+  Pregnancy pregnancy;
   String description;
   String imageURL;
-  TipContainer(this.description);
+  TipContainer(this.callFrom, this.pregnancy, this.description);
   TipContainer.withImage(this.imageURL);
 
   @override
@@ -29,14 +32,7 @@ class _TipContainerState extends State<TipContainer> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Text(
-                  "Mother`s development ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 18.0,
-                    color: Colors.red[900],
-                  ),
-                ),
+                getCardTitle(this.widget.callFrom),
                 SizedBox(width: 20.0),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -50,7 +46,7 @@ class _TipContainerState extends State<TipContainer> {
                     text: TextSpan(
                       children: <TextSpan>[
                         TextSpan(
-                          text: "Month ",
+                          text: (this.widget.callFrom == "fromBaby") ? "Week " : "Month ",
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
                             fontSize: 16.0,
@@ -58,7 +54,9 @@ class _TipContainerState extends State<TipContainer> {
                           ),
                         ),
                         TextSpan(
-                          text: "2",
+                          text: (this.widget.callFrom == "fromBaby")
+                              ? this.widget.pregnancy.weeks.toString()
+                              : this.widget.pregnancy.months.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 22.0,
@@ -78,6 +76,27 @@ class _TipContainerState extends State<TipContainer> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  getCardTitle(String callFrom) {
+    String title;
+    switch (callFrom) {
+      case 'fromBaby':
+        title = "Baby`s Development ";
+        break;
+      case 'fromMom':
+        title = "Mother`s Development ";
+        break;
+      default:
+    }
+    return Text(
+      title,
+      style: TextStyle(
+        fontWeight: FontWeight.w300,
+        fontSize: 18.0,
+        color: Colors.red[900],
       ),
     );
   }

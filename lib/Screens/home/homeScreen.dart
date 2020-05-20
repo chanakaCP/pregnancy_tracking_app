@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
-import 'package:pregnancy_tracking_app/Screens/motherScreen/motherScreen.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/services/databaseService.dart';
-import 'package:pregnancy_tracking_app/Screens/todayScreen/todayScreen.dart';
-import 'package:pregnancy_tracking_app/Screens/babyScreen/babyScreen.dart';
-import 'package:pregnancy_tracking_app/Screens/tipsScreen/tipsScreen.dart';
+import 'package:pregnancy_tracking_app/Screens/today/todayScreen.dart';
+import 'package:pregnancy_tracking_app/Screens/baby/babyScreen.dart';
+import 'package:pregnancy_tracking_app/Screens/mother/motherScreen.dart';
+import 'package:pregnancy_tracking_app/Screens/tips/tipsScreen.dart';
 import 'package:pregnancy_tracking_app/Screens/profile/profileScreen.dart';
 import 'package:pregnancy_tracking_app/shared/greetings.dart';
 

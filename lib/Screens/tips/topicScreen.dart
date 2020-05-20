@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pregnancy_tracking_app/Screens/tipsScreen/subTopic.dart';
+import 'package:pregnancy_tracking_app/Screens/tips/subTopic.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 
 class TopicScreen extends StatefulWidget {

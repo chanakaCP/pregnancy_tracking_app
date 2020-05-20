@@ -131,7 +131,6 @@ class _SignUpState extends State<SignUp> {
                             onPressed: () {
                               if (_formKey.currentState.validate()) {
                                 this.loginUser.mobileNumber = shared.setMobileNumber(phoneNumber);
-                                print(this.loginUser.mobileNumber);
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(

@@ -164,7 +164,7 @@ class _RegistrationState extends State<Registration> {
                                       child: Text(
                                         () {
                                           if (!_isDateSelect) {
-                                            return 'Last period start date';
+                                            return "Start date of you'r last period ";
                                           } else {
                                             return pickedDate.year.toString() +
                                                 " - " +
@@ -272,14 +272,14 @@ class _RegistrationState extends State<Registration> {
     DateTime _date = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(DateTime.now().year - 1),
+      firstDate: DateTime(DateTime.now().month - 10),
       lastDate: DateTime.now(),
     );
     if (_date != null) {
       setState(() {
         _isDateSelect = true;
         _errorText = '';
-        pickedDate = _date.toUtc();
+        pickedDate = (_date.add(Duration(days: 1))).toUtc();
         print(pickedDate);
       });
     }

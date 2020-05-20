@@ -63,7 +63,7 @@ class _BabyScreenState extends State<BabyScreen> {
             SizedBox(height: 5.0),
             buildCountRow(),
             SizedBox(height: 15.0),
-            TipContainer(text1),
+            TipContainer("fromBaby", pregnancy, text1),
             SizedBox(height: 10.0)
           ],
         ),
