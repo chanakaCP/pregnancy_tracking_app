@@ -114,7 +114,7 @@ class _PregnancyCalculationState extends State<PregnancyCalculation> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
-                        "Blood Group",
+                        "Blood Count",
                         style: TextStyle(
                           color: Colors.black45,
                           fontSize: 16.0,
@@ -124,21 +124,21 @@ class _PregnancyCalculationState extends State<PregnancyCalculation> {
                       Row(
                         children: <Widget>[
                           Text(
-                            'AB',
+                            '9.5',
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 35.0,
                               fontWeight: FontWeight.w300,
                             ),
                           ),
-                          Text(
-                            '  +',
-                            style: TextStyle(
-                              color: Colors.black54,
-                              fontSize: 20.0,
-                              fontWeight: FontWeight.w300,
-                            ),
-                          ),
+                          // Text(
+                          //   '  +',
+                          //   style: TextStyle(
+                          //     color: Colors.black54,
+                          //     fontSize: 20.0,
+                          //     fontWeight: FontWeight.w300,
+                          //   ),
+                          // ),
                         ],
                       ),
                     ],

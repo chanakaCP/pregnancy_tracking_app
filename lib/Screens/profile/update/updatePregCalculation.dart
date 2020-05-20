@@ -37,6 +37,32 @@ class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
               Container(
                 child: TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue: this.weight.toString(),
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10.0),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.transparent),
+                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                    ),
+                    prefixIcon: Icon(Icons.person),
+                    hintText: "Wegiht",
+                    filled: true,
+                    fillColor: Colors.green.withOpacity(0.2),
+                    border: InputBorder.none,
+                  ),
+                  onChanged: (value) {
+                    this.weight = double.parse(value);
+                  },
+                ),
+              ),
+              SizedBox(height: 15.0),
+              Container(
+                child: TextFormField(
+                  keyboardType: TextInputType.number,
                   initialValue: this.bloodCount.toString(),
                   decoration: InputDecoration(
                     contentPadding: EdgeInsets.all(10.0),
@@ -63,32 +89,6 @@ class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
                   },
                   onChanged: (value) {
                     this.bloodCount = double.parse(value);
-                  },
-                ),
-              ),
-              SizedBox(height: 15.0),
-              Container(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  initialValue: this.weight.toString(),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10.0),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    ),
-                    prefixIcon: Icon(Icons.person),
-                    hintText: "Wegiht",
-                    filled: true,
-                    fillColor: Colors.green.withOpacity(0.2),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    this.weight = double.parse(value);
                   },
                 ),
               ),
