@@ -1,4 +1,4 @@
-import 'package:pregnancy_tracking_app/models/SubContent.dart';
+import 'package:pregnancy_tracking_app/models/subContent.dart';
 
 class Content {
   String contentId;
