@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/models/babyModel.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
+import 'package:pregnancy_tracking_app/services/userDatabaseService.dart';
 import 'package:pregnancy_tracking_app/widget/tipContainer.dart';
 
 class BabyScreen extends StatefulWidget {
@@ -15,59 +17,76 @@ class _BabyScreenState extends State<BabyScreen> {
   String text1 =
       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
   Pregnancy pregnancy = Pregnancy();
+  UserDatabaseService _userDatabaseService = UserDatabaseService();
   int _selectedIndex;
+  Stream babyWeekStram;
+  Baby babyWeek = Baby();
 
   @override
   void initState() {
     super.initState();
     pregnancy.updateValue(this.widget.currentUser);
     _selectedIndex = pregnancy.weeks;
+    babyWeekStram = _userDatabaseService.getBabyWeek(_selectedIndex);
   }
 
   _onDaySelected(int index) {
     setState(() {
       _selectedIndex = index;
+      babyWeekStram = _userDatabaseService.getBabyWeek(_selectedIndex);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        color: Colors.lightGreen[00],
-        width: double.infinity,
-        child: Column(
-          children: <Widget>[
-            buildWeekRow(),
-            SizedBox(height: 10.0),
-            Container(
-              margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-              height: 250.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    spreadRadius: 3,
-                    blurRadius: 10,
-                    offset: Offset(0, 3),
+    return StreamBuilder(
+      stream: babyWeekStram,
+      builder: (context, currentBabySnap) {
+        if (currentBabySnap.hasData && currentBabySnap.data.exists) {
+          this.babyWeek.size = currentBabySnap.data["size"];
+          this.babyWeek.weight = currentBabySnap.data["weight"];
+          this.babyWeek.imageURL = currentBabySnap.data["imageURL"];
+          this.babyWeek.tipDescription = currentBabySnap.data["tipDescription"];
+          this.babyWeek.week = currentBabySnap.data["week"];
+        }
+        return SingleChildScrollView(
+          child: Container(
+            color: Colors.lightGreen[00],
+            width: double.infinity,
+            child: Column(
+              children: <Widget>[
+                buildWeekRow(),
+                SizedBox(height: 10.0),
+                Container(
+                  margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
+                  height: 250.0,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.4),
+                        spreadRadius: 3,
+                        blurRadius: 10,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                    image: DecorationImage(
+                      image: AssetImage("images/week15.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
-                ],
-                image: DecorationImage(
-                  image: AssetImage("images/week15.jpg"),
-                  fit: BoxFit.cover,
                 ),
-                borderRadius: BorderRadius.all(Radius.circular(5)),
-              ),
+                SizedBox(height: 5.0),
+                buildCountRow(currentBabySnap),
+                SizedBox(height: 15.0),
+                TipContainer("fromBaby", pregnancy, currentBabySnap),
+                SizedBox(height: 10.0)
+              ],
             ),
-            SizedBox(height: 5.0),
-            buildCountRow(),
-            SizedBox(height: 15.0),
-            TipContainer("fromBaby", pregnancy, text1),
-            SizedBox(height: 10.0)
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
@@ -138,7 +157,7 @@ class _BabyScreenState extends State<BabyScreen> {
     );
   }
 
-  buildCountRow() {
+  buildCountRow(AsyncSnapshot<dynamic> currentBabySnap) {
     return Container(
       padding: EdgeInsets.only(left: 35.0, right: 35.0),
       height: 100.0,
@@ -157,7 +176,7 @@ class _BabyScreenState extends State<BabyScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  "Length",
+                  "Size",
                   style: TextStyle(
                     color: Colors.black54,
                     fontSize: 14.0,
@@ -165,7 +184,7 @@ class _BabyScreenState extends State<BabyScreen> {
                   ),
                 ),
                 Text(
-                  '5.4',
+                  currentBabySnap.data["size"].toString(),
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 35.0,
@@ -201,7 +220,7 @@ class _BabyScreenState extends State<BabyScreen> {
                   ),
                 ),
                 Text(
-                  '14',
+                  currentBabySnap.data["weight"].toString(),
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 35.0,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'package:pregnancy_tracking_app/widget/tipContainer.dart';
 
 class MotherScreen extends StatefulWidget {
   User currentUser = User();
@@ -59,7 +58,7 @@ class _MotherScreenState extends State<MotherScreen> {
             ),
           ),
           SizedBox(height: 10.0),
-          TipContainer("fromMom", pregnancy, text1),
+          // TipContainer("fromMom", pregnancy, text1),
           SizedBox(height: 10.0),
         ],
       ),

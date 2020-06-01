@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-
 class Greetings {
   String welcomeGreetings() {
     int lTime = 12;

@@ -19,10 +19,10 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   DatabaseService _databaseService = DatabaseService();
-  int _currentIndex;
-  Stream userStream;
   User currentUser = User();
   Greetings greeting = Greetings();
+  int _currentIndex;
+  Stream userStream;
 
   List<Widget> _currentBody() => [
         TodayScreen(currentUser),
@@ -37,7 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     userStream = _databaseService.getUser(this.widget.userId);
     _currentIndex = 0;
-    greeting.welcomeGreetings();
   }
 
   void changePage(int index) {
@@ -48,6 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    greeting.welcomeGreetings();
     final List<Widget> currentBody = _currentBody();
     return StreamBuilder(
       stream: userStream,
@@ -59,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
           this.currentUser.mobileNumber = currentUserSnap.data["phoneNumber"];
           this.currentUser.lastPeriodDate = currentUserSnap.data["lastPeriodDate"].toDate();
           this.currentUser.dueDate = currentUserSnap.data['dueDate'].toDate();
-
+          this.currentUser.profileImageURL = currentUserSnap.data["profileImage"];
           return SafeArea(
             child: Scaffold(
               body: SingleChildScrollView(
@@ -242,7 +242,9 @@ class _HomeScreenState extends State<HomeScreen> {
         borderRadius: BorderRadius.all(Radius.circular(100)),
       ),
       child: CircleAvatar(
-        backgroundImage: AssetImage("images/profile.jpg"),
+        backgroundImage: (currentUser.profileImageURL != null)
+            ? NetworkImage(currentUser.profileImageURL)
+            : AssetImage("images/profile.jpg"),
       ),
     );
   }
