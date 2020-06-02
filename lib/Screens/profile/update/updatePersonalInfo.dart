@@ -1,5 +1,9 @@
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/services/databaseService.dart';
+import 'package:path/path.dart' as Path;
 
 class UpdatePersonalInfo extends StatefulWidget {
   User currentUser = User();
@@ -9,12 +13,41 @@ class UpdatePersonalInfo extends StatefulWidget {
 }
 
 class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
+  String profileImageURL;
+  File _imageFile;
   String userName;
   int age;
+  DatabaseService _databaseService = DatabaseService();
+
+  Future getImage() async {
+    await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {
+      setState(() {
+        _imageFile = image;
+        profileImageURL = image.path;
+      });
+    });
+    print(profileImageURL);
+  }
+
+  clearImage() {
+    setState(() {
+      _imageFile = null;
+      profileImageURL = null;
+    });
+  }
+
+  @override
+  void initState() {
+    _imageFile = null;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     userName = this.widget.currentUser.name;
     age = this.widget.currentUser.age;
+    profileImageURL = this.widget.currentUser.profileImageURL;
+
     return AlertDialog(
       scrollable: true,
       backgroundColor: Colors.lightGreen[50],
@@ -46,9 +79,7 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
                     ],
                     borderRadius: BorderRadius.all(Radius.circular(100)),
                   ),
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage("images/profile.jpg"),
-                  ),
+                  child: CircleAvatar(backgroundImage: loadImage()),
                 ),
                 SizedBox(width: 15.0),
                 Column(
@@ -67,7 +98,9 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
                           size: 20.0,
                           color: Colors.green[800],
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          getImage();
+                        },
                       ),
                     ),
                     SizedBox(height: 10.0),
@@ -85,7 +118,9 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
                           size: 20.0,
                           color: Colors.green[800],
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          clearImage();
+                        },
                       ),
                     ),
                   ],
@@ -191,7 +226,22 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
                         fontWeight: FontWeight.w400,
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      this.widget.currentUser.name = this.userName;
+                      this.widget.currentUser.age = this.age;
+
+                      if (_imageFile != null) {
+                        String imagePath = "users/" +
+                            this.widget.currentUser.mobileNumber.toString() +
+                            "-" +
+                            Path.basename(_imageFile.path).toString();
+                        _databaseService.uploadImage(
+                            imagePath, _imageFile, this.widget.currentUser);
+                      } else {
+                        _databaseService.createUser(this.widget.currentUser);
+                      }
+                      Navigator.pop(context);
+                    },
                   ),
                 ),
               ],
@@ -200,5 +250,15 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
         ),
       ),
     );
+  }
+
+  loadImage() {
+    if (profileImageURL == null && _imageFile == null) {
+      return AssetImage("images/profile.jpg"); // load defaluld icon
+    } else if (_imageFile != null) {
+      return AssetImage(_imageFile.path); // load selected image
+    } else {
+      return AssetImage("images/profile.jpg"); // load from database
+    }
   }
 }
