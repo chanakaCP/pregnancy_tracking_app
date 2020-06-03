@@ -101,7 +101,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.all(Radius.circular(100)),
                   ),
                   child: CircleAvatar(
-                    backgroundImage: AssetImage("images/profile.jpg"),
+                    backgroundImage: (this.widget.currentUser.profileImageURL != null)
+                        ? NetworkImage(this.widget.currentUser.profileImageURL)
+                        : AssetImage("images/profile.jpg"),
                   ),
                 ),
                 SizedBox(width: 15.0),
