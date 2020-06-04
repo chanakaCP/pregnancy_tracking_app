@@ -164,7 +164,7 @@ class _RegistrationState extends State<Registration> {
                                       child: Text(
                                         () {
                                           if (!_isDateSelect) {
-                                            return "Start date of you'r last period ";
+                                            return "Last period start date";
                                           } else {
                                             return pickedDate.year.toString() +
                                                 " - " +
@@ -230,32 +230,32 @@ class _RegistrationState extends State<Registration> {
                           ),
                         ),
                         SizedBox(height: 13.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Already have an ccount ? ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, '/signIn');
-                              },
-                              child: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w200,
-                                  color: Colors.black54,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: <Widget>[
+                        //     Text(
+                        //       "Already have an ccount ? ",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.w300,
+                        //         color: Colors.black54,
+                        //       ),
+                        //     ),
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //         Navigator.pop(context);
+                        //         Navigator.pushNamed(context, '/signIn');
+                        //       },
+                        //       child: Text(
+                        //         "Sign In",
+                        //         style: TextStyle(
+                        //           fontWeight: FontWeight.w200,
+                        //           color: Colors.black54,
+                        //           fontStyle: FontStyle.italic,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),

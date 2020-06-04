@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import '../Screens/signUP/regitration.dart';
-import '../Screens/home/homeScreen.dart';
-import '../models/user.dart';
-import '../shared/timeCalculate.dart';
+import 'package:pregnancy_tracking_app/Screens/signUP/regitration.dart';
+import 'package:pregnancy_tracking_app/Screens/home/homeScreen.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/shared/timeCalculate.dart';
 
 class AuthService {
   String phoneNo;
@@ -97,12 +97,14 @@ class AuthService {
 
   signIn(BuildContext context, FirebaseUser user) {
     Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(user.uid),
-      ),
-    );
+    firestoreInstance.collection("users").document(user.uid).get().then((dataSnap) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(user.uid),
+        ),
+      );
+    });
   }
 
   handleError(PlatformException error, BuildContext context) {
@@ -116,5 +118,4 @@ class AuthService {
         break;
     }
   }
-
 }

@@ -144,32 +144,32 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         SizedBox(height: 13.0),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text(
-                              "Already have an ccount ? ",
-                              style: TextStyle(
-                                fontWeight: FontWeight.w300,
-                                color: Colors.black54,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context);
-                                Navigator.pushNamed(context, '/signIn');
-                              },
-                              child: Text(
-                                "Sign In",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w200,
-                                  color: Colors.black54,
-                                  fontStyle: FontStyle.italic,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.center,
+                        //   children: <Widget>[
+                        //     Text(
+                        //       "Already have an ccount ? ",
+                        //       style: TextStyle(
+                        //         fontWeight: FontWeight.w300,
+                        //         color: Colors.black54,
+                        //       ),
+                        //     ),
+                        //     GestureDetector(
+                        //       onTap: () {
+                        //         Navigator.pop(context);
+                        //         Navigator.pushNamed(context, '/signIn');
+                        //       },
+                        //       child: Text(
+                        //         "Sign In",
+                        //         style: TextStyle(
+                        //           fontWeight: FontWeight.w200,
+                        //           color: Colors.black54,
+                        //           fontStyle: FontStyle.italic,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
