@@ -84,7 +84,7 @@ class _PregnancyCalculationState extends State<PregnancyCalculation> {
                       Row(
                         children: <Widget>[
                           Text(
-                            '64',
+                            this.widget.currentUser.weight.toString(),
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 35.0,
@@ -124,21 +124,13 @@ class _PregnancyCalculationState extends State<PregnancyCalculation> {
                       Row(
                         children: <Widget>[
                           Text(
-                            '9.5',
+                            this.widget.currentUser.bloodCount.toString(),
                             style: TextStyle(
                               color: Colors.black54,
                               fontSize: 35.0,
                               fontWeight: FontWeight.w300,
                             ),
                           ),
-                          // Text(
-                          //   '  +',
-                          //   style: TextStyle(
-                          //     color: Colors.black54,
-                          //     fontSize: 20.0,
-                          //     fontWeight: FontWeight.w300,
-                          //   ),
-                          // ),
                         ],
                       ),
                     ],

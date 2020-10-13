@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/widget/tipContainer.dart';
 
 class MotherScreen extends StatefulWidget {
   User currentUser = User();
@@ -12,8 +13,9 @@ class MotherScreen extends StatefulWidget {
 
 class _MotherScreenState extends State<MotherScreen> {
   String text1 =
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
+      "During 3rd month of pregnancy, you might feel ready to share the news with family and friends. Think about who you want to tell, and how. Here are some of the fun ideas for pregnancy announcement to inspire both you & your partner. With a boost in your energy, and before your tummy becomes very big, your second trimester is a great time to get moving. ";
   Pregnancy pregnancy = Pregnancy();
+  Stream momWeekStram;
   int _selectedIndex;
 
   @override
@@ -51,14 +53,14 @@ class _MotherScreenState extends State<MotherScreen> {
                 ),
               ],
               image: DecorationImage(
-                image: AssetImage("images/month-2.jpeg"),
+                image: AssetImage("images/mm3.jpg"),
                 fit: BoxFit.cover,
               ),
               borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
           ),
           SizedBox(height: 10.0),
-          // TipContainer("fromMom", pregnancy, text1),
+          TipContainer("fromMom", pregnancy, text1),
           SizedBox(height: 10.0),
         ],
       ),

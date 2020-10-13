@@ -6,4 +6,6 @@ class User {
   int age;
   DateTime lastPeriodDate;
   DateTime dueDate;
+  double weight;
+  double bloodCount;
 }

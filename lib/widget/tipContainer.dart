@@ -4,8 +4,8 @@ import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 class TipContainer extends StatefulWidget {
   String callFrom;
   Pregnancy pregnancy;
-  AsyncSnapshot<dynamic> currentSnap;
-  TipContainer(this.callFrom, this.pregnancy, this.currentSnap);
+  String description;
+  TipContainer(this.callFrom, this.pregnancy, this.description);
 
   @override
   _TipContainerState createState() => _TipContainerState();
@@ -69,7 +69,7 @@ class _TipContainerState extends State<TipContainer> {
             ),
             SizedBox(height: 10.0),
             Text(
-              this.widget.currentSnap.data["tipDescription"],
+              this.widget.description,
               style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
             ),
           ],

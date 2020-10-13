@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/services/databaseService.dart';
 
 class UpdatePregInfo extends StatefulWidget {
   User currentUser = User();
@@ -10,6 +11,7 @@ class UpdatePregInfo extends StatefulWidget {
 
 class _UpdatePregInfoState extends State<UpdatePregInfo> {
   final _formKey = GlobalKey<FormState>();
+  DatabaseService _databaseService = DatabaseService();
   DateTime currentDueDate;
   DateTime lastPeriodDate;
   DateTime pickedDate;
@@ -144,7 +146,10 @@ class _UpdatePregInfoState extends State<UpdatePregInfo> {
                             _errorText = 'Please enter valid Date';
                           });
                         } else {
-                          // UPDATE FORM
+                          this.widget.currentUser.dueDate = this.pickedDate;
+                          this._databaseService.createUser(this.widget.currentUser);
+
+                          Navigator.pop(context);
                         }
                       },
                     ),
@@ -163,15 +168,15 @@ class _UpdatePregInfoState extends State<UpdatePregInfo> {
     DateTime _date = await showDatePicker(
       context: context,
       initialDate: curretnDueDate,
-      firstDate: lastPeriodDate,
-      lastDate: DateTime(currentDueDate.year, currentDueDate.month + 5, currentDueDate.day),
+      firstDate: DateTime(curretnDueDate.year, currentDueDate.month - 2, currentDueDate.day),
+      lastDate: DateTime(curretnDueDate.year, currentDueDate.month + 1, currentDueDate.day),
     );
+
     if (_date != null) {
       setState(() {
         _isDateSelect = true;
         _errorText = '';
-        pickedDate = (_date.add(Duration(days: 1))).toUtc();
-        print(pickedDate);
+        pickedDate = (_date.toUtc().toLocal());
       });
     }
   }

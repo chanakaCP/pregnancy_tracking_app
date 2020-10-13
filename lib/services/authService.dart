@@ -96,8 +96,8 @@ class AuthService {
   }
 
   signIn(BuildContext context, FirebaseUser user) {
-    Navigator.pop(context);
     firestoreInstance.collection("users").document(user.uid).get().then((dataSnap) {
+      Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(

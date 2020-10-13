@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/services/databaseService.dart';
 
 class UpdatePregCalculation extends StatefulWidget {
   User currentUser = User();
@@ -10,13 +11,14 @@ class UpdatePregCalculation extends StatefulWidget {
 
 class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
   final _formKey = GlobalKey<FormState>();
+  DatabaseService _databaseService = DatabaseService();
   double bloodCount;
   double weight;
 
   @override
   Widget build(BuildContext context) {
-    bloodCount = 9.5;
-    weight = 55.8;
+    weight = this.widget.currentUser.weight;
+    bloodCount = this.widget.currentUser.bloodCount;
     return AlertDialog(
       scrollable: true,
       backgroundColor: Colors.lightGreen[50],
@@ -57,6 +59,15 @@ class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
                   onChanged: (value) {
                     this.weight = double.parse(value);
                   },
+                  validator: (value) {
+                    if (double.tryParse(value) == null ||
+                        double.parse(value) < 15 ||
+                        double.parse(value) > 400) {
+                      return 'Invalid Weight';
+                    } else {
+                      return null;
+                    }
+                  },
                 ),
               ),
               SizedBox(height: 15.0),
@@ -81,7 +92,9 @@ class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
                     border: InputBorder.none,
                   ),
                   validator: (value) {
-                    if (double.parse(value) < 8.0 || double.parse(value) > 15.0) {
+                    if (double.tryParse(value) == null ||
+                        double.parse(value) < 8.0 ||
+                        double.parse(value) > 15.0) {
                       return "Invalid Blood count";
                     } else {
                       return null;
@@ -134,8 +147,11 @@ class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
                         ),
                       ),
                       onPressed: () {
+                        this.widget.currentUser.weight = this.weight;
+                        this.widget.currentUser.bloodCount = this.bloodCount;
                         if (_formKey.currentState.validate()) {
-                          //  SUBMIT FORM
+                          _databaseService.createUser(this.widget.currentUser);
+                          Navigator.pop(context);
                         }
                       },
                     ),

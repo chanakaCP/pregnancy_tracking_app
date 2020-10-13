@@ -7,4 +7,18 @@ class UserDatabaseService {
   Stream<dynamic> getBabyWeek(int week) {
     return firestoreInstance.collection("babyWeek").document("week" + week.toString()).snapshots();
   }
+
+  Stream<dynamic> getMomWeek(int week) {
+    return firestoreInstance
+        .collection("momsInWeek")
+        .document("week" + week.toString())
+        .snapshots();
+  }
+
+  Stream<dynamic> getMomMonth(int month) {
+    return firestoreInstance
+        .collection("momsInMonth")
+        .document("month" + month.toString())
+        .snapshots();
+  }
 }

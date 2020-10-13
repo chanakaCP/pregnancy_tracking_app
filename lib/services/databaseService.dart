@@ -11,6 +11,7 @@ class DatabaseService {
   final storageInstance = FirebaseStorage.instance;
 
   createUser(User user) async {
+    print(user.dueDate);
     await firestoreInstance.collection('users').document(user.userId).setData(
       {
         'userId': user.userId,
@@ -19,7 +20,9 @@ class DatabaseService {
         'age': user.age,
         'profileImage': user.profileImageURL,
         'lastPeriodDate': user.lastPeriodDate,
-        'dueDate': user.lastPeriodDate.add(Duration(days: 280)),
+        'weight': user.weight,
+        'bloodCount': user.bloodCount,
+        'dueDate': user.dueDate,
       },
       merge: true,
     );

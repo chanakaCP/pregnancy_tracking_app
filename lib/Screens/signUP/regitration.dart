@@ -218,6 +218,8 @@ class _RegistrationState extends State<Registration> {
                                 this.widget.loginUser.name = this.userName;
                                 this.widget.loginUser.age = this.age;
                                 this.widget.loginUser.lastPeriodDate = this.pickedDate;
+                                this.widget.loginUser.dueDate =
+                                    this.widget.loginUser.lastPeriodDate.add(Duration(days: 280));
                                 this._databaseService.createUser(this.widget.loginUser);
                                 Navigator.push(
                                   context,
@@ -279,8 +281,7 @@ class _RegistrationState extends State<Registration> {
       setState(() {
         _isDateSelect = true;
         _errorText = '';
-        pickedDate = (_date.add(Duration(days: 1))).toUtc();
-        print(pickedDate);
+        pickedDate = (_date.toUtc());
       });
     }
   }

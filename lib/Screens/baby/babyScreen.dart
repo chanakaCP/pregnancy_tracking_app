@@ -15,7 +15,7 @@ class BabyScreen extends StatefulWidget {
 
 class _BabyScreenState extends State<BabyScreen> {
   String text1 =
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
+      "Your baby is about the size of a grape 2.4cm(head to bottom) and weighs around 2g.  With all the basic physical structures in place and increasingly distinct facial features your baby is starting to look like a baby! The tongue has tiny taste buds, the irises of your baby’s little eyes can function, but the eyelids are still fused. The external ears are formed and inner ears are now filled with fluid, so your baby is already developing a sense of balance.";
   Pregnancy pregnancy = Pregnancy();
   UserDatabaseService _userDatabaseService = UserDatabaseService();
   int _selectedIndex;
@@ -44,7 +44,8 @@ class _BabyScreenState extends State<BabyScreen> {
       builder: (context, currentBabySnap) {
         if (currentBabySnap.hasData && currentBabySnap.data.exists) {
           this.babyWeek.size = currentBabySnap.data["size"];
-          this.babyWeek.weight = currentBabySnap.data["weight"];
+          this.babyWeek.weight = 49.5;
+          // this.babyWeek.weight = currentBabySnap.data["weight"];
           this.babyWeek.imageURL = currentBabySnap.data["imageURL"];
           this.babyWeek.tipDescription = currentBabySnap.data["tipDescription"];
           this.babyWeek.week = currentBabySnap.data["week"];
@@ -71,16 +72,18 @@ class _BabyScreenState extends State<BabyScreen> {
                       ),
                     ],
                     image: DecorationImage(
-                      image: AssetImage("images/week15.jpg"),
+                      // image: AssetImage(this.babyWeek.imageURL),
+                      image: AssetImage("images/bw9.jpg"),
                       fit: BoxFit.cover,
                     ),
                     borderRadius: BorderRadius.all(Radius.circular(5)),
                   ),
                 ),
                 SizedBox(height: 5.0),
-                buildCountRow(currentBabySnap),
+                buildCountRow(),
                 SizedBox(height: 15.0),
-                TipContainer("fromBaby", pregnancy, currentBabySnap),
+                TipContainer("fromBaby", pregnancy, text1),
+                // TipContainer("fromBaby", pregnancy, this.babyWeek.tipDescription),
                 SizedBox(height: 10.0)
               ],
             ),
@@ -157,7 +160,7 @@ class _BabyScreenState extends State<BabyScreen> {
     );
   }
 
-  buildCountRow(AsyncSnapshot<dynamic> currentBabySnap) {
+  buildCountRow() {
     return Container(
       padding: EdgeInsets.only(left: 35.0, right: 35.0),
       height: 100.0,
@@ -184,7 +187,7 @@ class _BabyScreenState extends State<BabyScreen> {
                   ),
                 ),
                 Text(
-                  currentBabySnap.data["size"].toString(),
+                  this.babyWeek.size.toString(),
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 35.0,
@@ -220,7 +223,7 @@ class _BabyScreenState extends State<BabyScreen> {
                   ),
                 ),
                 Text(
-                  currentBabySnap.data["weight"].toString(),
+                  this.babyWeek.weight.toString(),
                   style: TextStyle(
                     color: Colors.black45,
                     fontSize: 35.0,
