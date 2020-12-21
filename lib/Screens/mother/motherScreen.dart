@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/Screens/mother/motherWeek.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
+import 'package:pregnancy_tracking_app/models/motherModel.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
-import 'package:pregnancy_tracking_app/widget/tipContainer.dart';
+import 'package:pregnancy_tracking_app/services/userDatabaseService.dart';
+import 'package:pregnancy_tracking_app/widget/CustomLoading.dart';
+import 'package:pregnancy_tracking_app/widget/ImageView.dart';
 
 class MotherScreen extends StatefulWidget {
-  User currentUser = User();
+  User currentUser;
   MotherScreen(this.currentUser);
 
   @override
@@ -12,17 +17,20 @@ class MotherScreen extends StatefulWidget {
 }
 
 class _MotherScreenState extends State<MotherScreen> {
-  String text1 =
-      "During 3rd month of pregnancy, you might feel ready to share the news with family and friends. Think about who you want to tell, and how. Here are some of the fun ideas for pregnancy announcement to inspire both you & your partner. With a boost in your energy, and before your tummy becomes very big, your second trimester is a great time to get moving. ";
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
   Pregnancy pregnancy = Pregnancy();
-  Stream momWeekStram;
+  UserDatabaseService _userDatabaseService = UserDatabaseService();
   int _selectedIndex;
+  Stream motherMonthStram;
+  Mother mother = Mother();
 
   @override
   void initState() {
     super.initState();
     pregnancy.updateValue(this.widget.currentUser);
     _selectedIndex = pregnancy.months;
+    motherMonthStram = _userDatabaseService.getMomMonth(_selectedIndex);
   }
 
   _onDaySelected(int index) {
@@ -33,43 +41,37 @@ class _MotherScreenState extends State<MotherScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Column(
-        children: <Widget>[
-          buildMonthRow(),
-          SizedBox(height: 10.0),
-          Container(
-            margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-            height: 250.0,
+    return StreamBuilder(
+        stream: motherMonthStram,
+        builder: (context, currentMonthSnap) {
+          if (currentMonthSnap.hasData && currentMonthSnap.data.exists) {
+            this.mother.month = currentMonthSnap.data["month"];
+            this.mother.imageURL = currentMonthSnap.data["imageURL"];
+            this.mother.week = pregnancy.weeks;
+          }
+          if (currentMonthSnap.connectionState == ConnectionState.waiting) {
+            return CustomLoading();
+          }
+          return Container(
             width: double.infinity,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.4),
-                  spreadRadius: 3,
-                  blurRadius: 10,
-                  offset: Offset(0, 3),
-                ),
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: blockHeight * 1),
+                buildMonthRow(),
+                SizedBox(height: blockHeight * 2),
+                ImageView(imageURL: this.mother.imageURL),
+                SizedBox(height: blockHeight * 2.5),
+                MotherWeek(this.widget.currentUser, this.mother),
+                SizedBox(height: blockHeight * 2),
               ],
-              image: DecorationImage(
-                image: AssetImage("images/mm3.jpg"),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
-          ),
-          SizedBox(height: 10.0),
-          TipContainer("fromMom", pregnancy, text1),
-          SizedBox(height: 10.0),
-        ],
-      ),
-    );
+          );
+        });
   }
 
   buildMonthRow() {
     return Container(
-      height: 40.0,
+      height: blockHeight * 6,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 11,
@@ -79,13 +81,12 @@ class _MotherScreenState extends State<MotherScreen> {
           return GestureDetector(
             child: (index != 0)
                 ? Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 5.0,
-                    ),
-                    width: (_selectedIndex == index) ? 45.0 : 30.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
+                    margin: EdgeInsets.symmetric(horizontal: blockWidth * 3),
+                    width: (_selectedIndex == index)
+                        ? blockWidth * 12.5
+                        : blockWidth * 7.5,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(100)),
                     child: Align(
                       alignment: Alignment.center,
                       child: (_selectedIndex == index)
@@ -102,18 +103,16 @@ class _MotherScreenState extends State<MotherScreen> {
                                       index.toString(),
                                       style: TextStyle(
                                         color: Colors.black87,
-                                        fontSize: 17.0,
+                                        fontSize: blockWidth * 4,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
-                                    Text(
-                                      "Month",
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontSize: 8.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
+                                    Text("Month",
+                                        style: TextStyle(
+                                          color: Colors.black87,
+                                          fontSize: blockWidth * 2.5,
+                                          fontWeight: FontWeight.w500,
+                                        )),
                                   ],
                                 ),
                               ),
@@ -122,7 +121,7 @@ class _MotherScreenState extends State<MotherScreen> {
                               index.toString(),
                               style: TextStyle(
                                 color: Colors.green[800],
-                                fontSize: 14.0,
+                                fontSize: blockWidth * 4,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -136,3 +135,4 @@ class _MotherScreenState extends State<MotherScreen> {
     );
   }
 }
+

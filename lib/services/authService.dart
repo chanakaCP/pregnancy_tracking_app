@@ -21,6 +21,7 @@ class AuthService {
     phoneNo = loginUser.mobileNumber;
 
     final PhoneCodeAutoRetrievalTimeout autoRetrieve = (String verId) {
+      print("auto retrieve called");
       verificationId = verId;
     };
 
@@ -29,10 +30,13 @@ class AuthService {
       verificationId = verId;
     };
 
-    final PhoneVerificationCompleted verifiedSuccess = (AuthCredential credential) async {
-      AuthResult result = await FirebaseAuth.instance.signInWithCredential(credential);
+    final PhoneVerificationCompleted verifiedSuccess =
+        (AuthCredential credential) async {
+      print("success called");
+      AuthResult result =
+          await FirebaseAuth.instance.signInWithCredential(credential);
       FirebaseUser user = result.user;
-      loginUser.userId = user.uid;
+      loginUser.mobileNumber = user.phoneNumber;
       Navigator.pop(context);
       Navigator.push(
         context,
@@ -43,6 +47,8 @@ class AuthService {
     };
 
     final PhoneVerificationFailed veriFailed = (AuthException exception) {
+      print("failed called");
+      print(exception.message);
       if (exception.message.contains('not authorized'))
         status = 'Something has gone wrong, please try later';
       else if (exception.message.contains('Network'))
@@ -65,11 +71,11 @@ class AuthService {
     try {
       FirebaseAuth auth = FirebaseAuth.instance;
 
-      AuthCredential authCredential =
-          PhoneAuthProvider.getCredential(verificationId: verificationId, smsCode: smsCode);
+      AuthCredential authCredential = PhoneAuthProvider.getCredential(
+          verificationId: verificationId, smsCode: smsCode);
       AuthResult result = await auth.signInWithCredential(authCredential);
       FirebaseUser user = result.user;
-      loginUser.userId = user.uid;
+      loginUser.mobileNumber = user.phoneNumber;
       FirebaseUser currentUser = await auth.currentUser();
       assert(user.uid == currentUser.uid);
       Navigator.pop(context);
@@ -95,13 +101,17 @@ class AuthService {
     return user;
   }
 
-  signIn(BuildContext context, FirebaseUser user) {
-    firestoreInstance.collection("users").document(user.uid).get().then((dataSnap) {
+  signIn(BuildContext context, String documentKey) {
+    firestoreInstance
+        .collection("users")
+        .document(documentKey)
+        .get()
+        .then((dataSnap) {
       Navigator.pop(context);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => HomeScreen(user.uid),
+          builder: (context) => HomeScreen(documentKey),
         ),
       );
     });
@@ -119,3 +129,4 @@ class AuthService {
     }
   }
 }
+
