@@ -1,9 +1,13 @@
 class User {
-  String userId;
+  String mobileNumber; // USED as user id
   String name;
   String profileImageURL;
-  String mobileNumber;
   int age;
   DateTime lastPeriodDate;
   DateTime dueDate;
+  DateTime joinedAt;
+  DateTime renewalDate;
+  double weight;
+  double bloodCount;
+  List<Map<String, dynamic>> subsList;
 }

@@ -1,22 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/services/databaseService.dart';
+import 'package:pregnancy_tracking_app/widget/CustomBannerText.dart';
+import 'package:pregnancy_tracking_app/widget/CustomButton.dart';
+import 'package:pregnancy_tracking_app/widget/CustomInputField.dart';
 
 class UpdatePregCalculation extends StatefulWidget {
-  User currentUser = User();
+  User currentUser;
   UpdatePregCalculation(this.currentUser);
   @override
   _UpdatePregCalculationState createState() => _UpdatePregCalculationState();
 }
 
 class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
+  DatabaseService _databaseService = DatabaseService();
+
   final _formKey = GlobalKey<FormState>();
-  double bloodCount;
-  double weight;
+  final weightController = TextEditingController();
+  final bCountController = TextEditingController();
+
+  onClickCancel() {
+    Navigator.of(context).pop();
+  }
+
+  onClickSave() {
+    if (_formKey.currentState.validate()) {
+      this.widget.currentUser.weight = double.parse(this.weightController.text);
+      this.widget.currentUser.bloodCount =
+          double.parse(this.bCountController.text);
+      _databaseService.createUser(this.widget.currentUser, false);
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    bloodCount = 9.5;
-    weight = 55.8;
+    weightController.text = this.widget.currentUser.weight.toString();
+    bCountController.text = this.widget.currentUser.bloodCount.toString();
     return AlertDialog(
       scrollable: true,
       backgroundColor: Colors.lightGreen[50],
@@ -25,120 +48,54 @@ class _UpdatePregCalculationState extends State<UpdatePregCalculation> {
           key: _formKey,
           child: Column(
             children: <Widget>[
-              Text(
-                "Pregnancy Calculation",
-                style: TextStyle(
-                  fontWeight: FontWeight.w300,
-                  fontSize: 16.0,
-                  color: Colors.red[900],
-                ),
+              CustomBannerText(
+                title: "Pregnancy Calculations",
+                size: blockWidth * 5,
+                weight: FontWeight.w300,
               ),
               SizedBox(height: 25.0),
-              Container(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  initialValue: this.weight.toString(),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10.0),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    ),
-                    prefixIcon: Icon(Icons.person),
-                    hintText: "Wegiht",
-                    filled: true,
-                    fillColor: Colors.green.withOpacity(0.2),
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (value) {
-                    this.weight = double.parse(value);
-                  },
-                ),
+              CustomInputField(
+                hintText: "Wegiht",
+                isPass: false,
+                fieldType: "weight",
+                fieldController: weightController,
+                prefixIcon: Icons.pregnant_woman,
+                inputType: TextInputType.number,
+                fillColor: Colors.green[100],
               ),
               SizedBox(height: 15.0),
-              Container(
-                child: TextFormField(
-                  keyboardType: TextInputType.number,
-                  initialValue: this.bloodCount.toString(),
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.all(10.0),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                    ),
-                    prefixIcon: Icon(Icons.pregnant_woman),
-                    hintText: "Blood Count",
-                    filled: true,
-                    fillColor: Colors.green.withOpacity(0.2),
-                    border: InputBorder.none,
-                  ),
-                  validator: (value) {
-                    if (double.parse(value) < 8.0 || double.parse(value) > 15.0) {
-                      return "Invalid Blood count";
-                    } else {
-                      return null;
-                    }
-                  },
-                  onChanged: (value) {
-                    this.bloodCount = double.parse(value);
-                  },
-                ),
+              CustomInputField(
+                hintText: "Blood Count",
+                isPass: false,
+                fieldType: "bCount",
+                fieldController: bCountController,
+                prefixIcon: Icons.pregnant_woman,
+                inputType: TextInputType.number,
+                fillColor: Colors.green[100],
               ),
-              SizedBox(height: 15.0),
+              SizedBox(height: blockHeight * 3),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Container(
-                    height: 30.0,
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      color: Colors.red[400].withOpacity(0.9),
-                      textColor: Colors.white,
-                      splashColor: Colors.red,
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
-                    ),
+                  CustomButton(
+                    title: "Cancel",
+                    bgColor: Colors.red[400].withOpacity(0.9),
+                    textColor: Colors.white,
+                    callback: onClickCancel,
+                    width: blockWidth * 22.5,
+                    height: blockHeight * 5,
+                    fontSize: blockHeight * 2,
+                    formKey: _formKey,
                   ),
-                  Container(
-                    height: 30.0,
-                    child: FlatButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
-                      ),
-                      color: Colors.green[400],
-                      textColor: Colors.white,
-                      splashColor: Colors.green[400],
-                      child: Text(
-                        "Save",
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          //  SUBMIT FORM
-                        }
-                      },
-                    ),
+                  CustomButton(
+                    title: "Save",
+                    bgColor: Colors.green[600],
+                    textColor: Colors.white,
+                    callback: onClickSave,
+                    width: blockWidth * 22.5,
+                    height: blockHeight * 5,
+                    fontSize: blockHeight * 2,
+                    formKey: _formKey,
                   ),
                 ],
               ),

@@ -1,32 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:intl/intl.dart';
+import 'package:pregnancy_tracking_app/widget/CustomBannerText.dart';
 
 class TodayScreen extends StatefulWidget {
-  User currentUser = User();
+  User currentUser;
   TodayScreen(this.currentUser);
   @override
   _TodayScreenState createState() => _TodayScreenState();
 }
 
 class _TodayScreenState extends State<TodayScreen> {
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
   Pregnancy pregnancy = Pregnancy();
-  // int _selectedIndex;
 
   @override
   void initState() {
     super.initState();
     pregnancy.updateValue(this.widget.currentUser);
-    // _selectedIndex = pregnancy.days;
   }
-
-  // _onDaySelected(int index) {
-  //   setState(() {
-  //     _selectedIndex = index;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,110 +31,24 @@ class _TodayScreenState extends State<TodayScreen> {
       width: double.infinity,
       child: Column(
         children: <Widget>[
-          // buildDateRow(),
-          SizedBox(height: 5.0),
+          SizedBox(height: blockHeight * 1),
           buildPercentageBar(),
-          SizedBox(height: 10.0),
-          Container(
-            margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-            height: 250.0,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.4),
-                  spreadRadius: 3,
-                  blurRadius: 10,
-                  offset: Offset(0, 3),
-                ),
-              ],
-              image: DecorationImage(
-                image: AssetImage("images/women.jpg"),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.all(Radius.circular(5)),
-            ),
-          ),
-          SizedBox(height: 5.0),
+          SizedBox(height: blockHeight * 1),
+          SizedBox(height: blockHeight * 2.5),
           buildCountRow(),
+          SizedBox(height: blockHeight * 1),
           buildDueRow(),
         ],
       ),
     );
   }
 
-  // buildDateRow() {
-  //   return Container(
-  //     height: 40.0,
-  //     child: ListView.builder(
-  //         scrollDirection: Axis.horizontal,
-  //         itemCount: 281,
-  //         shrinkWrap: true,
-  //         addAutomaticKeepAlives: false,
-  //         itemBuilder: (context, index) {
-  //           return GestureDetector(
-  //             child: (index != 0)
-  //                 ? Container(
-  //                     margin: EdgeInsets.symmetric(
-  //                       horizontal: 5.0,
-  //                     ),
-  //                     width: (_selectedIndex == index) ? 45.0 : 30.0,
-  //                     decoration: BoxDecoration(
-  //                       borderRadius: BorderRadius.circular(100),
-  //                     ),
-  //                     child: Align(
-  //                       alignment: Alignment.center,
-  //                       child: (_selectedIndex == index)
-  //                           ? Container(
-  //                               decoration: BoxDecoration(
-  //                                 color: Colors.green[100],
-  //                                 shape: BoxShape.circle,
-  //                               ),
-  //                               child: Center(
-  //                                 child: Column(
-  //                                   mainAxisAlignment: MainAxisAlignment.center,
-  //                                   children: <Widget>[
-  //                                     Text(
-  //                                       index.toString(),
-  //                                       style: TextStyle(
-  //                                         color: Colors.black87,
-  //                                         fontSize: 17.0,
-  //                                         fontWeight: FontWeight.w500,
-  //                                       ),
-  //                                     ),
-  //                                     Text("Day",
-  //                                         style: TextStyle(
-  //                                           color: Colors.black87,
-  //                                           fontSize: 8.0,
-  //                                           fontWeight: FontWeight.w500,
-  //                                         )),
-  //                                   ],
-  //                                 ),
-  //                               ),
-  //                             )
-  //                           : Text(
-  //                               index.toString(),
-  //                               style: TextStyle(
-  //                                 color: Colors.green[800],
-  //                                 fontSize: 14.0,
-  //                                 fontWeight: FontWeight.w400,
-  //                               ),
-  //                             ),
-  //                     ),
-  //                   )
-  //                 : Text(''),
-  //             onTap: () => _onDaySelected(index),
-  //           );
-  //         }),
-  //   );
-  // }
-
   buildPercentageBar() {
     return Container(
-      padding: EdgeInsets.only(left: 15.0, right: 15.0),
+      padding: EdgeInsets.symmetric(horizontal: blockWidth * 3),
       child: LinearPercentIndicator(
         animation: true,
-        lineHeight: 30.0,
+        lineHeight: blockHeight * 5,
         animationDuration: 2500,
         percent: pregnancy.days / 280,
         center: RichText(
@@ -146,34 +56,52 @@ class _TodayScreenState extends State<TodayScreen> {
             children: <TextSpan>[
               TextSpan(
                 text: 'You are ',
-                style: TextStyle(fontWeight: FontWeight.w300),
-              ),
-              TextSpan(
-                text: (pregnancy.days >= 7) ? (pregnancy.days / 7).toInt().toString() : '',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
+                style: TextStyle(
+                    fontWeight: FontWeight.w300, fontSize: blockWidth * 4),
               ),
               TextSpan(
                 text: (pregnancy.days >= 7)
-                    ? (pregnancy.days >= 7 && pregnancy.days <= 13) ? ' week ' : ' weeks '
+                    ? (pregnancy.days / 7).toInt().toString()
                     : '',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17.0),
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, fontSize: blockWidth * 5),
               ),
               TextSpan(
-                text: ((pregnancy.days % 7 != 0) && (pregnancy.days >= 7)) ? '& ' : ' ',
-                style: TextStyle(fontWeight: FontWeight.w300),
+                text: (pregnancy.days >= 7)
+                    ? (pregnancy.days >= 7 && pregnancy.days <= 13)
+                        ? ' week '
+                        : ' weeks '
+                    : '',
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, fontSize: blockWidth * 4),
               ),
               TextSpan(
-                text: (pregnancy.days % 7 != 0) ? (pregnancy.days % 7).toString() : '',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 20.0),
+                text: ((pregnancy.days % 7 != 0) && (pregnancy.days >= 7))
+                    ? '& '
+                    : ' ',
+                style: TextStyle(
+                    fontWeight: FontWeight.w300, fontSize: blockWidth * 4),
               ),
               TextSpan(
-                text:
-                    (pregnancy.days % 7 != 0) ? (pregnancy.days % 7 == 1) ? ' day ' : ' days ' : '',
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17.0),
+                text: (pregnancy.days % 7 != 0)
+                    ? (pregnancy.days % 7).toString()
+                    : '',
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, fontSize: blockWidth * 5),
+              ),
+              TextSpan(
+                text: (pregnancy.days % 7 != 0)
+                    ? (pregnancy.days % 7 == 1)
+                        ? ' day '
+                        : ' days '
+                    : '',
+                style: TextStyle(
+                    fontWeight: FontWeight.w500, fontSize: blockWidth * 4),
               ),
               TextSpan(
                 text: 'pregnant ',
-                style: TextStyle(fontWeight: FontWeight.w300),
+                style: TextStyle(
+                    fontWeight: FontWeight.w300, fontSize: blockWidth * 4),
               ),
             ],
           ),
@@ -188,8 +116,8 @@ class _TodayScreenState extends State<TodayScreen> {
 
   buildCountRow() {
     return Container(
-      padding: EdgeInsets.only(left: 15.0, right: 15.0),
-      height: 90.0,
+      padding: EdgeInsets.symmetric(horizontal: blockWidth * 3),
+      height: blockHeight * 15,
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
@@ -204,74 +132,44 @@ class _TodayScreenState extends State<TodayScreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Day",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text(
-                  pregnancy.days.toString(),
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
+                CustomBannerText(title: "Day"),
+                CustomBannerText(
+                  title: pregnancy.days.toString(),
+                  size: blockWidth * 12,
+                )
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.0),
+              padding: EdgeInsets.symmetric(vertical: blockHeight * 2),
               child: VerticalDivider(
                 color: Colors.green[700],
-                width: 2.0,
+                width: blockWidth * 2,
               ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Week",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text(
-                  pregnancy.weeks.toString(),
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.w300,
-                  ),
+                CustomBannerText(title: "Week"),
+                CustomBannerText(
+                  title: pregnancy.weeks.toString(),
+                  size: blockWidth * 12,
                 ),
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.0),
+              padding: EdgeInsets.symmetric(vertical: blockHeight * 2),
               child: VerticalDivider(
                 color: Colors.green[700],
-                width: 2.0,
+                width: blockWidth * 2,
               ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Month",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text(
-                  pregnancy.months.toString(),
-                  style:
-                      TextStyle(color: Colors.black45, fontSize: 35.0, fontWeight: FontWeight.w300),
+                CustomBannerText(title: "Month"),
+                CustomBannerText(
+                  title: pregnancy.months.toString(),
+                  size: blockWidth * 12,
                 ),
               ],
             ),
@@ -283,9 +181,9 @@ class _TodayScreenState extends State<TodayScreen> {
 
   buildDueRow() {
     return Container(
-      margin: EdgeInsets.only(top: 10.0),
-      padding: EdgeInsets.only(left: 15.0, right: 15.0),
-      height: 70.0,
+      margin: EdgeInsets.only(top: blockHeight * 1),
+      padding: EdgeInsets.symmetric(horizontal: blockWidth * 3),
+      height: blockHeight * 13,
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
@@ -306,7 +204,7 @@ class _TodayScreenState extends State<TodayScreen> {
                         text: 'Due date ',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
-                          fontSize: 18.0,
+                          fontSize: blockWidth * 5,
                           color: Colors.black54,
                         ),
                       ),
@@ -314,7 +212,7 @@ class _TodayScreenState extends State<TodayScreen> {
                         text: (pregnancy.dueDays <= 0) ? 'was ' : '',
                         style: TextStyle(
                           fontWeight: FontWeight.w300,
-                          fontSize: 18.0,
+                          fontSize: blockWidth * 5,
                           color: Colors.black54,
                         ),
                       ),
@@ -325,13 +223,14 @@ class _TodayScreenState extends State<TodayScreen> {
                                 .toString(),
                         style: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 20.0,
+                          fontSize: blockWidth * 6,
                           color: Colors.black54,
                         ),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: blockHeight),
                 RichText(
                   text: (pregnancy.dueDays > 0)
                       ? TextSpan(
@@ -342,26 +241,31 @@ class _TodayScreenState extends State<TodayScreen> {
                                   : '',
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 20.0,
+                                  fontSize: blockWidth * 6,
                                   color: Colors.green[700]),
                             ),
                             TextSpan(
                               text: (pregnancy.dueDays >= 7)
-                                  ? (pregnancy.dueDays >= 7 && pregnancy.dueDays <= 13)
+                                  ? (pregnancy.dueDays >= 7 &&
+                                          pregnancy.dueDays <= 13)
                                       ? ' week '
                                       : ' weeks '
                                   : '',
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 17.0,
+                                  fontSize: blockWidth * 5,
                                   color: Colors.green[700]),
                             ),
                             TextSpan(
-                              text: ((pregnancy.dueDays % 7 != 0) && (pregnancy.dueDays >= 7))
+                              text: ((pregnancy.dueDays % 7 != 0) &&
+                                      (pregnancy.dueDays >= 7))
                                   ? '& '
                                   : '',
-                              style:
-                                  TextStyle(fontWeight: FontWeight.w300, color: Colors.green[700]),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: Colors.green[700],
+                                fontSize: blockWidth * 5,
+                              ),
                             ),
                             TextSpan(
                               text: (pregnancy.dueDays % 7 != 0)
@@ -369,22 +273,27 @@ class _TodayScreenState extends State<TodayScreen> {
                                   : '',
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 20.0,
+                                  fontSize: blockWidth * 6,
                                   color: Colors.green[700]),
                             ),
                             TextSpan(
                               text: (pregnancy.dueDays % 7 != 0)
-                                  ? (pregnancy.dueDays % 7 == 1) ? ' day ' : ' days '
+                                  ? (pregnancy.dueDays % 7 == 1)
+                                      ? ' day '
+                                      : ' days '
                                   : '',
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
-                                  fontSize: 17.0,
+                                  fontSize: blockWidth * 5,
                                   color: Colors.green[700]),
                             ),
                             TextSpan(
                               text: 'left ',
-                              style:
-                                  TextStyle(fontWeight: FontWeight.w300, color: Colors.green[700]),
+                              style: TextStyle(
+                                fontWeight: FontWeight.w300,
+                                color: Colors.green[700],
+                                fontSize: blockWidth * 5,
+                              ),
                             ),
                           ],
                         )
@@ -392,7 +301,7 @@ class _TodayScreenState extends State<TodayScreen> {
                           text: 'You will delivery soon',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            fontSize: 17.0,
+                            fontSize: blockWidth * 5,
                             color: Colors.green[700],
                           ),
                         ),

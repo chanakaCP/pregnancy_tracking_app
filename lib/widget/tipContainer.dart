@@ -1,24 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:pregnancy_tracking_app/models/pregnancy.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
 
 class TipContainer extends StatefulWidget {
   String callFrom;
-  Pregnancy pregnancy;
-  AsyncSnapshot<dynamic> currentSnap;
-  TipContainer(this.callFrom, this.pregnancy, this.currentSnap);
+  String description;
+  int timeSlot;
+  TipContainer(this.callFrom, this.description, this.timeSlot);
 
   @override
   _TipContainerState createState() => _TipContainerState();
 }
 
 class _TipContainerState extends State<TipContainer> {
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 10.0, right: 10.0),
+      padding: EdgeInsets.symmetric(horizontal: blockWidth * 3),
       width: double.infinity,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+        padding: EdgeInsets.all(blockWidth * 5),
         decoration: BoxDecoration(
           color: Colors.lightGreen[100].withOpacity(0.7),
           borderRadius: BorderRadius.all(
@@ -31,9 +34,10 @@ class _TipContainerState extends State<TipContainer> {
             Row(
               children: <Widget>[
                 getCardTitle(this.widget.callFrom),
-                SizedBox(width: 20.0),
+                SizedBox(width: blockWidth * 5),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: blockWidth * 5, vertical: blockHeight * 0.5),
                   decoration: BoxDecoration(
                     color: Colors.green.withOpacity(0.2),
                     borderRadius: BorderRadius.all(
@@ -44,20 +48,20 @@ class _TipContainerState extends State<TipContainer> {
                     text: TextSpan(
                       children: <TextSpan>[
                         TextSpan(
-                          text: (this.widget.callFrom == "fromBaby") ? "Week " : "Month ",
+                          text: (this.widget.callFrom == "fromBaby")
+                              ? "Week "
+                              : "Month ",
                           style: TextStyle(
                             fontWeight: FontWeight.w300,
-                            fontSize: 16.0,
+                            fontSize: blockWidth * 4,
                             color: Colors.green[900],
                           ),
                         ),
                         TextSpan(
-                          text: (this.widget.callFrom == "fromBaby")
-                              ? this.widget.pregnancy.weeks.toString()
-                              : this.widget.pregnancy.months.toString(),
+                          text: this.widget.timeSlot.toString(),
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
-                            fontSize: 22.0,
+                            fontSize: blockWidth * 6,
                             color: Colors.green[900],
                           ),
                         ),
@@ -67,10 +71,11 @@ class _TipContainerState extends State<TipContainer> {
                 )
               ],
             ),
-            SizedBox(height: 10.0),
+            SizedBox(height: blockHeight * 2.5),
             Text(
-              this.widget.currentSnap.data["tipDescription"],
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
+              this.widget.description,
+              style: TextStyle(
+                  fontSize: blockWidth * 4.5, fontWeight: FontWeight.w300),
             ),
           ],
         ),
@@ -93,7 +98,7 @@ class _TipContainerState extends State<TipContainer> {
       title,
       style: TextStyle(
         fontWeight: FontWeight.w300,
-        fontSize: 18.0,
+        fontSize: blockWidth * 4.5,
         color: Colors.red[900],
       ),
     );

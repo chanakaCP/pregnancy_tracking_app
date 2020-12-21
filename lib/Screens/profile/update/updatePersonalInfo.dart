@@ -1,23 +1,33 @@
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/services/databaseService.dart';
 import 'package:path/path.dart' as Path;
+import 'package:pregnancy_tracking_app/widget/CustomBannerText.dart';
+import 'package:pregnancy_tracking_app/widget/CustomButton.dart';
+import 'package:pregnancy_tracking_app/widget/CustomIconButton.dart';
+import 'package:pregnancy_tracking_app/widget/CustomInputField.dart';
 
 class UpdatePersonalInfo extends StatefulWidget {
-  User currentUser = User();
+  User currentUser;
   UpdatePersonalInfo(this.currentUser);
   @override
   _UpdatePersonalInfoState createState() => _UpdatePersonalInfoState();
 }
 
 class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
+  DatabaseService _databaseService = DatabaseService();
+
+  final _formKey = GlobalKey<FormState>();
+  final nameController = TextEditingController();
+  final ageController = TextEditingController();
+
   String profileImageURL;
   File _imageFile;
-  String userName;
-  int age;
-  DatabaseService _databaseService = DatabaseService();
 
   Future getImage() async {
     await ImagePicker.pickImage(source: ImageSource.gallery).then((image) {
@@ -26,14 +36,31 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
         profileImageURL = image.path;
       });
     });
-    print(profileImageURL);
   }
 
-  clearImage() {
-    setState(() {
-      _imageFile = null;
-      profileImageURL = null;
-    });
+  clearImage() async {
+    if (_imageFile == null) {
+      bool result = await _databaseService
+          .deleteImage(this.widget.currentUser.profileImageURL);
+      if (result == true) {
+        print("file deleted");
+        _databaseService
+            .updateWhenDeleteImage(this.widget.currentUser.mobileNumber);
+        setState(() {
+          _imageFile = null;
+          profileImageURL = null;
+          this.widget.currentUser.profileImageURL = null;
+        });
+      } else {
+        print("file not deleted");
+      }
+    } else {
+      setState(() {
+        print("clear image");
+        _imageFile = null;
+        profileImageURL = null;
+      });
+    }
   }
 
   @override
@@ -42,211 +69,131 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
     super.initState();
   }
 
+  onClickCancel() {
+    Navigator.of(context).pop();
+  }
+
+  onClickSave() {
+    if (_formKey.currentState.validate()) {
+      this.widget.currentUser.name = this.nameController.text;
+      this.widget.currentUser.age = int.parse(this.ageController.text);
+      if (_imageFile != null) {
+        String imagePath = "users/" +
+            this.widget.currentUser.mobileNumber.toString() +
+            "-" +
+            Path.basename(_imageFile.path).toString();
+        _databaseService.uploadImage(
+            imagePath, _imageFile, this.widget.currentUser);
+      } else {
+        _databaseService.createUser(this.widget.currentUser, false);
+      }
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    userName = this.widget.currentUser.name;
-    age = this.widget.currentUser.age;
+    nameController.text = this.widget.currentUser.name;
+    ageController.text = this.widget.currentUser.age.toString();
     profileImageURL = this.widget.currentUser.profileImageURL;
 
     return AlertDialog(
       scrollable: true,
       backgroundColor: Colors.lightGreen[50],
       content: Container(
-        child: Column(
-          children: <Widget>[
-            Text(
-              "Personal Information",
-              style: TextStyle(
-                fontWeight: FontWeight.w300,
-                fontSize: 16.0,
-                color: Colors.red[900],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              CustomBannerText(
+                title: "Personal Informations",
+                size: blockWidth * 5,
+                weight: FontWeight.w300,
               ),
-            ),
-            SizedBox(height: 15.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  height: 120.0,
-                  width: 120.0,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.green[300].withOpacity(0.5),
-                        spreadRadius: 3,
-                        blurRadius: 10,
+              SizedBox(height: blockHeight * 3),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    height: blockWidth * 30,
+                    width: blockWidth * 30,
+                    decoration: BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.green[300].withOpacity(0.5),
+                          spreadRadius: 3,
+                          blurRadius: 5,
+                        ),
+                      ],
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                    ),
+                    child: CircleAvatar(backgroundImage: loadImage()),
+                  ),
+                  SizedBox(width: blockWidth * 5),
+                  Column(
+                    children: <Widget>[
+                      CustomIconButton(
+                        icon: Icons.add_a_photo,
+                        callback: getImage,
                       ),
+                      SizedBox(height: blockHeight * 3),
+                      (profileImageURL == null && _imageFile == null)
+                          ? Container()
+                          : CustomIconButton(
+                              icon: Icons.delete,
+                              callback: clearImage,
+                            ),
                     ],
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
                   ),
-                  child: CircleAvatar(backgroundImage: loadImage()),
-                ),
-                SizedBox(width: 15.0),
-                Column(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.2),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.add_a_photo,
-                          size: 20.0,
-                          color: Colors.green[800],
-                        ),
-                        onTap: () {
-                          getImage();
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
-                      decoration: BoxDecoration(
-                        color: Colors.green.withOpacity(0.2),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10.0),
-                        ),
-                      ),
-                      child: InkWell(
-                        child: Icon(
-                          Icons.delete,
-                          size: 20.0,
-                          color: Colors.green[800],
-                        ),
-                        onTap: () {
-                          clearImage();
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            SizedBox(height: 25.0),
-            Container(
-              child: TextFormField(
-                initialValue: userName,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(10.0),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  ),
-                  prefixIcon: Icon(Icons.person),
-                  hintText: "Name",
-                  filled: true,
-                  fillColor: Colors.green.withOpacity(0.2),
-                  border: InputBorder.none,
-                ),
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Name is required';
-                  } else {
-                    return null;
-                  }
-                },
-                onChanged: (value) {
-                  this.userName = value;
-                },
+                ],
               ),
-            ),
-            SizedBox(height: 15.0),
-            Container(
-              child: TextFormField(
-                keyboardType: TextInputType.number,
-                initialValue: this.age.toString(),
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.all(10.0),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.transparent),
-                    borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                  ),
-                  prefixIcon: Icon(Icons.person),
-                  hintText: "Age",
-                  filled: true,
-                  fillColor: Colors.green.withOpacity(0.2),
-                  border: InputBorder.none,
-                ),
-                onChanged: (value) {
-                  this.age = int.parse(value);
-                },
+              SizedBox(height: blockHeight * 4),
+              CustomInputField(
+                hintText: "Name",
+                isPass: false,
+                fieldType: "text",
+                fieldController: nameController,
+                prefixIcon: Icons.person,
+                fillColor: Colors.green[100],
               ),
-            ),
-            SizedBox(height: 15.0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Container(
-                  height: 30.0,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                    color: Colors.red[400].withOpacity(0.9),
+              SizedBox(height: blockHeight * 2),
+              CustomInputField(
+                hintText: "Age",
+                isPass: false,
+                fieldType: "text",
+                fieldController: ageController,
+                prefixIcon: Icons.keyboard,
+                inputType: TextInputType.number,
+                fillColor: Colors.green[100],
+              ),
+              SizedBox(height: blockHeight * 2),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  CustomButton(
+                    title: "Cancel",
+                    bgColor: Colors.red[400].withOpacity(0.9),
                     textColor: Colors.white,
-                    splashColor: Colors.red,
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
+                    callback: onClickCancel,
+                    width: blockWidth * 22.5,
+                    height: blockHeight * 5,
+                    fontSize: blockHeight * 2,
+                    formKey: _formKey,
                   ),
-                ),
-                Container(
-                  height: 30.0,
-                  child: FlatButton(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50.0),
-                    ),
-                    color: Colors.green[400],
+                  CustomButton(
+                    title: "Save",
+                    bgColor: Colors.green[600],
                     textColor: Colors.white,
-                    splashColor: Colors.green[400],
-                    child: Text(
-                      "Save",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                    onPressed: () {
-                      this.widget.currentUser.name = this.userName;
-                      this.widget.currentUser.age = this.age;
-
-                      if (_imageFile != null) {
-                        String imagePath = "users/" +
-                            this.widget.currentUser.mobileNumber.toString() +
-                            "-" +
-                            Path.basename(_imageFile.path).toString();
-                        _databaseService.uploadImage(
-                            imagePath, _imageFile, this.widget.currentUser);
-                      } else {
-                        _databaseService.createUser(this.widget.currentUser);
-                      }
-                      Navigator.pop(context);
-                    },
+                    callback: onClickSave,
+                    width: blockWidth * 22.5,
+                    height: blockHeight * 5,
+                    fontSize: blockHeight * 2,
+                    formKey: _formKey,
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -254,11 +201,11 @@ class _UpdatePersonalInfoState extends State<UpdatePersonalInfo> {
 
   loadImage() {
     if (profileImageURL == null && _imageFile == null) {
-      return AssetImage("images/profile.jpg"); // load defaluld icon
+      return AssetImage("images/defaultProfile.png"); // load defaluld icon
     } else if (_imageFile != null) {
       return AssetImage(_imageFile.path); // load selected image
     } else {
-      return AssetImage("images/profile.jpg"); // load from database
+      return NetworkImage(profileImageURL); // load from database
     }
   }
 }
