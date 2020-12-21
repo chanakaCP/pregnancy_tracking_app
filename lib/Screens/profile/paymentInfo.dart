@@ -1,64 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
+import 'package:pregnancy_tracking_app/widget/CustomBannerText.dart';
+import 'package:pregnancy_tracking_app/widget/CustomCard.dart';
+import 'package:pregnancy_tracking_app/models/user.dart';
 
 class PaymentInfo extends StatefulWidget {
+  User currentUser;
+  PaymentInfo(this.currentUser);
   @override
   _PaymentInfoState createState() => _PaymentInfoState();
 }
 
 class _PaymentInfoState extends State<PaymentInfo> {
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-        decoration: BoxDecoration(
-          color: Colors.lightGreen[100].withOpacity(0.7),
-          borderRadius: BorderRadius.all(
-            Radius.circular(15.0),
+    return CustomCard(
+      title: "Payment Informations",
+      showIcon: true,
+      updateWidget: null,
+      cardBody: Container(
+          child: Column(
+        children: [
+          SizedBox(height: blockHeight * 3),
+          CustomBannerText(
+            title: "Payment 1 on 2020-08-08",
+            size: blockWidth * 5,
           ),
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  "Payment informations",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w300,
-                    fontSize: 16.0,
-                    color: Colors.red[900],
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 6.0, vertical: 6.0),
-                  decoration: BoxDecoration(
-                    color: Colors.green.withOpacity(0.2),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(10.0),
-                    ),
-                  ),
-                  child: InkWell(
-                    child: Icon(
-                      Icons.edit,
-                      size: 20.0,
-                    ),
-                    onTap: () {},
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10.0),
-            Text(
-              " this.widget.description,",
-              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w300),
-            ),
-          ],
-        ),
-      ),
+          SizedBox(height: blockHeight * 1),
+          CustomBannerText(
+            title: "Payment 2 on 2020-09-16",
+            size: blockWidth * 5,
+          ),
+          SizedBox(height: blockHeight * 1),
+          CustomBannerText(
+            title: "Payment 3 on 2020-10-20",
+            size: blockWidth * 5,
+          ),
+        ],
+      )),
     );
   }
 }

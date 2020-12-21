@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/Screens/signUP/PInNumber.dart';
+import 'package:pregnancy_tracking_app/Screens/signUP/keyboardNumber.dart';
+import 'package:pregnancy_tracking_app/Screens/signUP/regitration.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
 import 'package:pregnancy_tracking_app/services/authService.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
+import 'package:pregnancy_tracking_app/widget/CustomButton.dart';
+import 'package:pregnancy_tracking_app/widget/CustomDesignUI.dart';
+import 'package:pregnancy_tracking_app/widget/CustomTitle.dart';
 
 class MobileVerfy extends StatefulWidget {
   MobileVerfy(this.loginUser);
-  String userId;
   User loginUser;
 
   @override
@@ -12,12 +18,29 @@ class MobileVerfy extends StatefulWidget {
 }
 
 class _MobileVerfyState extends State<MobileVerfy> {
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
+
   final AuthService _authService = AuthService();
   @override
   void initState() {
-    print(this.widget.userId);
     _authService.verifyPhone(this.widget.loginUser, context);
     super.initState();
+  }
+
+  verifyMobile() {
+    _authService.signUp(this.smsCode, context);
+    Navigator.pop(context);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Registration(this.widget.loginUser),
+      ),
+    );
+  }
+
+  resendCode() {
+    print('resend code clicked');
   }
 
   String smsCode;
@@ -44,97 +67,71 @@ class _MobileVerfyState extends State<MobileVerfy> {
                 child: Stack(
                   alignment: Alignment.center,
                   children: <Widget>[
-                    Positioned(
-                      height: 100.0,
-                      top: 0.0,
-                      right: 0.0,
-                      child: Image.asset(
-                        'images/pageDeco/top2.png',
-                        color: Color.fromRGBO(174, 213, 129, 0.6),
-                      ),
+                    CustomDesignUI(
+                      imagePath: 'images/pageDeco/top2.png',
+                      color: Color.fromRGBO(174, 213, 129, 0.6),
+                      height: blockWidth * 25,
+                      right: 0,
+                      top: 0,
                     ),
-                    Positioned(
-                      height: 100.0,
-                      bottom: 0.0,
-                      left: 0.0,
-                      child: Image.asset(
-                        'images/pageDeco/bottom2.png',
-                        color: Color.fromRGBO(197, 225, 165, 0.6),
-                      ),
+                    CustomDesignUI(
+                      imagePath: 'images/pageDeco/bottom2.png',
+                      color: Color.fromRGBO(197, 225, 165, 0.6),
+                      height: blockWidth * 40,
+                      bottom: 0,
+                      left: 0,
                     ),
-                    Positioned(
-                      top: 35.0,
-                      left: 35.0,
-                      child: Center(
-                        child: Text(
-                          "Verify Phone",
-                          style: TextStyle(
-                            color: Colors.teal[900],
-                            fontSize: 35.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+                    CustomTitle(
+                      title: "Verify Phone",
+                      top: blockHeight * 7,
+                      left: blockWidth * 10,
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 95.0, left: 55.0, right: 55.0),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: blockWidth * 10),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
+                        children: [
+                          SizedBox(height: blockHeight * 20),
                           Container(
-                            child: RichText(
-                              text: TextSpan(
-                                text: "Please type the verification code send to ",
-                                children: <TextSpan>[
-                                  TextSpan(
-                                    text: this.widget.userId,
-                                    style: TextStyle(fontWeight: FontWeight.w700),
+                            padding: EdgeInsets.symmetric(horizontal: 10.0),
+                            child: Center(
+                              child: RichText(
+                                text: TextSpan(
+                                  text:
+                                      "Please type the verification code send to ",
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                      text: this.widget.loginUser.mobileNumber,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  ],
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black54,
                                   ),
-                                ],
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black54,
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(height: 25.0),
+                          SizedBox(height: blockHeight * 5),
                           Container(
-                            height: 70.0,
+                            alignment: Alignment.center,
                             width: double.infinity,
                             child: otpPinRow(),
                           ),
-                          SizedBox(height: 25.0),
-                          Container(
-                            height: 40.0,
-                            width: double.infinity,
-                            child: FlatButton(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50.0),
-                                  side: BorderSide(color: Colors.green[400]),
-                                ),
-                                color: Colors.green[400],
-                                textColor: Colors.white,
-                                splashColor: Colors.green[200],
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                  children: <Widget>[
-                                    Text(
-                                      "Verify Now",
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.w400,
-                                      ),
-                                    ),
-                                    Icon(Icons.arrow_forward)
-                                  ],
-                                ),
-                                onPressed: () {
-                                  _authService.signUp(this.smsCode, context);
-                                }),
+                          SizedBox(height: blockHeight * 5),
+                          CustomButton(
+                            title: "Verify Now",
+                            width: blockWidth * 50,
+                            bgColor: Colors.green[400],
+                            textColor: Colors.white,
+                            height: blockHeight * 6,
+                            fontSize: blockHeight * 2.5,
+                            callback: verifyMobile,
                           ),
-                          SizedBox(height: 15.0),
+                          SizedBox(height: blockHeight * 2),
                           Container(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -142,38 +139,24 @@ class _MobileVerfyState extends State<MobileVerfy> {
                                 Text(
                                   "Didn`t get code ?   ",
                                   style: TextStyle(
-                                    fontSize: 15.0,
+                                    fontSize: blockWidth * 3.5,
                                     fontWeight: FontWeight.w300,
                                     color: Colors.black54,
                                   ),
                                 ),
-                                Container(
-                                  height: 30.0,
-                                  width: 75.0,
-                                  child: FlatButton(
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      side: BorderSide(color: Colors.green[50]),
-                                    ),
-                                    color: Colors.green[50],
-                                    textColor: Colors.black54,
-                                    splashColor: Colors.green[200],
-                                    child: Text(
-                                      "Resend",
-                                      style: TextStyle(
-                                        fontSize: 12.5,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    onPressed: () {
-                                      //******** resend code function ************
-                                    },
-                                  ),
+                                CustomButton(
+                                  title: "Resend",
+                                  width: blockWidth * 20,
+                                  bgColor: Colors.green[50],
+                                  textColor: Colors.black54,
+                                  height: blockHeight * 3.5,
+                                  fontSize: blockHeight * 1.8,
+                                  callback: resendCode,
                                 ),
                               ],
                             ),
                           ),
-                          SizedBox(height: 20.0),
+                          // SizedBox(height: blockHeight * ),
                           Container(child: numberPad()),
                         ],
                       ),
@@ -193,7 +176,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
       child: Container(
         alignment: Alignment.bottomCenter,
         child: Padding(
-          padding: EdgeInsets.only(bottom: 35.0),
+          padding: EdgeInsets.symmetric(vertical: blockHeight * 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
@@ -261,7 +244,7 @@ class _MobileVerfyState extends State<MobileVerfy> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
                   Container(
-                    width: 50.0,
+                    width: blockWidth * 13,
                     child: SizedBox(),
                   ),
                   keyboardNumber(
@@ -270,23 +253,20 @@ class _MobileVerfyState extends State<MobileVerfy> {
                         numberSetup("0");
                       }),
                   Container(
-                    height: 50.0,
-                    width: 50.0,
+                    height: blockHeight * 6,
+                    width: blockWidth * 13,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.transparent,
                     ),
-                    alignment: Alignment.center,
                     child: MaterialButton(
                       splashColor: Colors.green[100],
-                      padding: EdgeInsets.all(5.0),
                       onPressed: () {
                         clearPin();
                       },
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50.0),
+                        borderRadius: BorderRadius.circular(blockWidth * 50),
                       ),
-                      height: 90.0,
                       child: Icon(
                         Icons.backspace,
                         color: Colors.green[300].withOpacity(0.8),
@@ -370,77 +350,5 @@ class _MobileVerfyState extends State<MobileVerfy> {
       currentPin[pinIndex - 1] = "";
       pinIndex--;
     }
-  }
-}
-
-class pinNumber extends StatelessWidget {
-  final TextEditingController textEditingController;
-  pinNumber({this.textEditingController});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 40.0,
-      child: TextField(
-        showCursor: false,
-        style: TextStyle(
-          color: Colors.green[800],
-          fontSize: 25.0,
-          fontWeight: FontWeight.w500,
-        ),
-        controller: textEditingController,
-        textAlign: TextAlign.center,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(5.0),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent),
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          filled: true,
-          fillColor: Colors.green[100],
-          border: InputBorder.none,
-        ),
-      ),
-    );
-  }
-}
-
-class keyboardNumber extends StatelessWidget {
-  final int number;
-  final Function() onKeyPressed;
-
-  keyboardNumber({this.number, this.onKeyPressed});
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50.0,
-      width: 50.0,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: Colors.green[300].withOpacity(0.8),
-      ),
-      alignment: Alignment.center,
-      child: MaterialButton(
-        splashColor: Colors.green[700],
-        padding: EdgeInsets.all(5.0),
-        onPressed: onKeyPressed,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(50.0),
-        ),
-        height: 90.0,
-        child: Text(
-          "$number",
-          style: TextStyle(
-            fontSize: 23.0,
-            color: Colors.white,
-            fontWeight: FontWeight.w300,
-          ),
-        ),
-      ),
-    );
   }
 }

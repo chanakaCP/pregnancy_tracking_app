@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
 import 'package:pregnancy_tracking_app/models/babyModel.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/models/pregnancy.dart';
 import 'package:pregnancy_tracking_app/services/userDatabaseService.dart';
+import 'package:pregnancy_tracking_app/widget/CustomBannerText.dart';
+import 'package:pregnancy_tracking_app/widget/CustomLoading.dart';
+import 'package:pregnancy_tracking_app/widget/ImageView.dart';
 import 'package:pregnancy_tracking_app/widget/tipContainer.dart';
 
 class BabyScreen extends StatefulWidget {
-  User currentUser = User();
+  User currentUser;
   BabyScreen(this.currentUser);
 
   @override
@@ -14,8 +18,8 @@ class BabyScreen extends StatefulWidget {
 }
 
 class _BabyScreenState extends State<BabyScreen> {
-  String text1 =
-      "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.";
+  double blockHeight = SizeConfig.safeBlockVertical;
+  double blockWidth = SizeConfig.safeBlockHorizontal;
   Pregnancy pregnancy = Pregnancy();
   UserDatabaseService _userDatabaseService = UserDatabaseService();
   int _selectedIndex;
@@ -49,39 +53,24 @@ class _BabyScreenState extends State<BabyScreen> {
           this.babyWeek.tipDescription = currentBabySnap.data["tipDescription"];
           this.babyWeek.week = currentBabySnap.data["week"];
         }
+        if (currentBabySnap.connectionState == ConnectionState.waiting) {
+          return CustomLoading();
+        }
         return SingleChildScrollView(
           child: Container(
-            color: Colors.lightGreen[00],
             width: double.infinity,
             child: Column(
               children: <Widget>[
+                SizedBox(height: blockHeight * 1),
                 buildWeekRow(),
-                SizedBox(height: 10.0),
-                Container(
-                  margin: EdgeInsets.only(bottom: 10.0, left: 10.0, right: 10.0),
-                  height: 250.0,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.4),
-                        spreadRadius: 3,
-                        blurRadius: 10,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                    image: DecorationImage(
-                      image: AssetImage("images/week15.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.all(Radius.circular(5)),
-                  ),
-                ),
-                SizedBox(height: 5.0),
-                buildCountRow(currentBabySnap),
-                SizedBox(height: 15.0),
-                TipContainer("fromBaby", pregnancy, currentBabySnap),
-                SizedBox(height: 10.0)
+                SizedBox(height: blockHeight * 2),
+                ImageView(imageURL: this.babyWeek.imageURL),
+                SizedBox(height: blockHeight * 2.5),
+                buildCountRow(),
+                SizedBox(height: blockHeight * 1),
+                TipContainer("fromBaby", this.babyWeek.tipDescription,
+                    this.babyWeek.week),
+                SizedBox(height: blockHeight * 2),
               ],
             ),
           ),
@@ -92,7 +81,7 @@ class _BabyScreenState extends State<BabyScreen> {
 
   buildWeekRow() {
     return Container(
-      height: 40.0,
+      height: blockHeight * 6,
       child: ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: 41,
@@ -102,13 +91,12 @@ class _BabyScreenState extends State<BabyScreen> {
           return GestureDetector(
             child: (index != 0)
                 ? Container(
-                    margin: EdgeInsets.symmetric(
-                      horizontal: 5.0,
-                    ),
-                    width: (_selectedIndex == index) ? 45.0 : 30.0,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                    ),
+                    margin: EdgeInsets.symmetric(horizontal: blockWidth * 3),
+                    width: (_selectedIndex == index)
+                        ? blockWidth * 12.5
+                        : blockWidth * 7.5,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(100)),
                     child: Align(
                       alignment: Alignment.center,
                       child: (_selectedIndex == index)
@@ -125,14 +113,14 @@ class _BabyScreenState extends State<BabyScreen> {
                                       index.toString(),
                                       style: TextStyle(
                                         color: Colors.black87,
-                                        fontSize: 17.0,
+                                        fontSize: blockWidth * 4,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     Text("Week",
                                         style: TextStyle(
                                           color: Colors.black87,
-                                          fontSize: 8.0,
+                                          fontSize: blockWidth * 2.5,
                                           fontWeight: FontWeight.w500,
                                         )),
                                   ],
@@ -143,7 +131,7 @@ class _BabyScreenState extends State<BabyScreen> {
                               index.toString(),
                               style: TextStyle(
                                 color: Colors.green[800],
-                                fontSize: 14.0,
+                                fontSize: blockWidth * 4,
                                 fontWeight: FontWeight.w400,
                               ),
                             ),
@@ -157,10 +145,10 @@ class _BabyScreenState extends State<BabyScreen> {
     );
   }
 
-  buildCountRow(AsyncSnapshot<dynamic> currentBabySnap) {
+  buildCountRow() {
     return Container(
-      padding: EdgeInsets.only(left: 35.0, right: 35.0),
-      height: 100.0,
+      padding: EdgeInsets.symmetric(horizontal: blockWidth * 3),
+      height: blockHeight * 15,
       width: double.infinity,
       child: Container(
         decoration: BoxDecoration(
@@ -175,66 +163,28 @@ class _BabyScreenState extends State<BabyScreen> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Size",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text(
-                  currentBabySnap.data["size"].toString(),
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text(
-                  "cm",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
+                CustomBannerText(title: "Size"),
+                CustomBannerText(
+                    title: this.babyWeek.size.toString(),
+                    size: blockWidth * 10),
+                CustomBannerText(title: "cm"),
               ],
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: 15.0),
+              padding: EdgeInsets.symmetric(vertical: blockHeight * 2),
               child: VerticalDivider(
                 color: Colors.green[700],
-                width: 2.0,
+                // width: blockWidth * 2,
               ),
             ),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  "Weight",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 14.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text(
-                  currentBabySnap.data["weight"].toString(),
-                  style: TextStyle(
-                    color: Colors.black45,
-                    fontSize: 35.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                Text(
-                  "g",
-                  style: TextStyle(
-                    color: Colors.black54,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
+                CustomBannerText(title: "Weight"),
+                CustomBannerText(
+                    title: this.babyWeek.weight.toString(),
+                    size: blockWidth * 10),
+                CustomBannerText(title: "g"),
               ],
             ),
           ],
@@ -243,3 +193,4 @@ class _BabyScreenState extends State<BabyScreen> {
     );
   }
 }
+
