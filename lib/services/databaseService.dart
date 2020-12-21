@@ -93,3 +93,4 @@ class DatabaseService {
     // TODO  get subscription details from database (users/subscriptions)
   }
 }
+

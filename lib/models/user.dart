@@ -11,3 +11,4 @@ class User {
   double bloodCount;
   List<Map<String, dynamic>> subsList;
 }
+
