@@ -57,16 +57,19 @@ class _HomeScreenState extends State<HomeScreen> {
           this.currentUser.age = currentUserSnap.data["age"];
           this.currentUser.userId = currentUserSnap.data["userId"];
           this.currentUser.mobileNumber = currentUserSnap.data["phoneNumber"];
-          this.currentUser.lastPeriodDate = currentUserSnap.data["lastPeriodDate"].toDate();
+          this.currentUser.lastPeriodDate =
+              currentUserSnap.data["lastPeriodDate"].toDate();
           this.currentUser.dueDate = currentUserSnap.data['dueDate'].toDate();
-          this.currentUser.profileImageURL = currentUserSnap.data["profileImage"];
+          this.currentUser.profileImageURL =
+              currentUserSnap.data["profileImage"];
           return SafeArea(
             child: Scaffold(
               body: SingleChildScrollView(
                 child: Column(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.only(top: 10.0, left: 20.0, right: 20.0, bottom: 7.0),
+                      padding: EdgeInsets.only(
+                          top: 10.0, left: 20.0, right: 20.0, bottom: 7.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
