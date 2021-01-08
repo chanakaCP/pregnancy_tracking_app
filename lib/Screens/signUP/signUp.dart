@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:pregnancy_tracking_app/app/sizeConfig.dart';
 import 'package:pregnancy_tracking_app/models/user.dart';
 import 'package:pregnancy_tracking_app/Screens/signUP/mobileVerf.dart';
 import 'package:pregnancy_tracking_app/shared/timeCalculate.dart';
+import 'package:pregnancy_tracking_app/widget/CustomButton.dart';
+import 'package:pregnancy_tracking_app/widget/CustomDesignUI.dart';
+import 'package:pregnancy_tracking_app/widget/CustomInputField.dart';
+import 'package:pregnancy_tracking_app/widget/CustomTitle.dart';
 
 class SignUp extends StatefulWidget {
   @override
@@ -10,13 +15,32 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final _formKey = GlobalKey<FormState>();
+  final mobileController = TextEditingController();
+
   User loginUser = User();
   TimeCalculate shared = TimeCalculate();
 
-  String phoneNumber;
-
   @override
   Widget build(BuildContext context) {
+    double blockHeight = SizeConfig.safeBlockVertical;
+    double blockWidth = SizeConfig.safeBlockHorizontal;
+
+    mobileVerify() {
+      if (_formKey.currentState.validate()) {
+        this.loginUser.mobileNumber = setMobileNumber(mobileController.text);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MobileVerfy(
+              this.loginUser,
+            ),
+          ),
+        );
+      } else {
+        ("****form is not valid****");
+      }
+    }
+
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -27,151 +51,61 @@ class _SignUpState extends State<SignUp> {
             child: Stack(
               alignment: Alignment.center,
               children: <Widget>[
-                Positioned(
-                  height: 110.0,
-                  top: 0.0,
-                  left: 0.0,
-                  child: Image.asset(
-                    'images/pageDeco/top3.png',
-                    color: Color.fromRGBO(174, 213, 129, 0.6),
-                  ),
+                CustomDesignUI(
+                  imagePath: 'images/pageDeco/top3.png',
+                  color: Color.fromRGBO(174, 213, 129, 0.6),
+                  height: blockHeight * 18,
+                  top: 0,
+                  left: 0,
                 ),
-                Positioned(
-                  height: 100.0,
-                  bottom: 0.0,
-                  right: 0.0,
-                  child: Image.asset(
-                    'images/pageDeco/bottom3.png',
-                    color: Color.fromRGBO(197, 225, 165, 0.6),
-                  ),
+                CustomDesignUI(
+                  imagePath: 'images/pageDeco/bottom3.png',
+                  color: Color.fromRGBO(197, 225, 165, 0.6),
+                  height: blockHeight * 18,
+                  bottom: 0,
+                  right: 0,
                 ),
-                Positioned(
-                  top: 40.0,
-                  right: 50.0,
-                  child: Center(
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.teal[900],
-                        fontSize: 35.0,
-                        fontWeight: FontWeight.w600,
+                SizedBox(height: blockHeight * 10),
+                CustomTitle(
+                  title: "Sign Up",
+                  top: blockHeight * 7,
+                  right: blockWidth * 10,
+                ),
+                Container(
+                  child: Column(
+                    children: [
+                      SizedBox(height: blockHeight * 20),
+                      Container(
+                        height: blockHeight * 40,
+                        child: Image.asset("images/signup.jpg"),
                       ),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 100.0,
-                  child: Center(
-                    child: Container(
-                      height: 170.0,
-                      child: Image.asset("images/signup.jpg"),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 300.0, left: 55.0, right: 55.0),
-                  child: Form(
-                    key: _formKey,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          child: TextFormField(
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              // prefixText: '+94',
-                              contentPadding: EdgeInsets.all(10.0),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.transparent),
-                                borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                              ),
-                              prefixIcon: Icon(Icons.person),
-                              hintText: "Phone Number",
-                              filled: true,
-                              fillColor: Colors.green[50],
-                              border: InputBorder.none,
-                            ),
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Phone Number is required';
-                                // } else if () {
-// mobile lenght validate
-                              } else {
-                                return null;
-                              }
-                            },
-                            onChanged: (value) {
-                              this.phoneNumber = value;
-                            },
+                      SizedBox(height: blockHeight * 10),
+                      Form(
+                        key: _formKey,
+                        child: Container(
+                          padding:
+                              EdgeInsets.symmetric(horizontal: blockWidth * 15),
+                          child: CustomInputField(
+                            hintText: "Phone Number",
+                            isPass: false,
+                            fieldType: "mobile",
+                            prefixIcon: Icons.phone_android,
+                            fieldController: mobileController,
+                            inputType: TextInputType.number,
                           ),
                         ),
-                        SizedBox(height: 35.0),
-                        Container(
-                          height: 45.0,
-                          width: double.infinity,
-                          child: FlatButton(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50.0),
-                              side: BorderSide(color: Colors.green[400]),
-                            ),
-                            color: Colors.green[400],
-                            textColor: Colors.white,
-                            splashColor: Colors.green[200],
-                            child: Text(
-                              "Next",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            onPressed: () {
-                              if (_formKey.currentState.validate()) {
-                                this.loginUser.mobileNumber = shared.setMobileNumber(phoneNumber);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => MobileVerfy(
-                                      this.loginUser,
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
-                        ),
-                        SizedBox(height: 13.0),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: <Widget>[
-                        //     Text(
-                        //       "Already have an ccount ? ",
-                        //       style: TextStyle(
-                        //         fontWeight: FontWeight.w300,
-                        //         color: Colors.black54,
-                        //       ),
-                        //     ),
-                        //     GestureDetector(
-                        //       onTap: () {
-                        //         Navigator.pop(context);
-                        //         Navigator.pushNamed(context, '/signIn');
-                        //       },
-                        //       child: Text(
-                        //         "Sign In",
-                        //         style: TextStyle(
-                        //           fontWeight: FontWeight.w200,
-                        //           color: Colors.black54,
-                        //           fontStyle: FontStyle.italic,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
-                      ],
-                    ),
+                      ),
+                      SizedBox(height: blockHeight * 3),
+                      CustomButton(
+                        title: "Next",
+                        width: blockWidth * 70,
+                        bgColor: Colors.green[400],
+                        textColor: Colors.white,
+                        height: blockHeight * 7,
+                        fontSize: blockHeight * 3,
+                        callback: mobileVerify,
+                      )
+                    ],
                   ),
                 ),
               ],
@@ -180,5 +114,10 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  setMobileNumber(String phoneNumber) {
+    phoneNumber = "+94" + phoneNumber;
+    return phoneNumber;
   }
 }

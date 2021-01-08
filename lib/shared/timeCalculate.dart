@@ -1,9 +1,4 @@
 class TimeCalculate {
-  setMobileNumber(String phoneNumber) {
-    phoneNumber = "+94" + phoneNumber;
-    return phoneNumber;
-  }
-
   countDates(DateTime dateFrom, DateTime dateTo) {
     return dateFrom.difference(dateTo).inDays;
   }
