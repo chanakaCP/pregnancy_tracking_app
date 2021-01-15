@@ -21,11 +21,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   double blockHeight = SizeConfig.safeBlockVertical;
   double blockWidth = SizeConfig.safeBlockHorizontal;
   DatabaseService dbs = DatabaseService();
+
   onClickLogout() {
     var authService = AuthService();
     authService.signOut(this.context);
-
-    // dbs.getSubscriptions(this.widget.currentUser.userId);
   }
 
   @override
