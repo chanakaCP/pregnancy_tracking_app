@@ -3,10 +3,10 @@ class User {
   String name;
   String profileImageURL;
   int age;
-  DateTime lastPeriodDate;
-  DateTime dueDate;
   double weight;
   double bloodCount;
+  DateTime lastPeriodDate;
+  DateTime dueDate;
   DateTime joinedAt;
   DateTime renewalDate;
   List<Map<String, dynamic>> subsList;
