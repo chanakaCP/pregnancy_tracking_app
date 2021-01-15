@@ -174,7 +174,6 @@ class _BabyScreenState extends State<BabyScreen> {
               padding: EdgeInsets.symmetric(vertical: blockHeight * 2),
               child: VerticalDivider(
                 color: Colors.green[700],
-                // width: blockWidth * 2,
               ),
             ),
             Column(
@@ -193,4 +192,3 @@ class _BabyScreenState extends State<BabyScreen> {
     );
   }
 }
-

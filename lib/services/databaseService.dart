@@ -90,7 +90,6 @@ class DatabaseService {
   }
 
   void getSubscriptions(String userId) async {
-    // TODO  get subscription details from database (users/subscriptions)
+    // TODO  get subscription details from database
   }
 }
-
